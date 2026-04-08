@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/edge_cases.dir/link.d"
   "CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o"
   "CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o.d"
   "edge_cases"

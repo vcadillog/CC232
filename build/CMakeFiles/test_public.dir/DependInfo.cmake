@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/victor/clases/algoritmos/CC232-pc1/pruebas_publicas/test_public.cpp" "CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.o" "gcc" "CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.o.d"
+  "/home/victor/clases/algoritmos/pc1/pruebas_publicas/test_public.cpp" "CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.o" "gcc" "CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.o.d"
+  "" "test_public" "gcc" "CMakeFiles/test_public.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

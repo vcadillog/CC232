@@ -2,12 +2,38 @@
 #include <iostream>
 
 #include "count_ones.h"
+#include "count_ones_array.h"
+#include "loop_counter.h"
 
 int main() {
-    const unsigned int x = 0b101101001u;
-    std::cout << "x = " << x << " = " << std::bitset<16>(x) << "\n";
-    std::cout << "countOnes1(x) = " << countOnes1(x) << "\n";
-    std::cout << "countOnes2(x) = " << countOnes2(x) << "\n";
-    std::cout << "Idea: una version elimina el ultimo 1, la otra agrupa bits por bloques.\n";
-    return 0;
+  const int n = 10;
+  std::cout << "n = " << n << "\n";
+  LoopCounter c1, c2;
+  auto v1 = CountOnesArray::compute(10, countOnes1,c1);
+  auto v2 = CountOnesArray::compute(10, countOnes2,c2);
+  std::cout << "No optimizado:\n\n";
+  std::cout << "countOnes1(x) = ";
+  CountOnesArray::print(v1);
+  std::cout << "\n";
+  std::cout << "countOnes2(x) = ";
+  CountOnesArray::print(v2);
+  std::cout << "\n";
+  std::cout << "countOnes1 observable: " << c1.get() << "\n";
+  std::cout << "countOnes2 observable: " << c2.get() << "\n";
+  c1.reset();
+  c2.reset();
+
+  std::cout << "Optimizado:\n\n";
+
+  v1 = CountOnesArray::computeOptimized(10, countOnes1, c1);
+  v2 = CountOnesArray::computeOptimized(10, countOnes2, c2);
+  std::cout << "countOnes1(x) = ";
+  CountOnesArray::print(v1);
+  std::cout << "\n";
+  std::cout << "countOnes2(x) = ";
+  CountOnesArray::print(v2);
+  std::cout << "\n";
+  std::cout << "countOnes1 observable: " << c1.get() << "\n";
+  std::cout << "countOnes2 observable: " << c2.get() << "\n";
+  return 0;
 }

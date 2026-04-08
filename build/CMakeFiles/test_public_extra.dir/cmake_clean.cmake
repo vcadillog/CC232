@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/test_public_extra.dir/link.d"
   "CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.o"
   "CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.o.d"
   "test_public_extra"

@@ -8,7 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/victor/clases/algoritmos/CC232-pc1/src/count_ones.cpp" "CMakeFiles/algorithms.dir/src/count_ones.cpp.o" "gcc" "CMakeFiles/algorithms.dir/src/count_ones.cpp.o.d"
+  "/home/victor/clases/algoritmos/pc1/src/count_ones.cpp" "CMakeFiles/algorithms.dir/src/count_ones.cpp.o" "gcc" "CMakeFiles/algorithms.dir/src/count_ones.cpp.o.d"
+  "/home/victor/clases/algoritmos/pc1/src/count_ones_array.cpp" "CMakeFiles/algorithms.dir/src/count_ones_array.cpp.o" "gcc" "CMakeFiles/algorithms.dir/src/count_ones_array.cpp.o.d"
+  "/home/victor/clases/algoritmos/pc1/src/loop_counter.cpp" "CMakeFiles/algorithms.dir/src/loop_counter.cpp.o" "gcc" "CMakeFiles/algorithms.dir/src/loop_counter.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -4,6 +4,8 @@ option(BUILD_BENCHMARKS "Build benchmark targets" ON)
 
 add_library(algorithms STATIC
   "src/count_ones.cpp"
+  "src/count_ones_array.cpp"
+  "src/loop_counter.cpp"
 )
 
 target_include_directories(algorithms PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

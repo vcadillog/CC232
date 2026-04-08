@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/demo_countones.dir/link.d"
   "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o"
   "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o.d"
   "demo_countones"

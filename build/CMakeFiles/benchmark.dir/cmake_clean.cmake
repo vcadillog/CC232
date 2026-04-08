@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/benchmark.dir/link.d"
   "CMakeFiles/benchmark.dir/benchmarks/benchmark.cpp.o"
   "CMakeFiles/benchmark.dir/benchmarks/benchmark.cpp.o.d"
   "benchmark"
