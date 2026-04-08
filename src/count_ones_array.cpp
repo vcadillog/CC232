@@ -15,12 +15,13 @@ std::vector<int> CountOnesArray::compute(unsigned int n, CountFunc func, LoopCou
     return result;
 }
 
-std::vector<int> CountOnesArray::computeOptimized(unsigned int n, CountFunc func, LoopCounter& counter) {
-    std::vector<int> result(n + 1);
+std::vector<int> CountOnesArray::computeOptimized(unsigned int n, LoopCounter& counter) {
+    std::vector<int> result(n + 1, 0);
 
     for (unsigned int i = 1; i <= n; ++i) {
         counter.increment();
-        result[i] = result[i & (i - 1)] + 1;
+
+        result[i] = result[i >> 1] + (i & 1);
     }
 
     return result;

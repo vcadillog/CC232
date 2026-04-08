@@ -9,8 +9,7 @@ public:
 
   static std::vector<int> compute(unsigned int n, CountFunc func,
                                   LoopCounter &counter);
-  static std::vector<int> computeOptimized(unsigned int n, CountFunc func,
-                                  LoopCounter &counter);
-
+  static std::vector<int> computeOptimized(unsigned int n,
+                                           LoopCounter &counter);
   static void print(const std::vector<int> &v);
 };

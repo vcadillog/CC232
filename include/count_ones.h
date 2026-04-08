@@ -2,4 +2,3 @@
 
 #include "loop_counter.h"
 int countOnes1(unsigned int n, LoopCounter &counter);
-int countOnes2(unsigned int n, LoopCounter &counter);
