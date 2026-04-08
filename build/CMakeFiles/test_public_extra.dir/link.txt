@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.o -o test_public_extra  libalgorithms.a 

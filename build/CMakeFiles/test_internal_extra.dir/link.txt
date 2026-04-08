@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_internal_extra.dir/pruebas_internas/test_internal_extra.cpp.o -o test_internal_extra  libalgorithms.a 
