@@ -59,7 +59,7 @@ int main() {
 
             assert(v1 == v2);
 
-            assert(v2[n] == k);
+            assert(v2[n] == static_cast<int>(k));
         }
     }
 

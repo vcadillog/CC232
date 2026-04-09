@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/victor/clases/algoritmos/pc1/include
 
-CXX_FLAGS = 
+CXX_FLAGS = -g -Wall -Wextra -Wpedantic
 

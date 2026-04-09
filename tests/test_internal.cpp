@@ -38,7 +38,7 @@ int main() {
 
     // Test 3: Un valor grande
     {
-        unsigned int n = 1000000;
+        unsigned int n = 10000000;
 
         c1.reset(); c2.reset();
 
