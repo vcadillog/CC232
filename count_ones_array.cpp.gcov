@@ -1,0 +1,61 @@
+        -:    0:Source:src/count_ones_array.cpp
+        -:    0:Graph:./build_with_flags/coverage-count_ones_array.gcno
+        -:    0:Data:./build_with_flags/coverage-count_ones_array.gcda
+        -:    0:Runs:2
+        -:    1:#include "count_ones_array.h"
+        -:    2:#include "loop_counter.h"
+        -:    3:#include <iostream>
+        -:    4:#include <vector>
+        -:    5:
+      204:    6:std::vector<int> CountOnesArray::compute(unsigned int n, CountFunc func,
+        -:    7:                                         LoopCounter &counter) {
+      204:    8:  std::vector<int> result;
+      204:    9:  result.reserve(n + 1);
+        -:   10:
+ 30033156:   11:  for (unsigned int i = 0; i <= n; ++i) {
+ 30032952:   12:    counter.increment(); // count outer loop
+ 30032952:   13:    result.push_back(func(i, counter));
+        -:   14:  }
+        -:   15:
+      204:   16:  return result;
+    =====:   17:}
+        -:   18:
+      204:   19:std::vector<int> CountOnesArray::computeOptimized(unsigned int n,
+        -:   20:                                                  LoopCounter &counter) {
+      204:   21:  std::vector<int> result(n+1,0);
+        -:   22:
+ 30032952:   23:  for (unsigned int i = 1; i <= n; ++i) {
+ 30032748:   24:    counter.increment();
+        -:   25:
+ 30032748:   26:    result[i] = result[i >> 1] + (i & 1);
+        -:   27:  }
+        -:   28:
+      204:   29:  return result;
+    =====:   30:}
+        -:   31:
+    #####:   32:std::vector<int> CountOnesArray::computeSTL(unsigned int n,
+        -:   33:                                            LoopCounter &counter) {
+    #####:   34:  std::vector<int> result;
+    #####:   35:  result.reserve(n + 1);
+        -:   36:
+    #####:   37:  for (unsigned int i = 0; i <= n; ++i) {
+    #####:   38:    counter.increment();
+        -:   39:
+    #####:   40:    int stl_res = __builtin_popcount(i);
+    #####:   41:    result.push_back(stl_res);
+        -:   42:  }
+        -:   43:
+    #####:   44:  return result;
+    =====:   45:}
+        -:   46:
+    #####:   47:void CountOnesArray::print(const std::vector<int> &v) {
+    #####:   48:  std::cout << "[";
+    #####:   49:  for (size_t i = 0; i < v.size(); ++i) {
+    #####:   50:    if (i != v.size() - 1) {
+    #####:   51:      std::cout << v[i] << ", ";
+        -:   52:    } else {
+    #####:   53:      std::cout << v[i];
+        -:   54:    }
+        -:   55:  }
+    #####:   56:  std::cout << "]\n";
+    #####:   57:}
