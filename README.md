@@ -173,44 +173,11 @@ Resultados del benchmark
 
 === Benchmark (n = 10000000) ===
 
-Metodo              Tiempo (ms)    Operaciones         
--------------------------------------------------------
-STL                 129            124434633           
-countOnes1          817            124434633           
-Optimizado          299            10000000            
-
-## DISCUSIÓN SOBRE MICROOPTIMIZACIÓN VS ALGORITMO
-
-Como se puede observar en el reporte sobre los ejecutables, no hay mejoras considerables usando las 
-flags -O1 u -O3, sin embargo la elección de un algoritmo diferente, que reutiliza los cálculos anteriores
-si muestra una mejora considerable, del 250%.
-
-## QUÉ SE USO DE COPILOT Y CÓMO SE VALIDÓ
-
-El asistente IA se utilizó principalmente para obtener un boilerplate de códigos, así como para hacer 
-debugging de algunos errores, se validó mediante la lectura del código y la ejecución de las pruebas.
-
-## RESUMEN DE PROFILING
-
-## Resultados de Profiling
-
-| % Tiempo | Tiempo total | Tiempo propio | Llamadas     | Promedio propio | Promedio total | Función                                                                 |
-|----------|--------------|---------------|--------------|-----------------|----------------|-------------------------------------------------------------------------|
-| 50.00    | 0.06         | 0.06          | 183321836    | 0.00            | 0.00           | LoopCounter::increment(unsigned long long)                              |
-| 25.00    | 0.09         | 0.03          | 15016476     | 0.00            | 0.01           | countOnes1(unsigned int, LoopCounter&)                                  |
-| 16.67    | 0.11         | 0.02          | —            | —               | —              | _init                                                                   |
-| 8.33     | 0.12         | 0.01          | 102          | 98.04           | 932.21         | CountOnesArray::compute(unsigned int, int (*)(unsigned int, LoopCounter&), LoopCounter&) |
-| 0.00     | 0.12         | 0.00          | 204          | 0.00            | 0.00           | LoopCounter::reset()                                                    |
-| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 48.18          | CountOnesArray::computeOptimized(unsigned int, LoopCounter&)            |
-| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 0.00           | LoopCounter::get() const                                                |
-| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 0.00           | std::vector<int, std::allocator<int> >::reserve(unsigned long)          |
-| 0.00     | 0.12         | 0.00          | 100          | 0.00            | 0.00           | std::mersenne_twister_engine<...>::operator()()                         |
-| 0.00     | 0.12         | 0.00          | 4            | 0.00            | 0.00           | std::_Vector_base<int, std::allocator<int> >::~_Vector_base()           |
-| 0.00     | 0.12         | 0.00          | 2            | 0.00            | 0.00           | LoopCounter::LoopCounter()                                              |
-| 0.00     | 0.12         | 0.00          | 1            | 0.00            | 0.00           | std::mersenne_twister_engine<...>::_M_gen_rand()                        |
-
-Como se puede observar lo que se ejecuta más es el observable que nos permite saber cuántas veces se ejecuta un bucle,
-después es la función countOnes y en tercer lugar es la clase que crea el array de salida.
+| Metodo       | Tiempo (ms) | Operaciones  |
+|-------------|------------|-------------|
+| STL         | 129        | 124434633   |
+| countOnes1  | 817        | 124434633   |
+| Optimizado  | 299        | 10000000    |
 
 ## RESUMEN DE COBERTURA
 
@@ -239,3 +206,37 @@ Lines executed:74.29% of 175
 
 Se puede observar que solo de las funciones o clase base se ejecutaron todas sus líneas,
 mientras que las otras solo parcialmente.
+
+## RESUMEN DE PROFILING
+
+## Resultados de Profiling
+
+| % Tiempo | Tiempo total | Tiempo propio | Llamadas     | Promedio propio | Promedio total | Función                                                                 |
+|----------|--------------|---------------|--------------|-----------------|----------------|-------------------------------------------------------------------------|
+| 50.00    | 0.06         | 0.06          | 183321836    | 0.00            | 0.00           | LoopCounter::increment(unsigned long long)                              |
+| 25.00    | 0.09         | 0.03          | 15016476     | 0.00            | 0.01           | countOnes1(unsigned int, LoopCounter&)                                  |
+| 16.67    | 0.11         | 0.02          | —            | —               | —              | _init                                                                   |
+| 8.33     | 0.12         | 0.01          | 102          | 98.04           | 932.21         | CountOnesArray::compute(unsigned int, int (*)(unsigned int, LoopCounter&), LoopCounter&) |
+| 0.00     | 0.12         | 0.00          | 204          | 0.00            | 0.00           | LoopCounter::reset()                                                    |
+| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 48.18          | CountOnesArray::computeOptimized(unsigned int, LoopCounter&)            |
+| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 0.00           | LoopCounter::get() const                                                |
+| 0.00     | 0.12         | 0.00          | 102          | 0.00            | 0.00           | std::vector<int, std::allocator<int> >::reserve(unsigned long)          |
+| 0.00     | 0.12         | 0.00          | 100          | 0.00            | 0.00           | std::mersenne_twister_engine<...>::operator()()                         |
+| 0.00     | 0.12         | 0.00          | 4            | 0.00            | 0.00           | std::_Vector_base<int, std::allocator<int> >::~_Vector_base()           |
+| 0.00     | 0.12         | 0.00          | 2            | 0.00            | 0.00           | LoopCounter::LoopCounter()                                              |
+| 0.00     | 0.12         | 0.00          | 1            | 0.00            | 0.00           | std::mersenne_twister_engine<...>::_M_gen_rand()                        |
+
+Como se puede observar lo que se ejecuta más es el observable que nos permite saber cuántas veces se ejecuta un bucle,
+después es la función countOnes y en tercer lugar es la clase que crea el array de salida.
+
+
+## DISCUSIÓN SOBRE MICROOPTIMIZACIÓN VS ALGORITMO
+
+Como se puede observar en el reporte sobre los ejecutables, no hay mejoras considerables usando las 
+flags -O1 u -O3, sin embargo la elección de un algoritmo diferente, que reutiliza los cálculos anteriores
+si muestra una mejora considerable, del 250%.
+
+## QUÉ SE USO DE COPILOT Y CÓMO SE VALIDÓ
+
+El asistente IA se utilizó principalmente para obtener un boilerplate de códigos, así como para hacer 
+debugging de algunos errores, se validó mediante la lectura del código y la ejecución de las pruebas.
