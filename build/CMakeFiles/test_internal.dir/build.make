@@ -72,28 +72,28 @@ include CMakeFiles/test_internal.dir/flags.make
 CMakeFiles/test_internal.dir/codegen:
 .PHONY : CMakeFiles/test_internal.dir/codegen
 
-CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o: CMakeFiles/test_internal.dir/flags.make
-CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o: /home/victor/clases/algoritmos/pc1/pruebas_internas/test_internal.cpp
-CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o: CMakeFiles/test_internal.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o -MF CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o.d -o CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o -c /home/victor/clases/algoritmos/pc1/pruebas_internas/test_internal.cpp
+CMakeFiles/test_internal.dir/tests/test_internal.cpp.o: CMakeFiles/test_internal.dir/flags.make
+CMakeFiles/test_internal.dir/tests/test_internal.cpp.o: /home/victor/clases/algoritmos/pc1/tests/test_internal.cpp
+CMakeFiles/test_internal.dir/tests/test_internal.cpp.o: CMakeFiles/test_internal.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_internal.dir/tests/test_internal.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_internal.dir/tests/test_internal.cpp.o -MF CMakeFiles/test_internal.dir/tests/test_internal.cpp.o.d -o CMakeFiles/test_internal.dir/tests/test_internal.cpp.o -c /home/victor/clases/algoritmos/pc1/tests/test_internal.cpp
 
-CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/clases/algoritmos/pc1/pruebas_internas/test_internal.cpp > CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.i
+CMakeFiles/test_internal.dir/tests/test_internal.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_internal.dir/tests/test_internal.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/clases/algoritmos/pc1/tests/test_internal.cpp > CMakeFiles/test_internal.dir/tests/test_internal.cpp.i
 
-CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/clases/algoritmos/pc1/pruebas_internas/test_internal.cpp -o CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.s
+CMakeFiles/test_internal.dir/tests/test_internal.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_internal.dir/tests/test_internal.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/clases/algoritmos/pc1/tests/test_internal.cpp -o CMakeFiles/test_internal.dir/tests/test_internal.cpp.s
 
 # Object files for target test_internal
 test_internal_OBJECTS = \
-"CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o"
+"CMakeFiles/test_internal.dir/tests/test_internal.cpp.o"
 
 # External object files for target test_internal
 test_internal_EXTERNAL_OBJECTS =
 
-test_internal: CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o
+test_internal: CMakeFiles/test_internal.dir/tests/test_internal.cpp.o
 test_internal: CMakeFiles/test_internal.dir/build.make
 test_internal: CMakeFiles/test_internal.dir/compiler_depend.ts
 test_internal: libalgorithms.a

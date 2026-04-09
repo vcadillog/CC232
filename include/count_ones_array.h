@@ -11,5 +11,7 @@ public:
                                   LoopCounter &counter);
   static std::vector<int> computeOptimized(unsigned int n,
                                            LoopCounter &counter);
+  static std::vector<int> computeSTL(unsigned int n,
+                                           LoopCounter &counter);
   static void print(const std::vector<int> &v);
 };

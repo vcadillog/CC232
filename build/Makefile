@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/victor/clases/algoritmos/pc1/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -143,30 +153,17 @@ demo_countones/fast:
 .PHONY : demo_countones/fast
 
 #=============================================================================
-# Target rules for targets named test_public
+# Target rules for targets named test_extra
 
 # Build rule for target.
-test_public: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_public
-.PHONY : test_public
+test_extra: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_extra
+.PHONY : test_extra
 
 # fast build rule for target.
-test_public/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/build
-.PHONY : test_public/fast
-
-#=============================================================================
-# Target rules for targets named test_public_extra
-
-# Build rule for target.
-test_public_extra: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_public_extra
-.PHONY : test_public_extra
-
-# fast build rule for target.
-test_public_extra/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/build
-.PHONY : test_public_extra/fast
+test_extra/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/build
+.PHONY : test_extra/fast
 
 #=============================================================================
 # Target rules for targets named test_internal
@@ -180,19 +177,6 @@ test_internal: cmake_check_build_system
 test_internal/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/build
 .PHONY : test_internal/fast
-
-#=============================================================================
-# Target rules for targets named test_internal_extra
-
-# Build rule for target.
-test_internal_extra: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_internal_extra
-.PHONY : test_internal_extra
-
-# fast build rule for target.
-test_internal_extra/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/build
-.PHONY : test_internal_extra/fast
 
 #=============================================================================
 # Target rules for targets named edge_cases
@@ -268,126 +252,6 @@ demos/demo_countones.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/demo_countones.dir/build.make CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.s
 .PHONY : demos/demo_countones.cpp.s
 
-pruebas_internas/edge_cases.o: pruebas_internas/edge_cases.cpp.o
-.PHONY : pruebas_internas/edge_cases.o
-
-# target to build an object file
-pruebas_internas/edge_cases.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o
-.PHONY : pruebas_internas/edge_cases.cpp.o
-
-pruebas_internas/edge_cases.i: pruebas_internas/edge_cases.cpp.i
-.PHONY : pruebas_internas/edge_cases.i
-
-# target to preprocess a source file
-pruebas_internas/edge_cases.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.i
-.PHONY : pruebas_internas/edge_cases.cpp.i
-
-pruebas_internas/edge_cases.s: pruebas_internas/edge_cases.cpp.s
-.PHONY : pruebas_internas/edge_cases.s
-
-# target to generate assembly for a file
-pruebas_internas/edge_cases.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.s
-.PHONY : pruebas_internas/edge_cases.cpp.s
-
-pruebas_internas/test_internal.o: pruebas_internas/test_internal.cpp.o
-.PHONY : pruebas_internas/test_internal.o
-
-# target to build an object file
-pruebas_internas/test_internal.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o
-.PHONY : pruebas_internas/test_internal.cpp.o
-
-pruebas_internas/test_internal.i: pruebas_internas/test_internal.cpp.i
-.PHONY : pruebas_internas/test_internal.i
-
-# target to preprocess a source file
-pruebas_internas/test_internal.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.i
-.PHONY : pruebas_internas/test_internal.cpp.i
-
-pruebas_internas/test_internal.s: pruebas_internas/test_internal.cpp.s
-.PHONY : pruebas_internas/test_internal.s
-
-# target to generate assembly for a file
-pruebas_internas/test_internal.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.s
-.PHONY : pruebas_internas/test_internal.cpp.s
-
-pruebas_internas/test_internal_extra.o: pruebas_internas/test_internal_extra.cpp.o
-.PHONY : pruebas_internas/test_internal_extra.o
-
-# target to build an object file
-pruebas_internas/test_internal_extra.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/pruebas_internas/test_internal_extra.cpp.o
-.PHONY : pruebas_internas/test_internal_extra.cpp.o
-
-pruebas_internas/test_internal_extra.i: pruebas_internas/test_internal_extra.cpp.i
-.PHONY : pruebas_internas/test_internal_extra.i
-
-# target to preprocess a source file
-pruebas_internas/test_internal_extra.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/pruebas_internas/test_internal_extra.cpp.i
-.PHONY : pruebas_internas/test_internal_extra.cpp.i
-
-pruebas_internas/test_internal_extra.s: pruebas_internas/test_internal_extra.cpp.s
-.PHONY : pruebas_internas/test_internal_extra.s
-
-# target to generate assembly for a file
-pruebas_internas/test_internal_extra.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/pruebas_internas/test_internal_extra.cpp.s
-.PHONY : pruebas_internas/test_internal_extra.cpp.s
-
-pruebas_publicas/test_public.o: pruebas_publicas/test_public.cpp.o
-.PHONY : pruebas_publicas/test_public.o
-
-# target to build an object file
-pruebas_publicas/test_public.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.o
-.PHONY : pruebas_publicas/test_public.cpp.o
-
-pruebas_publicas/test_public.i: pruebas_publicas/test_public.cpp.i
-.PHONY : pruebas_publicas/test_public.i
-
-# target to preprocess a source file
-pruebas_publicas/test_public.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.i
-.PHONY : pruebas_publicas/test_public.cpp.i
-
-pruebas_publicas/test_public.s: pruebas_publicas/test_public.cpp.s
-.PHONY : pruebas_publicas/test_public.s
-
-# target to generate assembly for a file
-pruebas_publicas/test_public.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/pruebas_publicas/test_public.cpp.s
-.PHONY : pruebas_publicas/test_public.cpp.s
-
-pruebas_publicas/test_public_extra.o: pruebas_publicas/test_public_extra.cpp.o
-.PHONY : pruebas_publicas/test_public_extra.o
-
-# target to build an object file
-pruebas_publicas/test_public_extra.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.o
-.PHONY : pruebas_publicas/test_public_extra.cpp.o
-
-pruebas_publicas/test_public_extra.i: pruebas_publicas/test_public_extra.cpp.i
-.PHONY : pruebas_publicas/test_public_extra.i
-
-# target to preprocess a source file
-pruebas_publicas/test_public_extra.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.i
-.PHONY : pruebas_publicas/test_public_extra.cpp.i
-
-pruebas_publicas/test_public_extra.s: pruebas_publicas/test_public_extra.cpp.s
-.PHONY : pruebas_publicas/test_public_extra.s
-
-# target to generate assembly for a file
-pruebas_publicas/test_public_extra.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/pruebas_publicas/test_public_extra.cpp.s
-.PHONY : pruebas_publicas/test_public_extra.cpp.s
-
 src/count_ones.o: src/count_ones.cpp.o
 .PHONY : src/count_ones.o
 
@@ -460,6 +324,78 @@ src/loop_counter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/algorithms.dir/build.make CMakeFiles/algorithms.dir/src/loop_counter.cpp.s
 .PHONY : src/loop_counter.cpp.s
 
+tests/edge_cases.o: tests/edge_cases.cpp.o
+.PHONY : tests/edge_cases.o
+
+# target to build an object file
+tests/edge_cases.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o
+.PHONY : tests/edge_cases.cpp.o
+
+tests/edge_cases.i: tests/edge_cases.cpp.i
+.PHONY : tests/edge_cases.i
+
+# target to preprocess a source file
+tests/edge_cases.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.i
+.PHONY : tests/edge_cases.cpp.i
+
+tests/edge_cases.s: tests/edge_cases.cpp.s
+.PHONY : tests/edge_cases.s
+
+# target to generate assembly for a file
+tests/edge_cases.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/edge_cases.dir/build.make CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.s
+.PHONY : tests/edge_cases.cpp.s
+
+tests/test_extra.o: tests/test_extra.cpp.o
+.PHONY : tests/test_extra.o
+
+# target to build an object file
+tests/test_extra.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/tests/test_extra.cpp.o
+.PHONY : tests/test_extra.cpp.o
+
+tests/test_extra.i: tests/test_extra.cpp.i
+.PHONY : tests/test_extra.i
+
+# target to preprocess a source file
+tests/test_extra.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/tests/test_extra.cpp.i
+.PHONY : tests/test_extra.cpp.i
+
+tests/test_extra.s: tests/test_extra.cpp.s
+.PHONY : tests/test_extra.s
+
+# target to generate assembly for a file
+tests/test_extra.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/tests/test_extra.cpp.s
+.PHONY : tests/test_extra.cpp.s
+
+tests/test_internal.o: tests/test_internal.cpp.o
+.PHONY : tests/test_internal.o
+
+# target to build an object file
+tests/test_internal.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/tests/test_internal.cpp.o
+.PHONY : tests/test_internal.cpp.o
+
+tests/test_internal.i: tests/test_internal.cpp.i
+.PHONY : tests/test_internal.i
+
+# target to preprocess a source file
+tests/test_internal.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/tests/test_internal.cpp.i
+.PHONY : tests/test_internal.cpp.i
+
+tests/test_internal.s: tests/test_internal.cpp.s
+.PHONY : tests/test_internal.s
+
+# target to generate assembly for a file
+tests/test_internal.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/tests/test_internal.cpp.s
+.PHONY : tests/test_internal.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -468,35 +404,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... algorithms"
 	@echo "... benchmark"
 	@echo "... demo_countones"
 	@echo "... edge_cases"
+	@echo "... test_extra"
 	@echo "... test_internal"
-	@echo "... test_internal_extra"
-	@echo "... test_public"
-	@echo "... test_public_extra"
 	@echo "... benchmarks/benchmark.o"
 	@echo "... benchmarks/benchmark.i"
 	@echo "... benchmarks/benchmark.s"
 	@echo "... demos/demo_countones.o"
 	@echo "... demos/demo_countones.i"
 	@echo "... demos/demo_countones.s"
-	@echo "... pruebas_internas/edge_cases.o"
-	@echo "... pruebas_internas/edge_cases.i"
-	@echo "... pruebas_internas/edge_cases.s"
-	@echo "... pruebas_internas/test_internal.o"
-	@echo "... pruebas_internas/test_internal.i"
-	@echo "... pruebas_internas/test_internal.s"
-	@echo "... pruebas_internas/test_internal_extra.o"
-	@echo "... pruebas_internas/test_internal_extra.i"
-	@echo "... pruebas_internas/test_internal_extra.s"
-	@echo "... pruebas_publicas/test_public.o"
-	@echo "... pruebas_publicas/test_public.i"
-	@echo "... pruebas_publicas/test_public.s"
-	@echo "... pruebas_publicas/test_public_extra.o"
-	@echo "... pruebas_publicas/test_public_extra.i"
-	@echo "... pruebas_publicas/test_public_extra.s"
 	@echo "... src/count_ones.o"
 	@echo "... src/count_ones.i"
 	@echo "... src/count_ones.s"
@@ -506,6 +426,15 @@ help:
 	@echo "... src/loop_counter.o"
 	@echo "... src/loop_counter.i"
 	@echo "... src/loop_counter.s"
+	@echo "... tests/edge_cases.o"
+	@echo "... tests/edge_cases.i"
+	@echo "... tests/edge_cases.s"
+	@echo "... tests/test_extra.o"
+	@echo "... tests/test_extra.i"
+	@echo "... tests/test_extra.s"
+	@echo "... tests/test_internal.o"
+	@echo "... tests/test_internal.i"
+	@echo "... tests/test_internal.s"
 .PHONY : help
 
 

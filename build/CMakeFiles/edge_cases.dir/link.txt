@@ -1,1 +1,1 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/edge_cases.dir/link.d CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o -o edge_cases  libalgorithms.a
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/edge_cases.dir/link.d CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o -o edge_cases  libalgorithms.a

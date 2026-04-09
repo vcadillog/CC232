@@ -1,30 +1,47 @@
 #include "count_ones_array.h"
 #include "loop_counter.h"
-#include <vector>
 #include <iostream>
+#include <vector>
 
-std::vector<int> CountOnesArray::compute(unsigned int n, CountFunc func, LoopCounter& counter) {
-    std::vector<int> result;
-    result.reserve(n + 1);
+std::vector<int> CountOnesArray::compute(unsigned int n, CountFunc func,
+                                         LoopCounter &counter) {
+  std::vector<int> result;
+  result.reserve(n + 1);
 
-    for (unsigned int i = 0; i <= n; ++i) {
-        counter.increment(); // count outer loop
-        result.push_back(func(i, counter));
-    }
+  for (unsigned int i = 0; i <= n; ++i) {
+    counter.increment(); // count outer loop
+    result.push_back(func(i, counter));
+  }
 
-    return result;
+  return result;
 }
 
-std::vector<int> CountOnesArray::computeOptimized(unsigned int n, LoopCounter& counter) {
-    std::vector<int> result(n + 1, 0);
+std::vector<int> CountOnesArray::computeOptimized(unsigned int n,
+                                                  LoopCounter &counter) {
+  std::vector<int> result(n+1,0);
 
-    for (unsigned int i = 1; i <= n; ++i) {
-        counter.increment();
+  for (unsigned int i = 1; i <= n; ++i) {
+    counter.increment();
 
-        result[i] = result[i >> 1] + (i & 1);
-    }
+    result[i] = result[i >> 1] + (i & 1);
+  }
 
-    return result;
+  return result;
+}
+
+std::vector<int> CountOnesArray::computeSTL(unsigned int n,
+                                            LoopCounter &counter) {
+  std::vector<int> result;
+  result.reserve(n + 1);
+
+  for (unsigned int i = 0; i <= n; ++i) {
+    counter.increment();
+
+    int stl_res = __builtin_popcount(i);
+    result.push_back(stl_res);
+  }
+
+  return result;
 }
 
 void CountOnesArray::print(const std::vector<int> &v) {

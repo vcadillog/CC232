@@ -56,10 +56,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/algorithms.dir/DependInfo.cmake"
   "CMakeFiles/demo_countones.dir/DependInfo.cmake"
-  "CMakeFiles/test_public.dir/DependInfo.cmake"
-  "CMakeFiles/test_public_extra.dir/DependInfo.cmake"
+  "CMakeFiles/test_extra.dir/DependInfo.cmake"
   "CMakeFiles/test_internal.dir/DependInfo.cmake"
-  "CMakeFiles/test_internal_extra.dir/DependInfo.cmake"
   "CMakeFiles/edge_cases.dir/DependInfo.cmake"
   "CMakeFiles/benchmark.dir/DependInfo.cmake"
   )

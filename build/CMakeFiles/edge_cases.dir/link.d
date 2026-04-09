@@ -2,7 +2,7 @@ edge_cases: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o \
-  CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o \
+  CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o \
   libalgorithms.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -38,7 +38,7 @@ edge_cases: \
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
 
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o:
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o:
 
 libalgorithms.a:
 

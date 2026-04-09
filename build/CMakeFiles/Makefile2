@@ -65,10 +65,8 @@ CMAKE_BINARY_DIR = /home/victor/clases/algoritmos/pc1/build
 # The main recursive "all" target.
 all: CMakeFiles/algorithms.dir/all
 all: CMakeFiles/demo_countones.dir/all
-all: CMakeFiles/test_public.dir/all
-all: CMakeFiles/test_public_extra.dir/all
+all: CMakeFiles/test_extra.dir/all
 all: CMakeFiles/test_internal.dir/all
-all: CMakeFiles/test_internal_extra.dir/all
 all: CMakeFiles/edge_cases.dir/all
 all: CMakeFiles/benchmark.dir/all
 .PHONY : all
@@ -76,10 +74,8 @@ all: CMakeFiles/benchmark.dir/all
 # The main recursive "codegen" target.
 codegen: CMakeFiles/algorithms.dir/codegen
 codegen: CMakeFiles/demo_countones.dir/codegen
-codegen: CMakeFiles/test_public.dir/codegen
-codegen: CMakeFiles/test_public_extra.dir/codegen
+codegen: CMakeFiles/test_extra.dir/codegen
 codegen: CMakeFiles/test_internal.dir/codegen
-codegen: CMakeFiles/test_internal_extra.dir/codegen
 codegen: CMakeFiles/edge_cases.dir/codegen
 codegen: CMakeFiles/benchmark.dir/codegen
 .PHONY : codegen
@@ -91,10 +87,8 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/algorithms.dir/clean
 clean: CMakeFiles/demo_countones.dir/clean
-clean: CMakeFiles/test_public.dir/clean
-clean: CMakeFiles/test_public_extra.dir/clean
+clean: CMakeFiles/test_extra.dir/clean
 clean: CMakeFiles/test_internal.dir/clean
-clean: CMakeFiles/test_internal_extra.dir/clean
 clean: CMakeFiles/edge_cases.dir/clean
 clean: CMakeFiles/benchmark.dir/clean
 .PHONY : clean
@@ -164,68 +158,36 @@ CMakeFiles/demo_countones.dir/clean:
 .PHONY : CMakeFiles/demo_countones.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_public.dir
+# Target rules for target CMakeFiles/test_extra.dir
 
 # All Build rule for target.
-CMakeFiles/test_public.dir/all: CMakeFiles/algorithms.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=15,16 "Built target test_public"
-.PHONY : CMakeFiles/test_public.dir/all
+CMakeFiles/test_extra.dir/all: CMakeFiles/algorithms.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=11,12 "Built target test_extra"
+.PHONY : CMakeFiles/test_extra.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_public.dir/rule: cmake_check_build_system
+CMakeFiles/test_extra.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_public.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_extra.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_public.dir/rule
+.PHONY : CMakeFiles/test_extra.dir/rule
 
 # Convenience name for target.
-test_public: CMakeFiles/test_public.dir/rule
-.PHONY : test_public
+test_extra: CMakeFiles/test_extra.dir/rule
+.PHONY : test_extra
 
 # codegen rule for target.
-CMakeFiles/test_public.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=15,16 "Finished codegen for target test_public"
-.PHONY : CMakeFiles/test_public.dir/codegen
+CMakeFiles/test_extra.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=11,12 "Finished codegen for target test_extra"
+.PHONY : CMakeFiles/test_extra.dir/codegen
 
 # clean rule for target.
-CMakeFiles/test_public.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public.dir/build.make CMakeFiles/test_public.dir/clean
-.PHONY : CMakeFiles/test_public.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_public_extra.dir
-
-# All Build rule for target.
-CMakeFiles/test_public_extra.dir/all: CMakeFiles/algorithms.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=17,18 "Built target test_public_extra"
-.PHONY : CMakeFiles/test_public_extra.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_public_extra.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_public_extra.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_public_extra.dir/rule
-
-# Convenience name for target.
-test_public_extra: CMakeFiles/test_public_extra.dir/rule
-.PHONY : test_public_extra
-
-# codegen rule for target.
-CMakeFiles/test_public_extra.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=17,18 "Finished codegen for target test_public_extra"
-.PHONY : CMakeFiles/test_public_extra.dir/codegen
-
-# clean rule for target.
-CMakeFiles/test_public_extra.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_public_extra.dir/build.make CMakeFiles/test_public_extra.dir/clean
-.PHONY : CMakeFiles/test_public_extra.dir/clean
+CMakeFiles/test_extra.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_extra.dir/build.make CMakeFiles/test_extra.dir/clean
+.PHONY : CMakeFiles/test_extra.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/test_internal.dir
@@ -234,7 +196,7 @@ CMakeFiles/test_public_extra.dir/clean:
 CMakeFiles/test_internal.dir/all: CMakeFiles/algorithms.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=11,12 "Built target test_internal"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=13,14 "Built target test_internal"
 .PHONY : CMakeFiles/test_internal.dir/all
 
 # Build rule for subdir invocation for target.
@@ -251,45 +213,13 @@ test_internal: CMakeFiles/test_internal.dir/rule
 # codegen rule for target.
 CMakeFiles/test_internal.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=11,12 "Finished codegen for target test_internal"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=13,14 "Finished codegen for target test_internal"
 .PHONY : CMakeFiles/test_internal.dir/codegen
 
 # clean rule for target.
 CMakeFiles/test_internal.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal.dir/build.make CMakeFiles/test_internal.dir/clean
 .PHONY : CMakeFiles/test_internal.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_internal_extra.dir
-
-# All Build rule for target.
-CMakeFiles/test_internal_extra.dir/all: CMakeFiles/algorithms.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=13,14 "Built target test_internal_extra"
-.PHONY : CMakeFiles/test_internal_extra.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_internal_extra.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_internal_extra.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/clases/algoritmos/pc1/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_internal_extra.dir/rule
-
-# Convenience name for target.
-test_internal_extra: CMakeFiles/test_internal_extra.dir/rule
-.PHONY : test_internal_extra
-
-# codegen rule for target.
-CMakeFiles/test_internal_extra.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=13,14 "Finished codegen for target test_internal_extra"
-.PHONY : CMakeFiles/test_internal_extra.dir/codegen
-
-# clean rule for target.
-CMakeFiles/test_internal_extra.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_internal_extra.dir/build.make CMakeFiles/test_internal_extra.dir/clean
-.PHONY : CMakeFiles/test_internal_extra.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/edge_cases.dir

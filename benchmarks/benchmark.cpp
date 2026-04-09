@@ -6,10 +6,17 @@
 #include <iostream>
 
 int main() {
-  constexpr int n = 100000;
+  constexpr int n = 10000000;
   using namespace std::chrono;
 
-  LoopCounter c1, c2;
+  LoopCounter c0, c1, c2;
+
+  auto start0 = high_resolution_clock::now();
+  auto v0 = CountOnesArray::computeSTL(n, c0);
+  auto end0 = high_resolution_clock::now();
+
+  volatile int sink0 = v0.back();
+  (void)sink0;
 
   auto start1 = high_resolution_clock::now();
   auto v1 = CountOnesArray::compute(n, countOnes1, c1);
@@ -26,6 +33,7 @@ int main() {
   (void)sink2;
 
   // -------- Results --------
+  auto t0 = duration_cast<milliseconds>(end0 - start0).count();
   auto t1 = duration_cast<milliseconds>(end1 - start1).count();
   auto t2 = duration_cast<milliseconds>(end2 - start2).count();
 
@@ -36,6 +44,9 @@ int main() {
             << "\n";
 
   std::cout << std::string(55, '-') << "\n";
+
+  std::cout << std::left << std::setw(20) << "STL" << std::setw(15) << t0
+            << std::setw(20) << c1.get() << "\n";
 
   std::cout << std::left << std::setw(20) << "countOnes1" << std::setw(15) << t1
             << std::setw(20) << c1.get() << "\n";

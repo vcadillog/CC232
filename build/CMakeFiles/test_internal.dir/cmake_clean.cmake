@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/test_internal.dir/link.d"
-  "CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o"
-  "CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o.d"
+  "CMakeFiles/test_internal.dir/tests/test_internal.cpp.o"
+  "CMakeFiles/test_internal.dir/tests/test_internal.cpp.o.d"
   "test_internal"
   "test_internal.pdb"
 )

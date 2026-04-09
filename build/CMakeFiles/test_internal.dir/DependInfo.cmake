@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/victor/clases/algoritmos/pc1/pruebas_internas/test_internal.cpp" "CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o" "gcc" "CMakeFiles/test_internal.dir/pruebas_internas/test_internal.cpp.o.d"
+  "/home/victor/clases/algoritmos/pc1/tests/test_internal.cpp" "CMakeFiles/test_internal.dir/tests/test_internal.cpp.o" "gcc" "CMakeFiles/test_internal.dir/tests/test_internal.cpp.o.d"
   "" "test_internal" "gcc" "CMakeFiles/test_internal.dir/link.d"
   )
 

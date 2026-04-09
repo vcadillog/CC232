@@ -72,28 +72,28 @@ include CMakeFiles/edge_cases.dir/flags.make
 CMakeFiles/edge_cases.dir/codegen:
 .PHONY : CMakeFiles/edge_cases.dir/codegen
 
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o: CMakeFiles/edge_cases.dir/flags.make
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o: /home/victor/clases/algoritmos/pc1/pruebas_internas/edge_cases.cpp
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o: CMakeFiles/edge_cases.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o -MF CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o.d -o CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o -c /home/victor/clases/algoritmos/pc1/pruebas_internas/edge_cases.cpp
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o: CMakeFiles/edge_cases.dir/flags.make
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o: /home/victor/clases/algoritmos/pc1/tests/edge_cases.cpp
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o: CMakeFiles/edge_cases.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/victor/clases/algoritmos/pc1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o -MF CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o.d -o CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o -c /home/victor/clases/algoritmos/pc1/tests/edge_cases.cpp
 
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/clases/algoritmos/pc1/pruebas_internas/edge_cases.cpp > CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.i
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/clases/algoritmos/pc1/tests/edge_cases.cpp > CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.i
 
-CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/clases/algoritmos/pc1/pruebas_internas/edge_cases.cpp -o CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.s
+CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/clases/algoritmos/pc1/tests/edge_cases.cpp -o CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.s
 
 # Object files for target edge_cases
 edge_cases_OBJECTS = \
-"CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o"
+"CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o"
 
 # External object files for target edge_cases
 edge_cases_EXTERNAL_OBJECTS =
 
-edge_cases: CMakeFiles/edge_cases.dir/pruebas_internas/edge_cases.cpp.o
+edge_cases: CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o
 edge_cases: CMakeFiles/edge_cases.dir/build.make
 edge_cases: CMakeFiles/edge_cases.dir/compiler_depend.ts
 edge_cases: libalgorithms.a
