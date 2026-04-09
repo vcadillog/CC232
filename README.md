@@ -18,16 +18,19 @@ En otras palabras, se debe calcular el número de bits en 1 para todos los enter
 - **Entrada:** un entero `n`.
 - **Salida:** un **arreglo** de tamaño `n + 1` donde cada posición `i` contiene el número de bits en 1 de la representación binaria de `i`, para todo `i` en el rango [0, n].
 
-## Tamaño de entrada relevante
-- Para enteros de 32 bits: máximo 32 iteraciones en el peor caso.
-- Para enteros de 64 bits: máximo 64 iteraciones en el peor caso.
+## Tamaño de entrada
+- **Tamaño**: número de bits de `n` → `w = ⌊log₂(n)⌋ + 1`
 
 ## Descripción de la solución
 Se implementaron dos métodos:
 1. **`countOnes1` (Kernighan):** elimina un bit en 1 en cada iteración (`n &= (n-1)`).
-2. **`countOnes2` (reducción paralela):** usa máscaras y sumas parciales para acumular los bits en bloques.
+2. **computeOptimized (programación dinámica)**: construye un arreglo de resultados reutilizando cálculos previos mediante la relación
 
-Además, se implementaron funciones para construir arreglos con los resultados (`countOnesArray1` y `countOnesArray2`).
+`bits(i) = bits(i >> 1) + (i & 1)`
+
+2. lo que permite calcular el número de bits en 1 de cada entero hasta n en tiempo lineal.
+
+Además, se implementaron funciones para construir arreglos con los resultados (**compute** y **computeOptimized**), y una función auxiliar para imprimirlos.
 
 ## Justificación de determinismo y factibilidad
 - **Determinismo:** el algoritmo siempre produce el mismo resultado para la misma entrada.
@@ -35,40 +38,43 @@ Además, se implementaron funciones para construir arreglos con los resultados (
 
 ## Argumento de finitud
 - En `countOnes1`, cada iteración reduce el número de bits en 1, garantizando que el bucle termina.
-- En `countOnes2`, se ejecuta un número fijo de operaciones, siempre finito.
+- En `compute`, el bucle principal recorre de 0 hasta `n`, con un número finito de iteraciones (exactamente `n+1`), asegurando la terminación.
+- En `computeOptimized`, el bucle recorre de 1 hasta `n`, también con un número finito de iteraciones, garantizando la terminación.
 
 ## Argumento de correctitud
 - `countOnes1`: al terminar, `ones` contiene exactamente el número de bits eliminados.
-- `countOnes2`: cada `ROUND` acumula correctamente los bits en bloques, y al final se obtiene el conteo total.
+- `compute`: cada posición del arreglo se calcula aplicando la función `func(i, counter)`, lo que asegura que el resultado refleje correctamente el número de bits en 1 de cada entero.
+- `computeOptimized`: cada valor `result[i]` se obtiene como `result[i >> 1] + (i & 1)`, garantizando que se acumule correctamente el conteo de bits a partir de subproblemas más pequeños.
 
 ## Invariante
 - En `countOnes1`: **invariante de bucle** → `ones` refleja el número de bits eliminados hasta el momento.
+- En `compute`: **invariante de bucle** → para cada `i`, `result[i]` contiene el número correcto de bits en 1 calculado por la función pasada como parámetro.
+- En `computeOptimized`: **invariante de bucle** → para cada `i`, `result[i]` contiene el número correcto de bits en 1 de la representación binaria de `i`.
 
 ## Monotonicidad
 - En `countOnes1`: el número de bits en 1 de `n` decrece estrictamente en cada iteración.
-- En `countOnes2`: las transformaciones acumulan información de manera ordenada y progresiva.
+- En `compute`: el arreglo `result` se construye de manera progresiva, acumulando resultados de cada llamada a la función.
+- En `computeOptimized`: el arreglo `result` se construye de manera ordenada, reutilizando resultados previos para calcular los siguientes.
 
 ## Complejidad temporal
 - `countOnes1`: O(log n) (≈ O(1) en enteros fijos).
-- `countOnes2`: O(1).
-- `countOnesArray1`: O(n log n).
-- `countOnesArray2`: O(n).
+- `compute`: O(n · T(func)) donde T(func) es el costo de la función de conteo usada.
+- `computeOptimized`: O(n).
 
 ## Complejidad espacial
-- `countOnes1` y `countOnes2`: O(1).
-- `countOnesArray1` y `countOnesArray2`: O(n).
+- `countOnes1`: O(1).
+- `compute`: O(n).
+- `computeOptimized`: O(n).
 
 ## Mejor, peor y promedio
 - `countOnes1`: mejor caso O(1), peor caso O(log n), promedio O(log n).
-- `countOnes2`: siempre O(1).
-- `countOnesArray1`: mejor caso O(1), peor caso O(n log n), promedio O(n log n).
-- `countOnesArray2`: mejor caso O(1), peor caso O(n), promedio O(n).
+- `compute`: siempre O(n · T(func)).
+- `computeOptimized`: siempre O(n).
 
 ## Ubicación en la jerarquía de crecimiento
 - `countOnes1`: O(log n).
-- `countOnes2`: O(1).
-- `countOnesArray1`: O(n log n).
-- `countOnesArray2`: O(n).
+- `compute`: O(n · T(func)).
+- `computeOptimized`: O(n).
 
 ## Alternativa ingenua
 Recorrer bit por bit con desplazamientos y máscaras, contando los unos. Complejidad O(log n), menos eficiente que la reducción paralela.
