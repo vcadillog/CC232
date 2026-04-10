@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/victor/clases/algoritmos/pc1/demos/demo_countones.cpp" "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o" "gcc" "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o.d"
+  "/home/victor/clases/algoritmos/CC232-pc1/demos/demo_countones.cpp" "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o" "gcc" "CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o.d"
   "" "demo_countones" "gcc" "CMakeFiles/demo_countones.dir/link.d"
   )
 

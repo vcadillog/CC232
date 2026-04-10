@@ -1,9 +1,9 @@
 CMakeFiles/edge_cases.dir/tests/edge_cases.cpp.o: \
- /home/victor/clases/algoritmos/pc1/tests/edge_cases.cpp \
+ /home/victor/clases/algoritmos/CC232-pc1/tests/edge_cases.cpp \
  /usr/include/stdc-predef.h \
- /home/victor/clases/algoritmos/pc1/include/count_ones.h \
- /home/victor/clases/algoritmos/pc1/include/loop_counter.h \
- /home/victor/clases/algoritmos/pc1/include/count_ones_array.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/loop_counter.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones_array.h \
  /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \

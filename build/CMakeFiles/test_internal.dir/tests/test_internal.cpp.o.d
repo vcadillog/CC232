@@ -1,5 +1,5 @@
 CMakeFiles/test_internal.dir/tests/test_internal.cpp.o: \
- /home/victor/clases/algoritmos/pc1/tests/test_internal.cpp \
+ /home/victor/clases/algoritmos/CC232-pc1/tests/test_internal.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/15.2.1/cassert \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -181,6 +181,6 @@ CMakeFiles/test_internal.dir/tests/test_internal.cpp.o: \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
  /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/victor/clases/algoritmos/pc1/include/count_ones.h \
- /home/victor/clases/algoritmos/pc1/include/loop_counter.h \
- /home/victor/clases/algoritmos/pc1/include/count_ones_array.h
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/loop_counter.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones_array.h

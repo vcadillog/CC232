@@ -1,5 +1,5 @@
 CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o: \
- /home/victor/clases/algoritmos/pc1/demos/demo_countones.cpp \
+ /home/victor/clases/algoritmos/CC232-pc1/demos/demo_countones.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/15.2.1/bitset \
  /usr/include/c++/15.2.1/bits/functexcept.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -147,9 +147,9 @@ CMakeFiles/demo_countones.dir/demos/demo_countones.cpp.o: \
  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
  /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
  /usr/include/c++/15.2.1/bits/istream.tcc \
- /home/victor/clases/algoritmos/pc1/include/count_ones.h \
- /home/victor/clases/algoritmos/pc1/include/loop_counter.h \
- /home/victor/clases/algoritmos/pc1/include/count_ones_array.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/loop_counter.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones_array.h \
  /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/stl_uninitialized.h \
  /usr/include/c++/15.2.1/bits/stl_vector.h \

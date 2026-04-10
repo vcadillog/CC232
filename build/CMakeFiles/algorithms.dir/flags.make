@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/victor/clases/algoritmos/pc1/include
+CXX_INCLUDES = -I/home/victor/clases/algoritmos/CC232-pc1/include
 
-CXX_FLAGS = -g
+CXX_FLAGS = 
 

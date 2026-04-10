@@ -1,8 +1,8 @@
 CMakeFiles/test_extra.dir/tests/test_extra.cpp.o: \
- /home/victor/clases/algoritmos/pc1/tests/test_extra.cpp \
+ /home/victor/clases/algoritmos/CC232-pc1/tests/test_extra.cpp \
  /usr/include/stdc-predef.h \
- /home/victor/clases/algoritmos/pc1/include/count_ones_array.h \
- /home/victor/clases/algoritmos/pc1/include/loop_counter.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones_array.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/loop_counter.h \
  /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -59,7 +59,7 @@ CMakeFiles/test_extra.dir/tests/test_extra.cpp.o: \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.2.1/tuple \
- /home/victor/clases/algoritmos/pc1/include/count_ones.h \
+ /home/victor/clases/algoritmos/CC232-pc1/include/count_ones.h \
  /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/ostream \
  /usr/include/c++/15.2.1/bits/ostream.h /usr/include/c++/15.2.1/ios \
  /usr/include/c++/15.2.1/iosfwd /usr/include/c++/15.2.1/bits/stringfwd.h \
