@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/sem2_demo_rootisharraystack_explicado.dir/demos/demo_rootisharraystack_explicado.cpp.o -o sem2_demo_rootisharraystack_explicado  -lm 

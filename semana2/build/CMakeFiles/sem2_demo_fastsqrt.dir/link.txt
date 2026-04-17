@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/sem2_demo_fastsqrt.dir/demos/demo_fastsqrt.cpp.o -o sem2_demo_fastsqrt  -lm 

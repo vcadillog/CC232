@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/sem2_test_internal_cap2.dir/pruebas_internas/test_internal_capitulo2_extendido.cpp.o -o sem2_test_internal_cap2  -lm 

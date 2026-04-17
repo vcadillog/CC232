@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/sem2_demo_deng_vector.dir/demos/demo_deng_vector.cpp.o -o sem2_demo_deng_vector  -lm 

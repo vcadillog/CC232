@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/sem2_resize_stress.dir/pruebas_internas/resize_stress_week2.cpp.o -o sem2_resize_stress  -lm 

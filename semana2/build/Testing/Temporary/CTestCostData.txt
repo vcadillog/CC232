@@ -1,6 +1,0 @@
-semana2_public 1 0.00681989
-semana2_internal 1 0.00497289
-semana2_resize_stress 1 0.00894903
-semana2_public_cap2 1 0.00652958
-semana2_internal_cap2 1 0.00696523
----
