@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sem2_demo_fastarraystack.dir/demos/demo_fastarraystack.cpp.o -o sem2_demo_fastarraystack  -lm 

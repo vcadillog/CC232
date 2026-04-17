@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sem2_demo_arraystack.dir/demos/demo_arraystack.cpp.o -o sem2_demo_arraystack  -lm 

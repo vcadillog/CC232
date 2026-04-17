@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sem2_test_public.dir/pruebas_publicas/test_public_week2.cpp.o -o sem2_test_public  -lm 

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sem2_demo_array_basico.dir/demos/demo_array_basico.cpp.o -o sem2_demo_array_basico  -lm 

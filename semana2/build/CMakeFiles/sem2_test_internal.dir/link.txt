@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sem2_test_internal.dir/pruebas_internas/test_internal_week2.cpp.o -o sem2_test_internal  -lm 
