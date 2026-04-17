@@ -1,7 +1,7 @@
 ### Integrantes: 
 - Victor Hugo Cadillo Gutierrez, 20255514D
 
-## Bloque 0
+### Bloque 0
 
 ### Demo:
 ```
@@ -18,7 +18,7 @@ nota: esta version de array usa una asignacion por transferencia de ownership.
 victor@victor-desktop:~/clases/algoritmos/CC232-pc/semana2$ ./build/sem2_test_public_cap2
 ```
 
-## Bloque 1
+### Bloque 1
 
 1. Memoria contigua es cuando el uso de la memoria se hace de forma consecutiva
 2. Acceder a A[i] es de costo O(1) porque es una estructra indexada.
