@@ -33,4 +33,15 @@ victor@victor-desktop:~/clases/algoritmos/CC232-pc/semana2$ ./build/sem2_test_pu
 
 ### Bloque 2
 
+1. La longitud del array se declara al momento de crear el array, y la implementación del array reemplaza la operación de asignación con operator= para primero liberar la memoria asignada al array y sobreescribir la longitud y desreferencia el nuevo array.
+2. Todas las operaciones realizan desplazamientos, push_back llama a add para el elemento final en específico y remove elimina el elemento i y desplaza todo a la izquierda. El que mostraría mejor los desplazamientos sería la operación 3 "add(1,15)" ya que desplaza los elementos a la derecha y luego inserta el valor.
+3. En FastArrayStack los desplazamientos se hacen con add y la implementación de add se realiza con el STL copy_backward; ya optimizado; en lugar de un for loop para copiar los elementos a la derecha.
+4. print_location nos indica mejor el mapeo entre indice lógico a bloque y offset.
+5. El observable size nos permite saber cuándo capacity crece, cuando size = capacity, lo que hace internamente insert es llamar expand para duplicar el valor de capacity actual. remove también llama a una función que altera capacity; shrink; pero nunca se activa ya que no cumple la condición.
+6. El demo nos muestra como el STL vector realiza el redimensionamiento cuando se cumple la misma condición que en DengVector, si size=capacity, entonces duplica el valor de capacity.
+7. demo_arraystack_explicado muestra mejor el costo amortizado de los desplazamientos y demo_deng_vector muestra mejor el cambio del espacio físico cuando cambia size.
 
+### Bloque 3
+
+1. La prueba pública valida las operaciones add, size, get y remove de ArrayStack.
+2. 
