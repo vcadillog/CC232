@@ -33,6 +33,14 @@ victor@victor-desktop:~/clases/algoritmos/CC232-pc/semana2$ ./build/sem2_test_pu
 
 ### Bloque 2
 
+TODO: Agregar tabla
+Construyan una tabla con cuatro columnas:
+
+- Archivo
+- Salida u observable importante
+- Idea estructural
+- Argumento de costo o espacio
+
 1. La longitud del array se declara al momento de crear el array, y la implementación del array reemplaza la operación de asignación con operator= para primero liberar la memoria asignada al array y sobreescribir la longitud y desreferencia el nuevo array.
 2. Todas las operaciones realizan desplazamientos, push_back llama a add para el elemento final en específico y remove elimina el elemento i y desplaza todo a la izquierda. El que mostraría mejor los desplazamientos sería la operación 3 "add(1,15)" ya que desplaza los elementos a la derecha y luego inserta el valor.
 3. En FastArrayStack los desplazamientos se hacen con add y la implementación de add se realiza con el STL copy_backward; ya optimizado; en lugar de un for loop para copiar los elementos a la derecha.
@@ -43,5 +51,37 @@ victor@victor-desktop:~/clases/algoritmos/CC232-pc/semana2$ ./build/sem2_test_pu
 
 ### Bloque 3
 
-1. La prueba pública valida las operaciones add, size, get y remove de ArrayStack.
-2. 
+1. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en ArrayStack.
+2. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en FastArrayStack.
+3. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en RootishArrayStack.
+4. Demuestra la correctitud de las clases Array.
+5. No garantiza que todas las entradas produzcan una salida correcta.
+6. En la prueba de stress lo que hace es validar que size coincida con la dimension esperada después de redimensionamientos de incremento y eliminación sucesivas.
+7. Porque pasar una prueba solo determina que para una entrada se obtenga la salida esperada, no altera el invariante porque es una propiedad matemática o lógica del problema y la complejidad está relacionada a la implementación de la solución y no al resultado.
+
+### Bloque 4
+
+1. _size nos indica el espacio lógico usado por el array, _capacity nos indica el espacio físico reservado para el array y _elem es un array que almacena los valores del array.
+2. expand se ejecuta cuando _size==_capacity.
+3. Insert necesita desplazar elementos porque cuando se inserta un valor este ocupa un espacio del array y si no es un valor al final del array, tiene que sobreescribir los valores contiguos del array con el valor anterior para insertar un valor en el espacio deseado.
+4. La función sobrecargada con los argumentos lo y hi elimina los valores del tramo [lo,hi] del array, mientras que la función con un solo argumento r elimina solo el valor en la posición r del array, esto lo hace llamando a la función sobrecargada solo que en un tramo [r,r+1], al hacer las eliminaciones se desplaza y reduce el array.
+5. La evidencia de copia profunda se da porque al escribir los valores de copia nos da los valores después de sumarle 1, mientras que asignado no fue modificado por esa suma más 1 y nos retornó lo almacenado anteriormente multiplicado por 2. 
+6. traverse es una buena función didáctica porque nos permite aplicar cualquier tipo de función a todos los elementos que contiene el array sin modificar el ADT.
+7. Nos permite entender el funcionamiento interno, manejo de recursos y control de un array.
+
+### Bloque 5
+
+1. La representación del array se hace en pequeños sub arrays que van tomando tamaños de forma creciente (bloques) y se asignan los elementos del array en los bloques de forma contigua.
+2. Porque los bloques aumentan de tamaño en forma de una sucesión de 1 a r que incrementa en uno y la suma total de la sucesión se calcula como r*(r+1)/2.
+3. i2b nos permite determinar a que bloque pertenece el elemento i del array.
+4. locate nos retorna un par que indica el número del bloque y el indice respecto al bloque que tiene el elemento de indice i del array.
+5. ArrayStack puede tener hasta un espacio reservado igual al doble a lo requerido, mientras que RootishArrayStack solo tendrá un bloque de tamaño r libre como máximo, de la fórmula r*(r+1)/2 = n, siendo n el espacio total reservado, de la fórmula se puede ver que se gana en espacio cuando la cantidad de bloques es mayor a 3 o un espacio reservado mayor igual a 10.
+6. Se mantiene size, get, set, add, remove y clear.
+7. En lo personal es más complicado defender el mapeo debido a la cantidad de fórmulas a recordar que se usa para convertir los índices lógicos a índice de bloque.
+
+### Bloque 6
+
+1. operator[] sobreescribe la operación de obtención de elemento por índice [] y nos permite hacer un assert que verifique que el ingreso del índice sea válido, solo se permite valores positivos y menores a _size.
+2. find(e) busca elementos igual a e desde el último elemento en el array (indice _size) hacia atrás y si lo encuentra nos retorna el índice y si no nos retorna -1. Si hay más de dos elementos iguales nos retorna la primera coincidencia desde el final del array.
+3. traverse aplica la misma función sobre cada uno de los elementos del array.
+4. 
