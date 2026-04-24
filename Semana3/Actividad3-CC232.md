@@ -65,3 +65,26 @@ Luego respondan:
 6. En `demo_min_structures.cpp`, ¿qué diferencia conceptual observan entre almacenar valores y almacenar información adicional para responder `min()`?
 7. En `demo_linked_adapters.cpp`, ¿qué adaptador representa mejor la idea de reutilizar una estructura existente para ofrecer una interfaz nueva?
 8. En `demo_contiguous_vs_linked.cpp`, ¿qué contraste se observa entre acceso por índice, inserción local y localidad de memoria?
+
+### Bloque 3
+
+1. Valida size, peek, pop y remove.
+
+2. Valida size, get y remove.
+
+3. Valida size, get y remove.
+
+4. 
+ -Para SLList  valida to_vector, secondLast, checkSize. 
+ -Para DLList  valida to_vector, isPalindrome, checkSize.
+ -Para MinStack min y pop.
+ -Para MinQueue min, remove y front.
+ -Para MinDeque min, back, removeLast y front.
+ -Para XorList to_vector.
+
+5. ¿Qué valida específicamente `test_public_linked_adapters.cpp` sobre `LinkedStack`, `LinkedQueue` y `LinkedDeque`?
+6. ¿Qué demuestra `test_public_deng_bridge.cpp` sobre integración y reutilización?
+7. En `stress_selist_week3.cpp`, ¿qué comportamiento intenta estresar sobre crecimiento, borrado y mantenimiento del tamaño lógico?
+8. ¿Qué sí demuestra una prueba pública sobre una estructura enlazada?
+9. ¿Qué no demuestra una prueba pública por sí sola?
+10. ¿Por qué pasar pruebas no reemplaza una explicación de invariantes, punteros y complejidad?
