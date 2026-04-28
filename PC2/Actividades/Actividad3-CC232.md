@@ -26,9 +26,7 @@
 | `demo_capitulo3_panorama.cpp` | SLList size = 3, peek = 0, DLList: 10 20 30, SEList: 8 6 7, LinkedStack top = 200, LinkedQueue front = 11, LinkedDeque front/back = 5/9, ArrayDeque first/last = 4/6 | Recopilación de estructuras estudiadas| Permite comparar principalmente inserciones |
 | `demo_min_structures.cpp` | MinStack min=3 top=7, MinQueue min=2 front=4, MinDeque min=1 front=3 back=1 | Estructuras que almacenan el mínimo | Permite obtener el mínimo en O(1) |
 | `demo_xor_list.cpp` | XorList: 5 10 20, front=5 back=20 | Lista enlazada con operaciones XOR | Comprime el espacio de dos punteros a la mitad usando XOR entre el sucesor y anterior |
-| `demo_linked_adapters.cpp` | LinkedStack: top() = 30, pop() = 30, top() = 20, size() = 2 | Adaptadores de estructuras enlazadas | Reutiliza una estructura base para crear una interfaz con operaciones más concretas|
-| ^ | LinkedQueue: front() = 1, remove() = 1, front() = 2, size() = 2| ^ | ^ |
-| ^ | LinkedDeque: front() = 10, back() = 40, removeFirst() = 10, removeLast() = 40, front() = 20, back() = 30, size() = 2| ^ | ^ |
+| `demo_linked_adapters.cpp`| LinkedStack: top() = 30, pop() = 30, top() = 20, size() = 2<br>LinkedQueue: front() = 1, remove() = 1, front() = 2, size() = 2<br>LinkedDeque: front() = 10, back() = 40, removeFirst() = 10, removeLast() = 40, front() = 20, back() = 30, size() = 2| Adaptadores de estructuras enlazadas | Reutiliza una estructura base para crear una interfaz con operaciones más concretas|
 | `demo_contiguous_vs_linked.cpp` | FIFO: front/remove:1/1, Deque: first/last: a/d, Acceso por indice: get(4) = 40 | Contraste entre estructuras contiguas y enlazadas | El acceso por índice es O(1) en contiguo y O(n) en enlazado, la inserción local es O(n) en contiguo y O(1) en enlazado |
 
 
