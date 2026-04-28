@@ -44,16 +44,20 @@
 2. Valida size, get y remove.
 3. Valida size, get y remove.
 4. 
- -Para SLList  valida to_vector, secondLast, checkSize. 
- -Para DLList  valida to_vector, isPalindrome, checkSize.
- -Para MinStack min y pop.
- -Para MinQueue min, remove y front.
- -Para MinDeque min, back, removeLast y front.
- -Para XorList to_vector.
+ - Para SLList  valida to_vector, secondLast, checkSize. 
+ - Para DLList  valida to_vector, isPalindrome, checkSize.
+ - Para MinStack min y pop.
+ - Para MinQueue min, remove y front.
+ - Para MinDeque min, back, removeLast y front.
+ - Para XorList to_vector.
+5. 
+ - Para LinkedStack valida empty, size, top y pop.
+ - Para LinkedQueue valida empty, size, front y remove.
+ - Para LinkedDeque valida empty, size, front, back, removeFirst y removeLast.
+6. Valida que se puede convertir un DLList a un equivalente en DengList sin modificar las estructuras base.  
+7. En stress_selist_week3 se intenta estresar el comportamiento de crecimiento al insertar elementos hasta llenar un bloque y forzar la creación de un nuevo nodo, el comportamiento de borrado al eliminar elementos para vaciar bloques y nodos, y el mantenimiento del tamaño lógico al verificar que el tamaño final coincida con el número de elementos insertados y eliminados.
+8. Las pruebas públicas demuestran que las implemenentaciones de las estructuras enlazadas tienen el resultado esperado.
+9. Las pruebas públicas no pueden demostrar que todas las entradas den una salida correcta, pueden existir casos borde que no cumplan con lo esperado.
+10. Porque pasar pruebas solo demuestra que la implementación funciona para los casos de prueba específicos e invariantes y complejida siguen ideas de diseño teóricas.
 
-5. ¿Qué valida específicamente `test_public_linked_adapters.cpp` sobre `LinkedStack`, `LinkedQueue` y `LinkedDeque`?
-6. ¿Qué demuestra `test_public_deng_bridge.cpp` sobre integración y reutilización?
-7. En `stress_selist_week3.cpp`, ¿qué comportamiento intenta estresar sobre crecimiento, borrado y mantenimiento del tamaño lógico?
-8. ¿Qué sí demuestra una prueba pública sobre una estructura enlazada?
-9. ¿Qué no demuestra una prueba pública por sí sola?
-10. ¿Por qué pasar pruebas no reemplaza una explicación de invariantes, punteros y complejidad?
+
