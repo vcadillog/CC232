@@ -94,14 +94,14 @@ Revisen:
 
 Respondan:
 
-1. ¿Cómo reutiliza `LinkedStack` a `SLList`?
-2. ¿Cómo reutiliza `LinkedQueue` a `SLList`?
-3. ¿Por qué `LinkedDeque` se construye naturalmente sobre `DLList` y no sobre `SLList`?
-4. En `MinStack`, ¿por qué cada entrada guarda el valor y el mínimo acumulado?
-5. En `MinQueue`, ¿por qué usar dos pilas permite mantener semántica FIFO y consulta de mínimo?
-6. En `MinDeque`, ¿qué problema resuelve el rebalanceo entre `front_` y `back_`?
-7. Comparen "implementar una estructura" y "adaptar una estructura existente" usando ejemplos de este bloque.
-8. ¿Qué operaciones pueden defender como constantes y cuáles deben defender como amortizadas?
+1. LinkedStack usa un objeto SLList para almacenar los elementos de la pila. Las operaciones de pila como push, pop y top se implementan utilizando de SLList push, pop y peek.
+2. LinkedQueue usa un objeto SLList para almacenar los elementos de la cola. Las operaciones de cola como add, remove y front se implementan utilizando de SLList add, remove y peek.
+3. LinkedDeque se construye naturalmente sobre DLList porque una deque requiere operaciones eficientes en ambos extremos a la vez, y DLList permite insertar y eliminar elementos tanto al inicio como al final eficientemente, mientras que SLList solo permite operaciones eficientes en un extremo.
+4. MinStack guarda el mínimo acumulado al hacer push en cada entrada para que al hacer pop, el mínimo se actualice automáticamente, lo que permite obtener el mínimo en O(1).
+5. MinQueue mantiene dos pilas, una para el front y otra para el tail. Al agregar elementos, se insertan en tail y se eliminan por el front. Para mantener FIFO, cuando la pila de front está vacía, se transfieren todos los elementos de la pila de tail a la pila de front, invirtiendo el orden para eliminar el elemento más antiguo. Para mantener la consulta de mínimo, cada pila mantiene su propio mínimo acumulado, y el mínimo total se obtiene comparando los mínimos de las pilas.
+6. MinDeque mantiene dos pilas, una para el front y otra para el back. El rebalanceo entre front_ y back_ se hace cuando una de las pilas se queda vacía. En ese caso, se transfieren elementos de la pila no vacía a la pila vacía para mantener la funcionalidad de deque, para que la inserción y eliminación sigan siendo eficientes. 
+7. Implementar una estructura como MinDeque requiere diseñar una nueva estructura que almacene información adicional para mantener el mínimo, mientras que adaptar una estructura existente como LinkedStack implica reutilizar la lógica de SLList para implementar la funcionalidad de pila sin modificar la estructura base.
+8. Las operaciones de push, pop, add, remove, front, back, removeFirst y removeLast pueden defenderse como O(1) para LinkedStack, LinkedQueue y LinkedDeque. En MinQueue y MinDeque, las operaciones de front, remove, back, removeFirst y removeLast el rebalanceo puede ser O(n) en el peor caso, pero es amortizado O(1) porque ocurre con poca frecuencia.
 
 #### Bloque 6 - Deng como refuerzo algorítmico y puente de integración
 
