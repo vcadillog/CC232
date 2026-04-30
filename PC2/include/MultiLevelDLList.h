@@ -1,15 +1,20 @@
 #pragma once
 #include "DLList.h"
+#include <iostream>
 #include <string>
 #include <unordered_map>
+
+const int mMax = 1000;
 
 namespace ods {
 
 template <class T> class MultiLevelDLList : public DLList<T> {
 protected:
+  int m;
   using Node = typename DLList<T>::Node;
 
   std::unordered_map<Node *, MultiLevelDLList<T> *> children;
+  MultiLevelDLList<T> *parent = nullptr;
 
   MultiLevelDLList<T> *getChild(Node *u) const {
     auto it = children.find(u);
@@ -17,7 +22,33 @@ protected:
   }
 
 public:
-  MultiLevelDLList() : DLList<T>() {}
+  MultiLevelDLList() : DLList<T>(), m(0) {}
+
+  void incrementUp(int k = 1) {
+    MultiLevelDLList<T> *p = this;
+    while (p != nullptr) {
+      p->m += k;
+      p = p->parent;
+    }
+  }
+
+  void decrementUp(int k) {
+    MultiLevelDLList<T> *p = this;
+    while (p != nullptr) {
+      p->m -= k;
+      p = p->parent;
+    }
+  }
+  void add(int i, const T &x) {
+    assert(0 <= i && i <= mMax);
+    DLList<T>::add(i, x);
+    incrementUp(1);
+  }
+
+  void add(const T &x) {
+    DLList<T>::add(this->n, x);
+    incrementUp(1);
+  }
 
   MultiLevelDLList<T> *addChild(int i) {
     Node *u = this->getNode(i);
@@ -27,6 +58,7 @@ public:
     }
 
     auto *child = new MultiLevelDLList<T>();
+    child->parent = this;
     children[u] = child;
 
     return child;
@@ -35,9 +67,11 @@ public:
   bool hasChild(int i) { return getChild(this->getNode(i)) != nullptr; }
 
   void removeNode(Node *w) {
-    MultiLevelDLList<T> *child = getChild(w);
+    int removed = 1;
 
+    MultiLevelDLList<T> *child = getChild(w);
     if (child != nullptr) {
+      removed += child->m; // todo el subárbol
       delete child;
       children.erase(w);
     }
@@ -46,31 +80,58 @@ public:
     w->next->prev = w->prev;
     delete w;
     this->n--;
-  }
 
+    decrementUp(removed);
+  }
   T remove(int i) {
     Node *w = this->getNode(i);
     T x = w->x;
     removeNode(w);
     return x;
   }
+  int size() const { return m; }
 
-  int sizeDeep() const {
+  bool checkSize() const {
     int total = 0;
 
-    Node *u = this->dummy.next;
-    while (u != &this->dummy) {
-      total++;
+    struct StackNode {
+      const MultiLevelDLList<T> *list;
+      StackNode *next;
+    };
 
-      MultiLevelDLList<T> *child = getChild(u);
-      if (child != nullptr) {
-        total += child->sizeDeep();
+    StackNode *stack = new StackNode{this, nullptr};
+
+    while (stack != nullptr) {
+      const MultiLevelDLList<T> *list = stack->list;
+      StackNode *tmp = stack;
+      stack = stack->next;
+      delete tmp;
+
+      total += list->n;
+
+      Node *u = list->dummy.next;
+      while (u != &list->dummy) {
+
+        auto it = list->children.find(u);
+        if (it != list->children.end()) {
+          stack = new StackNode{it->second, stack};
+        }
+
+        u = u->next;
       }
-
-      u = u->next;
     }
 
-    return total;
+    return total == m;
+  }
+  void clear() {
+    // borrar children primero
+    for (auto &p : children) {
+      delete p.second;
+    }
+    children.clear();
+
+    DLList<T>::clear();
+    m = 0;
   }
 
   void flatten(std::vector<T> &result) const {

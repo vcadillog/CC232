@@ -29,11 +29,12 @@ int main() {
     child2->add(11);
     child2->add(12);
   }
-  std::cout << list.sizeDeep() << " elementos en total\n";
+  std::cout << list.size() << " nodos en total\n";
+  std::cout << list.checkSize() << " checkSize\n";
 
   auto *failChild = list.addChild(2);
   if (failChild == nullptr) {
-    std::cout << "Restricción OK: no duplicó child\n";
+    std::cout << "Restricción: no duplicó child\n";
   }
 
   std::vector<int> result = list.flatten();
@@ -50,6 +51,8 @@ int main() {
   std::cout << "Resultado: " << (ok? "Correcto" : "Fallo") << "\n";
 
   list.remove(2); 
+  std::cout << list.size() << " nodos en total\n";
+  std::cout << list.checkSize() << " checkSize\n";
 
   auto result2 = list.flatten();
 
@@ -75,6 +78,9 @@ int main() {
 
   list2.buildFromString(input);
 
+  std::cout << list2.size() << " nodos en total\n";
+  std::cout << list2.checkSize() << " checkSize\n";
+
   std::vector<int> result3 = list2.flatten();
 
   std::cout << "Flatten: ";
@@ -85,6 +91,11 @@ int main() {
 
   bool ok3 = (result3 == expected);
   std::cout << "Resultado: " << (ok3? "Correcto" : "Fallo") << "\n";
+
+  list2.clear();
+  std::cout << list2.size() << " nodos en total\n";
+  std::cout << list2.checkSize() << " checkSize\n";
+
 
   return 0;
 }
