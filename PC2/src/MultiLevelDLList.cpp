@@ -142,11 +142,11 @@ void MultiLevelDLList<T>::clear() {
 }
 
 template<class T>
-void MultiLevelDLList<T>::flatten(std::vector<T>& result) const {
+void MultiLevelDLList<T>::flatten(DLList<T>& result) const {
     Node* u = this->dummy.next;
 
     while (u != &this->dummy) {
-        result.push_back(u->x);
+        result.add(u->x);
 
         if (auto* child = getChild(u)) {
             child->flatten(result);
@@ -157,8 +157,8 @@ void MultiLevelDLList<T>::flatten(std::vector<T>& result) const {
 }
 
 template<class T>
-std::vector<T> MultiLevelDLList<T>::flatten() const {
-    std::vector<T> res;
+DLList<T> MultiLevelDLList<T>::flatten() const {
+    DLList<T> res;
     flatten(res);
     return res;
 }

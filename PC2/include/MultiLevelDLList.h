@@ -41,8 +41,8 @@ public:
 
     void clear();
 
-    void flatten(std::vector<T>& result) const;
-    std::vector<T> flatten() const;
+    void flatten(DLList<T>& result) const;
+    DLList<T> flatten() const;
 
     std::vector<std::string> parse(const std::string& s);
     MultiLevelDLList<T>& buildFromString(const std::string& input);

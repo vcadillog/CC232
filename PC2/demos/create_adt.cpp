@@ -1,15 +1,12 @@
 #include "MultiLevelDLList.h"
 #include <iostream>
-#include <vector>
 
 using namespace ods;
-
 
 int main() {
 
   MultiLevelDLList<int> list;
 
-  // Nivel 0: [1,2,3,4,5,6]
   for (int i = 1; i <= 6; i++) {
     list.add(i);
   }
@@ -29,49 +26,40 @@ int main() {
     child2->add(11);
     child2->add(12);
   }
+  std::cout << "Creación manual del DLList multinivel\n";
   std::cout << list.size() << " nodos en total\n";
-  std::cout << list.checkSize() << " checkSize\n";
+  std::cout << "\n";
 
-  auto *failChild = list.addChild(2);
-  if (failChild == nullptr) {
-    std::cout << "Restricción: no duplicó child\n";
+  std::cout << "Agregado un hijo en el nodo 2\n";
+  if (list.addChild(2) == nullptr) {
+    std::cout << "Restricción: no creó child\n";
   }
+  std::cout << "\n";
 
-  std::vector<int> result = list.flatten();
+  DLList<int> result = list.flatten();
 
   std::cout << "Flatten: ";
-  for (int x : result) {
-    std::cout << x << " ";
+  for (int i = 0; i < result.size(); i++) {
+    std::cout << result.get(i) << " ";
   }
-  std::cout << "\n";
+  std::cout << "\n\n";
 
-  std::vector<int> expected = {1, 2, 3, 7, 8, 11, 12, 9, 10, 4, 5, 6};
+  std::cout << "Eliminando el nodo padre 2\n";
+  list.remove(2);
 
-  bool ok = (result == expected);
-  std::cout << "Resultado: " << (ok? "Correcto" : "Fallo") << "\n";
+  std::cout << list.size() << " nodos en total\n\n";
 
-  list.remove(2); 
-  std::cout << list.size() << " nodos en total\n";
-  std::cout << list.checkSize() << " checkSize\n";
-
-  auto result2 = list.flatten();
+  DLList<int> result2 = list.flatten();
 
   std::cout << "Después de remove(2): ";
-  for (int x : result2) {
-    std::cout << x << " ";
+  for (int i = 0; i < result2.size(); i++) {
+    std::cout << result2.get(i) << " ";
   }
-  std::cout << "\n";
+  std::cout << "\n\n";
 
-  // esperado: 1 2 4 5 6
-  std::vector<int> expected2 = {1, 2, 4, 5, 6};
-
-  bool ok2 = (result2 == expected2);
-  std::cout << "Resultado: " << (ok2? "Correcto" : "Fallo") << "\n";
-
+  std::cout << "Creación con del DLList multinivel usando un string\n";
   std::string input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]";
-  //std::string input = "[1,2,3,4,5,6,7,null,null,null,null,null,8,9,10,11,null,null,12,13]";
-  //std::string input = "[1,2,null,3]";
-  //std::string input = "[]";
+
   std::cout << "Input: " << input << "\n";
 
   MultiLevelDLList<int> list2;
@@ -79,23 +67,18 @@ int main() {
   list2.buildFromString(input);
 
   std::cout << list2.size() << " nodos en total\n";
-  std::cout << list2.checkSize() << " checkSize\n";
 
-  std::vector<int> result3 = list2.flatten();
+  DLList<int> result3 = list2.flatten();
 
   std::cout << "Flatten: ";
-  for (int x : result3) {
-    std::cout << x << " ";
+  for (int i = 0; i < result3.size(); i++) {
+    std::cout << result3.get(i) << " ";
   }
-  std::cout << "\n";
+  std::cout << "\n\n";
 
-  bool ok3 = (result3 == expected);
-  std::cout << "Resultado: " << (ok3? "Correcto" : "Fallo") << "\n";
-
+  std::cout << "Limpiando los nodos\n";
   list2.clear();
-  std::cout << list2.size() << " nodos en total\n";
-  std::cout << list2.checkSize() << " checkSize\n";
-
+  std::cout << list2.size() << " nodos en total\n\n";
 
   return 0;
 }
