@@ -4,29 +4,6 @@
 
 using namespace ods;
 
-std::vector<std::string> parse(const std::string &s) {
-  std::vector<std::string> result;
-  std::string token;
-
-  for (char c : s) {
-    if (c == '[' || c == ']')
-      continue;
-
-    if (c == ',') {
-      if (!token.empty()) {
-        result.push_back(token);
-        token.clear();
-      }
-    } else if (!isspace(c)) {
-      token += c;
-    }
-  }
-
-  if (!token.empty())
-    result.push_back(token);
-
-  return result;
-}
 
 int main() {
 
@@ -92,16 +69,11 @@ int main() {
   //std::string input = "[1,2,3,4,5,6,7,null,null,null,null,null,8,9,10,11,null,null,12,13]";
   //std::string input = "[1,2,null,3]";
   //std::string input = "[]";
-
-  auto tokens = parse(input);
-  for (const auto &t : tokens) {
-    std::cout << t << " ";
-  }
-  std::cout << "\n";
+  std::cout << "Input: " << input << "\n";
 
   MultiLevelDLList<int> list2;
 
-  list2.buildFromString(tokens);
+  list2.buildFromString(input);
 
   std::vector<int> result3 = list2.flatten();
 

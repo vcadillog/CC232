@@ -23,7 +23,7 @@ public:
     Node *u = this->getNode(i);
 
     if (getChild(u) != nullptr) {
-      return nullptr; 
+      return nullptr;
     }
 
     auto *child = new MultiLevelDLList<T>();
@@ -93,19 +93,44 @@ public:
     flatten(res);
     return res;
   }
-  MultiLevelDLList<T> &buildFromString(const std::vector<std::string> &input) {
+
+  std::vector<std::string> parse(const std::string &s) {
+    std::vector<std::string> result;
+    std::string token;
+
+    for (char c : s) {
+      if (c == '[' || c == ']')
+        continue;
+
+      if (c == ',') {
+        if (!token.empty()) {
+          result.push_back(token);
+          token.clear();
+        }
+      } else if (!isspace(c)) {
+        token += c;
+      }
+    }
+
+    if (!token.empty())
+      result.push_back(token);
+
+    return result;
+  }
+  MultiLevelDLList<T> &buildFromString(const std::string &input) {
+    std::vector<std::string> input_parsed = parse(input);
     this->clear();
     if (input.empty())
       return *this;
 
     int i = 0;
 
-    while (i < input.size() && input[i] != "null") {
-      this->add(std::stoi(input[i]));
+    while (i < input_parsed.size() && input_parsed[i] != "null") {
+      this->add(std::stoi(input_parsed[i]));
       i++;
     }
 
-    i++; 
+    i++;
 
     std::vector<std::pair<MultiLevelDLList<T> *, int>> stack;
 
@@ -113,15 +138,15 @@ public:
       stack.push_back({this, j});
     }
 
-    while (!stack.empty() && i < input.size()) {
+    while (!stack.empty() && i < input_parsed.size()) {
 
       auto [list, idx] = stack.back();
       stack.pop_back();
 
-      if (i >= input.size())
+      if (i >= input_parsed.size())
         break;
 
-      if (input[i] == "null") {
+      if (input_parsed[i] == "null") {
         i++;
         continue;
       }
@@ -130,8 +155,8 @@ public:
 
       std::vector<int> values;
 
-      while (i < input.size() && input[i] != "null") {
-        values.push_back(std::stoi(input[i]));
+      while (i < input_parsed.size() && input_parsed[i] != "null") {
+        values.push_back(std::stoi(input_parsed[i]));
         i++;
       }
 
@@ -143,8 +168,8 @@ public:
         stack.push_back({child, j});
       }
 
-      if (i < input.size())
-        i++; 
+      if (i < input_parsed.size())
+        i++;
     }
 
     return *this;
