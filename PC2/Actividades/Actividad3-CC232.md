@@ -135,7 +135,6 @@
 
 5. Porque el benchmark mide el rendimiento en casos específicos y puede no reflejar el rendimiento general en todos los escenarios posibles.
 6. XorList demuestra como usando XOR puede reducir el espacio utilizado por los punteros al comprimir un puntero como referencia a sus punteros sucesor y anterior.
-7. ¿Qué desventaja práctica introduce una estructura como `XorList` aunque sea interesante desde el punto de vista del espacio?.
 7. La desventaja práctica de XorList es que el acceso a los elementos se vuelve más complejo y costoso, ya que para acceder a un nodo específico se necesita descomprimir el puntero sucesor y anterior.
 
 #### Bloque 8 - Cierre comparativo y preparación de sustentación
