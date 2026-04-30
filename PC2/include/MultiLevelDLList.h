@@ -46,6 +46,8 @@ public:
 
     std::vector<std::string> parse(const std::string& s);
     MultiLevelDLList<T>& buildFromString(const std::string& input);
+
+    void print() const;
 };
 
 } // namespace ods

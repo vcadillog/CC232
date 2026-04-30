@@ -27,6 +27,7 @@ int main() {
     child2->add(12);
   }
   std::cout << "Creación manual del DLList multinivel\n";
+  list.print();
   std::cout << list.size() << " nodos en total\n";
   std::cout << "\n";
 
@@ -47,6 +48,7 @@ int main() {
   std::cout << "Eliminando el nodo padre 2\n";
   list.remove(2);
 
+  list.print();
   std::cout << list.size() << " nodos en total\n\n";
 
   DLList<int> result2 = list.flatten();
@@ -58,13 +60,15 @@ int main() {
   std::cout << "\n\n";
 
   std::cout << "Creación con del DLList multinivel usando un string\n";
-  std::string input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]";
+  //std::string input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]";
+  std::string input = "[1,2,3,4,5,6,null,null,null,null,7,8,9,10,null,null,null,11,12,13,14]";
 
   std::cout << "Input: " << input << "\n";
 
   MultiLevelDLList<int> list2;
 
   list2.buildFromString(input);
+  list2.print();
 
   std::cout << list2.size() << " nodos en total\n";
 
