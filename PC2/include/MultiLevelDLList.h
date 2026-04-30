@@ -71,7 +71,7 @@ public:
 
     MultiLevelDLList<T> *child = getChild(w);
     if (child != nullptr) {
-      removed += child->m; // todo el subárbol
+      removed += child->m;
       delete child;
       children.erase(w);
     }
@@ -84,6 +84,7 @@ public:
     decrementUp(removed);
   }
   T remove(int i) {
+    assert(0 <= i && i < this->n);
     Node *w = this->getNode(i);
     T x = w->x;
     removeNode(w);
@@ -124,7 +125,6 @@ public:
     return total == m;
   }
   void clear() {
-    // borrar children primero
     for (auto &p : children) {
       delete p.second;
     }
