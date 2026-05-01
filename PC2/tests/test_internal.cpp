@@ -27,6 +27,11 @@ int main() {
     child2->add(12);
   }
 
+  std::string input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]";
+  MultiLevelDLList<int> list2;
+  list2.buildFromString(input);
+  assert(list == list2);
+
   assert(list.checkSize());
   DLList<int> result = list.flatten();
 
@@ -65,7 +70,7 @@ int main() {
   assert(list.checkSize());
 
   list.clear();
-  std::string input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12,"
+  input = "[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12,"
                       "null,13,14,15,null,null,16,17,"
                       "null,18,19,null,null,20,21]";
   list.buildFromString(input);
