@@ -37,12 +37,6 @@
  - 43. Porque los costos se vuelven exponenciales, ya sean temporales o memoria, aunque las capacidades de memoria sean grandes ahora, los límites temporales no podrían ser asumidas.
  - 44. La jerarquía de complejidades se refiere a la clasificación de algoritmos según su crecimiento asintótico. A medida que la complejidad aumenta, el costo de ejecución también lo hace.
 
-5. Usen la rúbrica para autoevaluarse en:
-
-   * comprensión conceptual,
-   * sustentación de correctitud,
-   * análisis de eficiencia.
-
 ## BLOQUE 4
 
 1. demo_const_refs.cpp trabaja con un vector de enteros, hace una suma de sus valores después de leerlos y agrega un valor directamente o sobre una copia del mismo.
@@ -52,31 +46,22 @@
 
 ## BLOQUE 5
 
-Revisen:
-
-* `Ejercicios0.md`
-* `INSTRUCCIONES_Ejercicios0_v4.2.md`
-* `stl_optimizacion_demostracion.cpp`
-* `resolver_ejercicios0_v4.2.sh`
-
-Respondan:
-
-1. Según `Ejercicios0.md`, ¿cuál es el orden correcto antes de optimizar?
-2. ¿Qué quiere mostrar `stl_optimizacion_demostracion.cpp` con `reserve`, `nth_element`, `partial_sort` y `lower_bound`?
-3. ¿Qué tipo de evidencia puede producir `resolver_ejercicios0_v4.2.sh`?
-4. ¿Qué limitaciones de entorno menciona `INSTRUCCIONES_Ejercicios0_v4.2.md`?
-5. ¿Por qué esta parte no reemplaza la discusión de correctitud de Semana1?
+1. Elegir el algoritmo adecuado, verificar que el programa sea correcto y luego medir el rendimiento.
+2. reserve evita múltiples copias, nth_element que no siempre es necesario reordenar, partial_sort que solo importan los primeros k elementos y lower_bound permite hacer consultas con bajo costo en un vetor ordenado.
+3. Produce evidencia cuantitativa sobre las optimizaciones, sanitazers para evaluar rendimiento y correctitud. 
+4. El entorno de desarrollo puede tener limitaciones sobre sanitizers y profiling, al no generar las salidas deseadas o requerir mucho más ajuste.
+5. Porque se analiza los comportamientos de forma cuantitativa, no una demostración formal de que los algortimos son correctos.
 
 ## BLOQUE 6
 
-Respondan esta pregunta final:
+Se pasa de demostrar que una solución es correcta, a comparar soluciones correctas usando evidencia empírica para decidir la más eficiente.
+- La especificación se usa como referencia en la comparación de diferentes implementaciones.
+- La correctitud se demuestra mediante invariantes y demostraciones formales, aquí se usa sanitizers para encontrar evidencia de esa correctitud.
+- El costo pasa de un análisis teórico a uno práctico a través de benchmarks.
+- Se observa como la representación de memoria de estructuras como vectores impactan en el redimiento de una implementación.
+- La advertencia metodológica nos menciona que el entorno de trabajo puede alterar la respuesta al no generar reportes reproducibles en otros entornos.
 
-**¿Qué cambia cuando pasamos de defender correctitud básica en Semana1 a comparar implementaciones con evidencia experimental?**
-
-La respuesta debe incluir obligatoriamente:
-
-* una afirmación de especificación,
-* una afirmación de correctitud,
-* una afirmación de costo,
-* una afirmación de representación o memoria,
-* una advertencia metodológica.
+#### Autoevaluación breve
+- Qué podemos defender con seguridad: Podemos identificar el costo de un algoritmo, la correctitud.
+- Qué todavía confundimos: No identificar bien la diferencia entre tamaño de entrada y valor numérico.
+- Qué evidencia usaríamos en una sustentación: Observables, comparaciones y benchmarks.
