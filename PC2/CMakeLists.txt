@@ -21,4 +21,8 @@ target_link_libraries(pc2_demo_create_adt PRIVATE algorithms)
 add_executable(test_internal "tests/test_internal.cpp")
 target_link_libraries(test_internal PRIVATE algorithms)
 
+add_executable(edge_cases "tests/edge_cases.cpp")
+target_link_libraries(edge_cases PRIVATE algorithms)
+
 add_test(NAME pc2_test_internal COMMAND test_internal)
+add_test(NAME pc2_edge_cases COMMAND edge_cases)
