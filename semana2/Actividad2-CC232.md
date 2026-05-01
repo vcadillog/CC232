@@ -1,226 +1,83 @@
-### Actividad 2 - Semana 2
+### Integrantes: 
+- Victor Hugo Cadillo Gutierrez, 20255514D
 
-- Duración: 3 horas de clase.
-- Modalidad: Trabajo en parejas.
-- Tiempo de instalación: 15 minutos al inicio.
-- Entrega: Un archivo llamado `actividad2_semana2.md`.
+### Bloque 1
 
-#### Objetivo
+1. Memoria contigua es cuando el uso de la memoria se hace de forma consecutiva
+2. Acceder a A[i] es de costo O(1) porque es una estructra indexada.
+3. La diferencia entre size y capacity, size toma el espacio usado y capacity es la memoria física reservada.
+4. Porque trabaja con arrays y los arrays tiene un espacio de memoria reservada fijo, entonces no se puede modificar directamente, para redimensionar se tiene que crear un nuevo array y copiar los contenidos del array original.
+5. Porque para agregar un elemento al final solo necesitaría buscar el último elemento con el size y luego insertar el nuevo elemento con size+1.
+6. Hacen cosas similares, pero tienen una interfaz diferente, ambos agregan elementos, los buscan, redimensionan y limpian, pero DengVector implementa funciones más específicas como reducir o aumentar el tamaño o aplicar una función a todos los elementos del arreglo.
+7. FastArrayStack implementa una lógica para agregar o quitar elmentos mediante una copia directa de una porción usando funciones de una librería STL optimizada, copy y copy_backward.
+8. La idea espacial es agregar bloques al final cada vez de el tamaño del bloque final más uno, esto para reducir el uso de memoria con respecto a implementaciones más simples como ArrayStack o FastArrayStack.
+9. El diseño de RootishArrayStack hace que aumenten en 1 cada bloque, para que necesite cada vez menos inserciones de bloques a medida que el arreglo crezca.
+10. Las tres implementaciones tienen el mismo costo temporal, costo amortizado, sin embargo en el caso de ArrayStack y FastArrayStack la implementación usando librerías optimizadas hace que la implementación sea mejor, tienen el mismo costo espacial y el caso de RootishArrayStack tiene un costo espacial menor, porque a diferencia de los otros que duplican el espacio físico rootisharraystack lo hace de manera adaptativa según el tamaño actual del arreglo pero a costo de una mayor complejidad en la implementación.
 
-Consolidar lo trabajado en la Semana 2 a partir de código, demos, pruebas y una defensa escrita breve.
+### Bloque 2
 
-La meta es distinguir con claridad qué aporta la memoria contigua, por qué un arreglo dinámico necesita `resize()`, cómo se justifica el costo amortizado, qué mejora `FastArrayStack` respecto a `ArrayStack`, y por qué `RootishArrayStack` reduce desperdicio espacial sin abandonar la interfaz de lista.
+| Archivo                           | Salida u observable importante                                  | Idea estructural                                                   | Argumento de costo o espacio                                      |
+|----------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|
+| sem2_demo_array_basico           | b = a copia contenido (10 20 30 40 50)                          | Transferencia de ownership en arreglo básico                       | Asignación O(1)                                                   |
+| sem2_demo_arraystack             | remove(1) = 15                                                  | Eliminación de elemento en un arreglo ArrayStack                   | remove(i) cuesta O(n−i) por desplazamientos                       |
+| sem2_demo_arraystack_explicado   | Se insertan o eliminan elementos, capacity crece 1 → 2 → 4      | Redimensionamiento por duplicación                                 | push_back amortizado O(1)                                         |
+| sem2_demo_fastarraystack         | Inserción de elementos: 0 1 2 99 3 4 5                          | Arreglo dinámico similar a ArrayStack con inserción por índice     | add(i,x) cuesta O(n−i) por desplazamientos                        |
+| sem2_demo_rootisharraystack      | remove(3) = 30                                                  | Eliminación de elemento en un arreglo con bloques de tamaño creciente | Espacio desperdiciado O(√n), mejor que arreglos con duplicación de espacio |
+| sem2_demo_rootisharraystack_explicado | Bloques crecen 1,2,3,...                                    | Representación por bloques con conversión de indices/bloques       | Espacio desperdiciado O(√n), mejor que arreglos con duplicación de espacio |
+| sem2_demo_deng_vector            | capacity crece duplicandose según size: 3 → 6 → 12              | Vector dinámico con redimensionamiento                             | Inserciones amortizadas O(1) y otras operaciones O(n)             |
+| sem2_demo_stl_vector_contraste   | capacity crece 1 → 2 → 4 → 8                                    | Vector estándar (duplicación de capacidad)                         | push_back amortizado O(1), hasta la mitad de espacio desperdiciado |
 
-Además, se busca conectar la implementación tipo `Vector` con las estructuras basadas en arreglos vistas en clase. Esto coincide con el enfoque oficial de la semana 2 del curso. :contentReference[oaicite:1]{index=1}
+1. La longitud del array se declara al momento de crear el array, y la implementación del array reemplaza la operación de asignación con operator= para primero liberar la memoria asignada al array y sobreescribir la longitud y desreferencia el nuevo array.
+2. Todas las operaciones realizan desplazamientos, push_back llama a add para el elemento final en específico y remove elimina el elemento i y desplaza todo a la izquierda. El que mostraría mejor los desplazamientos sería la operación 3 "add(1,15)" ya que desplaza los elementos a la derecha y luego inserta el valor.
+3. En FastArrayStack los desplazamientos se hacen con add y la implementación de add se realiza con el STL copy_backward; ya optimizado; en lugar de un for loop para copiar los elementos a la derecha.
+4. print_location nos indica mejor el mapeo entre indice lógico a bloque y offset.
+5. El observable size nos permite saber cuándo capacity crece, cuando size = capacity, lo que hace internamente insert es llamar expand para duplicar el valor de capacity actual. remove también llama a una función que altera capacity; shrink; pero nunca se activa ya que no cumple la condición.
+6. El demo nos muestra como el STL vector realiza el redimensionamiento cuando se cumple la misma condición que en DengVector, si size=capacity, entonces duplica el valor de capacity.
+7. demo_arraystack_explicado muestra mejor el costo amortizado de los desplazamientos y demo_deng_vector muestra mejor el cambio del espacio físico cuando cambia size.
 
-#### Material de trabajo
+### Bloque 3
 
-##### Código de la semana
-- `Semana2/README.md`
-- `Semana2/include/array.h`
-- `Semana2/include/ArrayStack.h`
-- `Semana2/include/ArrayStackExplicado.h`
-- `Semana2/include/FastArrayStack.h`
-- `Semana2/include/RootishArrayStack.h`
-- `Semana2/include/RootishArrayStackExplicado.h`
-- `Semana2/include/DengVector.h`
-- `Semana2/demos/demo_array_basico.cpp`
-- `Semana2/demos/demo_arraystack.cpp`
-- `Semana2/demos/demo_arraystack_explicado.cpp`
-- `Semana2/demos/demo_fastarraystack.cpp`
-- `Semana2/demos/demo_rootisharraystack.cpp`
-- `Semana2/demos/demo_rootisharraystack_explicado.cpp`
-- `Semana2/demos/demo_deng_vector.cpp`
-- `Semana2/demos/demo_stl_vector_contraste.cpp`
-- `Semana2/pruebas_publicas/README.md`
-- `Semana2/pruebas_publicas/test_public_week2.cpp`
-- `Semana2/pruebas_internas/resize_stress_week2.cpp`
-- `Semana2/pruebas_internas/test_internal_week2.cpp`
-- `Semana2/sustentacion/preguntas_semana2.md`
-- `Semana2/sustentacion/rubrica_semana2.md`
+1. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en ArrayStack.
+2. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en FastArrayStack.
+3. La prueba pública valida las operaciones size, get y remove, concuerden con los valores asignados con add en RootishArrayStack.
+4. Demuestra la correctitud de las clases Array.
+5. No garantiza que todas las entradas produzcan una salida correcta.
+6. En la prueba de stress lo que hace es validar que size coincida con la dimension esperada después de redimensionamientos de incremento y eliminación sucesivas.
+7. Porque pasar una prueba solo determina que para una entrada se obtenga la salida esperada, no altera el invariante porque es una propiedad matemática o lógica del problema y la complejidad está relacionada a la implementación de la solución y no al resultado.
 
-#### Lecturas obligatorias
-- **Lectura4-Deng**
-- **Lectura5-Morin**
+### Bloque 4
 
-#### Bloque 0 - Instalación y preparación
+1. _size nos indica el espacio lógico usado por el array, _capacity nos indica el espacio físico reservado para el array y _elem es un array que almacena los valores del array.
+2. expand se ejecuta cuando _size==_capacity.
+3. Insert necesita desplazar elementos porque cuando se inserta un valor este ocupa un espacio del array y si no es un valor al final del array, tiene que sobreescribir los valores contiguos del array con el valor anterior para insertar un valor en el espacio deseado.
+4. La función sobrecargada con los argumentos lo y hi elimina los valores del tramo [lo,hi] del array, mientras que la función con un solo argumento r elimina solo el valor en la posición r del array, esto lo hace llamando a la función sobrecargada solo que en un tramo [r,r+1], al hacer las eliminaciones se desplaza y reduce el array.
+5. La evidencia de copia profunda se da porque al escribir los valores de copia nos da los valores después de sumarle 1, mientras que asignado no fue modificado por esa suma más 1 y nos retornó lo almacenado anteriormente multiplicado por 2. 
+6. traverse es una buena función didáctica porque nos permite aplicar cualquier tipo de función a todos los elementos que contiene el array sin modificar el ADT.
+7. Nos permite entender el funcionamiento interno, manejo de recursos y control de un array.
 
-1. Dejen lista su carpeta de trabajo.
-2. Verifiquen que pueden abrir `Semana2`, las lecturas y el archivo de entrega.
-3. Creen el archivo `actividad2_semana2.md`.
-4. Anoten los nombres de los integrantes.
-5. Compilen y ejecuten al menos una demo y una prueba pública de Semana 2.
+### Bloque 5
 
-#### Bloque 1 - Núcleo conceptual de la semana
+1. La representación del array se hace en pequeños sub arrays que van tomando tamaños de forma creciente (bloques) y se asignan los elementos del array en los bloques de forma contigua.
+2. Porque los bloques aumentan de tamaño en forma de una sucesión de 1 a r que incrementa en uno y la suma total de la sucesión se calcula como r*(r+1)/2.
+3. i2b nos permite determinar a que bloque pertenece el elemento i del array.
+4. locate nos retorna un par que indica el número del bloque y el indice respecto al bloque que tiene el elemento de indice i del array.
+5. ArrayStack puede tener hasta un espacio reservado igual al doble a lo requerido, mientras que RootishArrayStack solo tendrá un bloque de tamaño r libre como máximo, de la fórmula r*(r+1)/2 = n, siendo n el espacio total reservado, de la fórmula se puede ver que se gana en espacio cuando la cantidad de bloques es mayor a 3 o un espacio reservado mayor igual a 10.
+6. Se mantiene size, get, set, add, remove y clear.
+7. En lo personal es más complicado defender el mapeo debido a la cantidad de fórmulas a recordar que se usa para convertir los índices lógicos a índice de bloque.
 
-Revisen:
-- `Semana2/README.md`
-- **Lectura4-Deng**
-- **Lectura5-Morin**
-- `Semana2/include/ArrayStack.h`
-- `Semana2/include/FastArrayStack.h`
-- `Semana2/include/RootishArrayStack.h`
-- `Semana2/include/DengVector.h`
+### Bloque 6
 
-Respondan:
+1. operator[] sobrecarga la operación de obtención de elemento por índice [] y nos permite hacer un assert que verifique que el ingreso del índice sea válido, solo se permite valores positivos y menores a _size.
+2. find(e) busca elementos igual a e desde el último elemento en el array (indice _size) hacia atrás y si lo encuentra nos retorna el índice y si no nos retorna -1. Si hay más de dos elementos iguales nos retorna la primera coincidencia desde el final del array.
+3. traverse aplica la misma función sobre cada uno de los elementos de la estructura.
+4. DengVector implementa la estructura de datos vector según las operaciones definidas en la lectura y aunque no es el tema principal de la semana plantea paralelismos y similitudes con otras estructuras de datos estudiadas.
 
-1. Expliquen con sus palabras qué significa que un arreglo use **memoria contigua**.
-2. Expliquen por qué acceder a `A[i]` es una operación de costo `O(1)`.
-3. Expliquen la diferencia entre `size` y `capacity`.
-4. Expliquen por qué un arreglo dinámico no puede crecer "en el mismo sitio" y necesita reservar un bloque nuevo al hacer `resize()`.
-5. Expliquen por qué duplicar capacidad permite defender costo amortizado `O(1)` para inserciones al final.
-6. Comparen `ArrayStack` y `DengVector`: ¿qué comparten y qué cambia en interfaz o intención didáctica?
-7. Expliquen qué mejora `FastArrayStack` respecto a `ArrayStack`.
-8. Expliquen cuál es la idea espacial central de `RootishArrayStack`.
-9. Expliquen por qué `RootishArrayStack` usa bloques de tamaños `1, 2, 3, ...`.
-10. Expliquen qué relación hay entre representación, costo temporal y desperdicio espacial en estas estructuras.
+### Bloque 7
 
-#### Bloque 2 - Demostración y trazado guiado
-
-Revisen:
-- `Semana2/demos/demo_array_basico.cpp`
-- `Semana2/demos/demo_arraystack.cpp`
-- `Semana2/demos/demo_arraystack_explicado.cpp`
-- `Semana2/demos/demo_fastarraystack.cpp`
-- `Semana2/demos/demo_rootisharraystack.cpp`
-- `Semana2/demos/demo_rootisharraystack_explicado.cpp`
-- `Semana2/demos/demo_deng_vector.cpp`
-- `Semana2/demos/demo_stl_vector_contraste.cpp`
-
-Construyan una tabla con cuatro columnas:
-
-- Archivo
-- Salida u observable importante
-- Idea estructural
-- Argumento de costo o espacio
-
-Luego respondan:
-
-1. En `demo_array_basico.cpp`, ¿qué deja claro sobre arreglo, longitud y asignación?
-2. En `demo_arraystack_explicado.cpp`, ¿qué operación muestra mejor el costo por desplazamientos?
-3. En `demo_fastarraystack.cpp`, ¿qué cambia en la implementación aunque no cambie la complejidad asintótica?
-4. En `demo_rootisharraystack_explicado.cpp`, ¿qué ejemplo explica mejor el mapeo de índice lógico a bloque y offset?
-5. En `demo_deng_vector.cpp`, ¿qué observable permite defender el crecimiento de `capacity`?
-6. En `demo_stl_vector_contraste.cpp`, ¿qué similitud conceptual observan con `DengVector`?
-7. ¿Qué demo sirve mejor para defender **amortización** y cuál sirve mejor para defender **uso de espacio**?
-
-#### Bloque 3-Pruebas públicas, stress y correctitud
-
-Revisen:
-- `Semana2/pruebas_publicas/README.md`
-- `Semana2/pruebas_publicas/test_public_week2.cpp`
-- `Semana2/pruebas_internas/test_internal_week2.cpp`
-- `Semana2/pruebas_internas/resize_stress_week2.cpp`
-
-Respondan:
-
-1. ¿Qué operaciones mínimas valida la prueba pública para `ArrayStack`?
-2. ¿Qué operaciones mínimas valida la prueba pública para `FastArrayStack`?
-3. ¿Qué operaciones mínimas valida la prueba pública para `RootishArrayStack`?
-4. ¿Qué sí demuestra una prueba pública sobre una estructura?
-5. ¿Qué no demuestra una prueba pública?
-6. En `resize_stress_week2.cpp`, ¿qué comportamiento intenta estresar sobre crecimiento, reducción o estabilidad?
-7. ¿Por qué pasar pruebas no reemplaza una explicación de invariantes y complejidad?
-
-#### Bloque 4-Vector como puente entre teoría y código
-
-Revisen:
-- `Semana2/include/DengVector.h`
-- `Semana2/demos/demo_deng_vector.cpp`
-- **Lectura4-Deng**
-
-Respondan:
-
-1. ¿Qué papel cumplen `_size`, `_capacity` y `_elem`?
-2. ¿Cuándo debe ejecutarse `expand()`?
-3. ¿Por qué `insert(r, e)` necesita desplazar elementos?
-4. ¿Qué diferencia conceptual hay entre `remove(r)` y `remove(lo, hi)`?
-5. ¿Qué evidencia de copia profunda aparece en la demo?
-6. ¿Por qué `traverse()` es una buena interfaz didáctica?
-7. ¿Qué ventaja tiene implementar un vector propio antes de depender de `std::vector`?
-
-#### Bloque 5 - RootishArrayStack: espacio y mapeo
-
-Revisen:
-- `Semana2/include/RootishArrayStack.h`
-- `Semana2/include/RootishArrayStackExplicado.h`
-- `Semana2/demos/demo_rootisharraystack.cpp`
-- `Semana2/demos/demo_rootisharraystack_explicado.cpp`
-- **Lectura5-Morin**
-
-Respondan:
-
-1. ¿Cómo se distribuyen los elementos entre bloques?
-2. ¿Por qué con `r` bloques la capacidad total es `r(r+1)/2`?
-3. ¿Qué problema resuelve `i2b(i)`?
-4. ¿Qué información produce `locate(i)` en la versión explicada?
-5. ¿Qué se gana en espacio frente a `ArrayStack`?
-6. ¿Qué se conserva igual respecto a la interfaz?
-7. ¿Qué parte les parece más difícil de defender oralmente: el mapeo, el análisis espacial o el costo amortizado de `grow/shrink`?
-
-#### Bloque 6-Refuerzo de lectura
-
-Revisen:
-- **Lectura4-Deng**
-
-Respondan brevemente:
-
-1. ¿Qué aporta `operator[]` a la idea de vector?
-2. ¿Qué supone `find(e)` sobre igualdad entre elementos?
-3. ¿Qué muestra `traverse()` sobre procesamiento uniforme de toda la estructura?
-4. ¿Por qué esta lectura sirve como refuerzo natural de `DengVector` aunque no sea el centro exclusivo de la semana?
-
-#### Bloque 7 - Cierre comparativo
-
-Respondan esta pregunta final:
-
-**¿Qué cambia cuando pasamos de "usar un arreglo" a "diseñar una estructura dinámica basada en arreglo"?**
-
-La respuesta debe incluir obligatoriamente:
-- una afirmación sobre representación
-- una afirmación sobre correctitud
-- una afirmación sobre costo amortizado
-- una afirmación sobre uso de espacio
-- una comparación entre `ArrayStack`, `FastArrayStack` y `RootishArrayStack`.
-
-#### Formato sugerido de entrega
-
-```md
-## Actividad 2-CC232
-
-### Integrantes
-- Nombre 1
-- Nombre 2
-
-#### Bloque 1
-(respuestas)
-
-#### Bloque 2
-(tabla y respuestas)
-
-#### Bloque 3
-(respuestas)
-
-#### Bloque 4
-(respuestas)
-
-#### Bloque 5
-(respuestas)
-
-#### Bloque 6
-(respuestas)
-
-#### Bloque 7
-(respuesta final)
+Cuando cambiamos de arreglo a una estructura basada en arreglos, la representación cambia a una estructura de datos que maneja un arreglo interno para almacenar los elementos, pero con una interfaz que permite operaciones dinámicas como agregar o eliminar elementos sin preocuparse por la gestión de memoria. La correctitud se asegura mediante el diseño de la interfaz y la implementación de las operaciones, garantizando que las operaciones se comporten según lo esperado. El costo amortizado se mantiene en O(1). En cuanto al uso de espacio, RootishArrayStack es más eficiente en términos de espacio que ArrayStack o FastArrayStack, ya que no necesitan reservar el doble del espacio cada vez que se redimensionan, sino que lo hacen de manera adaptativa en bloques según el tamaño actual del arreglo. FastArrayStack tiene una implementación más eficiente debido al uso de funciones optimizadas de la STL. 
 
 #### Autoevaluación breve
-- Qué podemos defender con seguridad:
-- Qué todavía confundimos:
-- Qué evidencia usaríamos en una sustentación:
-```
 
-#### Criterio general de trabajo
-
-Se espera lectura real de los archivos, respuestas breves pero justificadas, y conexión  explícita entre código, correctitud, costo, representación, amortización y uso de espacio.
-
-No basta con ejecutar el programa: deben poder explicar por qué funciona, qué invariante mantiene y qué costo justifica su diseño.
+- Qué podemos defender con seguridad: Entendemos el marco conceptual de una estructura basada en arreglos, las ventajas de un tipo de estructura sobre otro.
+- Qué todavía confundimos: El costo amortizado en una estructura.
+- Qué evidencia usaríamos en una sustentación: Observables concretos como size, uso de los métodos para operaciones LIFO y FIFO, comparación entre métodos.
