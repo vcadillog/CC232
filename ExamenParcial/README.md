@@ -500,45 +500,54 @@ Se implementa el MinDeque usando dos MinStack, que es una clase que utiliza un S
 - Se rebalancea el deque manteniendo los mínimos.
 
 #### d)
-addFirst(x): O(1)
-addLast(x): O(1)
-removeFirst(): O(n), rebalancear cuesta O(n)
-removeLast(): O(n), rebalancear cuesta O(n)
-first(): O(n), en el peor caso llama a rebalancear
-last(): O(n), en el peor caso llama a rebalancear 
-min(): O(1)
-size(): O(1)
+- addFirst(x): O(1)
+- addLast(x): O(1)
+- removeFirst(): O(n), rebalancear cuesta O(n)
+- removeLast(): O(n), rebalancear cuesta O(n)
+- first(): O(n), en el peor caso llama a rebalancear
+- last(): O(n), en el peor caso llama a rebalancear 
+- min(): O(1)
+- size(): O(1)
 
 #### e)
 
 Valores repetidos:
-Entrada: addFirst(5)
-Salida: deque: [5], min: 5
-Entrada: addLast(3)
-Salida: deque: [5,3], min: 3
-Entrada: addLast(3)
-Salida: deque: [5,3,3], min: 3
-Entrada: addFirst(3)
-Salida: deque: [3,5,3,3], min: 3
-Entrada: addLast(5)
-Salida: deque: [3,5,3,3,5], min: 3
-Entrada: first()
-Salida: 3
-Entrada: Last()
-Salida: 5
-Entrada: removeFirst()
-Salida: deque: [5,3,3,5], min: 3
-Entrada: removeLast()
-Salida: deque: [5,3,3], min: 3
-Entrada: removeFirst()
-Salida: deque: [3,3], min: 3
+- Entrada: addFirst(5)
+- Salida: deque: [5], min: 5
+
+- Entrada: addLast(3)
+- Salida: deque: [5,3], min: 3
+
+- Entrada: addLast(3)
+- Salida: deque: [5,3,3], min: 3
+
+- Entrada: addFirst(3)
+- Salida: deque: [3,5,3,3], min: 3
+
+- Entrada: addLast(5)
+- Salida: deque: [3,5,3,3,5], min: 3
+
+- Entrada: first()
+- Salida: 3
+
+- Entrada: Last()
+- Salida: 5
+
+- Entrada: removeFirst()
+- Salida: deque: [5,3,3,5], min: 3
+
+- Entrada: removeLast()
+- Salida: deque: [5,3,3], min: 3
+
+- Entrada: removeFirst()
+- Salida: deque: [3,3], min: 3
 
 Estructura vacía:
-first(): Ejecuta assert y da error
-last(): Ejecuta assert y da error
-removeFirst(): Ejecuta assert y da error
-removeLast(): Ejecuta assert y da error
-min(): Ejecuta assert y da error
+- first(): Ejecuta assert y da error
+- last(): Ejecuta assert y da error
+- removeFirst(): Ejecuta assert y da error
+- removeLast(): Ejecuta assert y da error
+- min(): Ejecuta assert y da error
 
 #### f)
 
