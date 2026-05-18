@@ -333,11 +333,13 @@ tail y head apuntan al único elemento.
 #### c)
 
 El nodo anterior es el invariante que representa el último nodo de la parte ya invertida.
+
 El nodo actual es el invariante que representa el primer nodo de la parte que falta invertir.
 
 #### d)
 
 El espacio utilizado solo son utilizados 3 punteros a nodos anterior, actual y siguiente el costo espacial es O(1). 
+
 El costo temporal es O(n) porque tiene que recorrer todos los nodos de la lista.
 
 #### e)
@@ -348,7 +350,102 @@ Porque un SLList solo puede conocer los extremos, que sirve para implementar una
 ### Pregunta 6
 
 #### a)
+
+Casos borde:
+
+```cpp
+1. Arreglo vacío
+k = 0
+A[] = []
+Entrada: ([], 0, 0) 
+Salida: []
+
+2. Único elemento
+k = 1
+A[] = [5]
+Entrada: ([5], 1, 1) 
+Salida: [5]
+
+3. Rotación total
+k = 3
+A[] = [1,2,3,4]
+Entrada: ([1,2,3,4], 4, 3) 
+Salida: [4,1,2,3]
+
+4. Inicio en el final 
+k = 4
+A[] = [1,2,3,4]
+Entrada: ([1,2,3,4], 4, 4) 
+Salida: [1,2,3,4]
+
+5. k mayor que el tamaño del arreglo (k > n)
+k = 10
+n = 4
+A[] = [1, 2, 3, 4]
+Entrada: ([1, 2, 3, 4], 4, 10)
+Salida: [3, 4, 1, 2]   
+
+6. k negativo
+k = -2
+n = 5
+A[] = [a, b, c, d, e]
+Entrada: ([a, b, c, d, e], 5, -2)
+Salida: [d, e, a, b, c]
+
+7. k múltiplo exacto de n, k/n> 1
+k = 8
+n = 4
+A[] = [X, Y, Z, W]
+Entrada: ([X, Y, Z, W], 4, 8)
+Salida: [X, Y, Z, W]
+```
+
+Casos no borde:
+
+```cpp
+8.
+k = 1
+n = 5
+A[] = [10, 20, 30, 40, 50]
+Entrada: ([10, 20, 30, 40, 50], 5, 1)
+Salida: [20, 30, 40, 50, 10]
+
+9.
+k = 2
+n = 4
+A[] = [A, B, C, D]
+Entrada: ([A, B, C, D], 4, 2)
+Salida: [C, D, A, B]
+```
+
 #### b)
+1. Arreglo vacío
+2. Único elemento
+3. Rotación total (n-k=1)
+4. Inicio en el final (n=k) 
+5. k mayor que el tamaño del arreglo (k > n)
+6. k negativo
+7. k múltiplo exacto de n, k/n> 1
+8. Caso normal de rotación 1 espacio.
+8. Caso normal de rotación 2 espacios.
+
+#### c)
+
+Varias pruebas detectan falta de normlización de diferentes formas: 4, 5, 6, 7
+
+#### d)
+
+Cuando n=0 entonces es un arreglo vacío y debe manejar el retorno de un arreglo vacío.
+
+<a name="target-item7"></a>
+### Pregunta 7
+
+#### a)
+#### b)
+#### c)
+#### d)
+#### e)
+#### f)
 #### c)
 #### d)
 
