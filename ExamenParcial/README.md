@@ -211,6 +211,7 @@ De la cota de copias tenemos que el costo del total de inserciones es O(n), aunq
 #### d)
 
 Porque hay un rango de _capacity/4 a _capacity/2 en el que no se ejecutará la reducción, veamos si desde el pushback 9 hacemos removeLast.
+| Operación | Antes (tamaño, capacidad) | Después (tamaño, capacidad) | Redimensiona |
 | :--- | :---: | :---: | ---: |
 | pushback9 | 8, 8| 9, 16| Si|
 El removeLast solo ejecutará shrink cuando size<16/4=4 y a la vez no ejecutará incremento de capacidad hasta que _size=16, eso da para este caso un margen de size 4 a 15 sin llamar a redimensionamientos, este margen es proporcional al valor de _capacity.
@@ -218,12 +219,81 @@ El removeLast solo ejecutará shrink cuando size<16/4=4 y a la vez no ejecutará
 #### e)
 
 Sea la condición de shrink, _size<_capacity/K; esto causará oscilación para valores de 0<K<=2, veamos con el límite _capacity/2, veamos el caso pushback 9 nuevamente:
+| Operación | Antes (tamaño, capacidad) | Después (tamaño, capacidad) | Redimensiona |
 | :--- | :---: | :---: | ---: |
 | pushback9 | 8, 8| 9, 16| Si|
 Aquí se incrementó el _capacity, pero si hacemos un removeLast _size=8, esto hará que en el siguiente pushback o removelast se incremente o reduzca _capacity, lo que nos daría un comportamiento oscilatorio, pero si se usa un condicional <= en su lugar oscila inmediatamente, sin tener que esperar una operación adicional.
 
 <a name="target-item4"></a>
 ### Pregunta 4
+
+#### a)
+
+m=8, j=5, n=4
+i(lógico) = 0 -> j(físico)=5mod8=5 
+
+| --- |D |- |- |- |- |A |B|C |
+| :--- |:---:| :---: | :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|3|4 |5 |6 |7 |0 |1 |2 |
+| Físico|0 |1 |2 |3 |4 |5 |6 |7 |
+
+#### b)
+
+add(0,X)
+| --- |C |D |- |- |-|X |A |B |
+| :--- |:---:| :---: | :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|3|4 |5 |6 |7 |0 |1 |2 |
+| Físico|0 |1 |2 |3 |4 |5 |6 |7 |
+
+add(3,Y)
+| --- |Y|C |D |- |-|X |A |B |
+| :--- |:---:| :---: | :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|3|4 |5 |6 |7 |0 |1 |2 |
+| Físico|0 |1 |2 |3 |4 |5 |6 |7 |
+
+remove(5)
+| --- |Y|C |- |- |-|X |A |B |
+| :--- |:---:| :---: | :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|3|4 |5 |6 |7 |0 |1 |2 |
+| Físico|0 |1 |2 |3 |4 |5 |6 |7 |
+
+add(2,Z)
+| --- |B|Y|C |- |-|X |A |Z |
+| :--- |:---:| :---: | :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|3|4 |5 |6 |7 |0 |1 |2 |
+| Físico|0 |1 |2 |3 |4 |5 |6 |7 |
+
+#### c)
+
+Porque al comparar el índice con los extremos más corto o largo nos reducirá el número de elementos que debe desplazarse al hacer inserciones o eliminaciones si elegimos el más corto, siempre que este no esté en el medio.
+
+#### d)
+
+Si el tamaño del arreglo es de n y el índice físico es i, este devide el arreglo en dos partes 
+| --- |A|B|C |D|... |J|K |L |M |
+| :--- |:---:| :---: |:---:| :---: |:---: | :---: | :---: | :---: | ---: |
+| Lógico|0|1 |2 |3| i|n-3 |n-2 |n-1 |n |
+
+Lo divide en dos:
+| --- |A|B|C |D|... |
+| :--- |:---:| :---: |:---:| :---: |---: |
+| Lógico|0|1 |2 |3| i|
+
+Tamaño: i
+
+| --- |...|J|K |L|M |
+| :--- |:---:| :---: |:---:| :---: |---: |
+| Lógico|i|n-3 |n-2 |n-1| n|
+
+Tamaño: n-i
+
+Entonces el costo de mover los elementos es O(min{i,n-i}) y O(1) es el de insertar en el elemento, en total el costo de add(i,x) es O(1+min{i,n-i})
+
+#### e)
+
+Implementar un ArrayStack es más simple que un ArrayDeque, pero pierde la capacidad de insertar en ambos extremos con costo O(1), en ArrayStack solo insertar al final tiene costo O(1), al inicio requiere de desplazar O(n), tienen el mismo costo amortizado O(1) de redimensionar, además la implementación actual tiene un costo menor de desplazar cuando no es el peor caso (mitad) vs el desplazamiento de todos los elementos de ArrayStack.
+Aparece una invariante adicional comparado a ArrayDeque en ArrayStack y para este caso el índice lógico y el índice físico es el mismo.
+
 <a name="target-item5"></a>
 ### Pregunta 5
 <a name="target-item6"></a>
