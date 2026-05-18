@@ -211,17 +211,21 @@ De la cota de copias tenemos que el costo del total de inserciones es O(n), aunq
 #### d)
 
 Porque hay un rango de _capacity/4 a _capacity/2 en el que no se ejecutará la reducción, veamos si desde el pushback 9 hacemos removeLast.
+
 | Operación | Antes (tamaño, capacidad) | Después (tamaño, capacidad) | Redimensiona |
 | :--- | :---: | :---: | ---: |
 | pushback9 | 8, 8| 9, 16| Si|
+
 El removeLast solo ejecutará shrink cuando size<16/4=4 y a la vez no ejecutará incremento de capacidad hasta que _size=16, eso da para este caso un margen de size 4 a 15 sin llamar a redimensionamientos, este margen es proporcional al valor de _capacity.
 
 #### e)
 
 Sea la condición de shrink, _size<_capacity/K; esto causará oscilación para valores de 0<K<=2, veamos con el límite _capacity/2, veamos el caso pushback 9 nuevamente:
+
 | Operación | Antes (tamaño, capacidad) | Después (tamaño, capacidad) | Redimensiona |
 | :--- | :---: | :---: | ---: |
 | pushback9 | 8, 8| 9, 16| Si|
+
 Aquí se incrementó el _capacity, pero si hacemos un removeLast _size=8, esto hará que en el siguiente pushback o removelast se incremente o reduzca _capacity, lo que nos daría un comportamiento oscilatorio, pero si se usa un condicional <= en su lugar oscila inmediatamente, sin tener que esperar una operación adicional.
 
 <a name="target-item4"></a>
@@ -296,9 +300,64 @@ Aparece una invariante adicional comparado a ArrayDeque en ArrayStack y para est
 
 <a name="target-item5"></a>
 ### Pregunta 5
+
+#### a)
+
+Pseudocódigo
+```cpp
+void reverse()
+    anterior = null //puntero nodo anterior
+    actual = head //puntero nodo actual
+    tail = head  
+    
+    while (actual != null){
+        siguiente = actual.next    //puntero nodo siguiente 
+        actual.next = anterior     
+        anterior = actual          
+        actual = siguiente         
+    }
+    head = anterior 
+```
+
+#### b)
+
+Tail ahora apunta a head original y head ahora apunta al tail original.
+
+Si n=0
+Lista vacía
+tail y head apuntan al puntero nulo.
+
+Si n=1
+tail y head apuntan al único elemento.
+
+#### c)
+
+El nodo anterior es el invariante que representa el último nodo de la parte ya invertida.
+El nodo actual es el invariante que representa el primer nodo de la parte que falta invertir.
+
+#### d)
+
+El espacio utilizado solo son utilizados 3 punteros a nodos anterior, actual y siguiente el costo espacial es O(1). 
+El costo temporal es O(n) porque tiene que recorrer todos los nodos de la lista.
+
+#### e)
+
+Porque un SLList solo puede conocer los extremos, que sirve para implementar una pila y cola, pero no un deque porque necesita conocer el elemento anterior al tail para hacer eliminación en ese extremo y tendría que recorrer desde el inicio con un costo de O(n).
+
 <a name="target-item6"></a>
 ### Pregunta 6
+
+#### a)
+#### b)
+#### c)
+#### d)
+
 <a name="target-item7"></a>
 ### Pregunta 7
 
-
+#### a)
+#### b)
+#### c)
+#### d)
+#### e)
+#### f)
