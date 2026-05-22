@@ -37,10 +37,37 @@
 ### Bloque 2 - Navegación, altura, profundidad y tamaño
 
 1. En `BinNode`, explica qué significan `hasLeft()`, `hasRight()`, `isRoot()`, `isLeaf()`, `isLeftChild()` e `isRightChild()`.
+1.
+- hasLeft: busca si el hijo izquierdo existe si el puntero no es nulo.
+- hasRight: busca si el hijo derecho existe si el puntero no es nulo.
+- isRoot: busca si el nodo es la raíz del árbol, si su puntero parent es nulo.
+- isLeaf: busca si el nodo es una hoja, no tiene hijos izquierdo ni derecho, sus punteros apuntan al nulo.
+- isLeftChild: busca si es un hijo izquierdo, si el puntero no es nulo y el puntero del padre apunta a este nodo como hijo izquierdo.
+- isRightChild: busca si es un hijo derecho, si el puntero no es nulo y el puntero del padre apunta a este nodo como hijo derecho.
+
 2. Explica el caso en que `succ()` baja al subárbol derecho y luego busca el nodo más a la izquierda.
-3. Explica el caso en que `succ()` sube por los ancestros hasta encontrar el primer giro hacia la izquierda.
+
+2. El método succ() se utiliza para encontrar el sucesor de un nodo en un árbol binario. El sucesor de un nodo es el nodo que sigue inmediatamente después de él en un recorrido. 
+
+3. El método succ() sube al ancestro del nodo actual mientras el nodo actual sea un hijo derecho de su padre. 
+
 4. Explica simétricamente cómo debe funcionar `pred()`.
+
+4. El método pred() se utiliza para encontrar el predecesor de un nodo en un árbol si tiene un hijo izquierdo y si no tiene busca por la derecha. 
+
 5. Dibuja un árbol de al menos 7 nodos y marca el sucesor y predecesor inorden de tres nodos distintos.
+
+                     H o
+                   /       \
+               F  o     G   o
+                /   \     /   \
+                o   o     o   o
+                A   B     C   D
+
+- El sucesor de F es A, el predecesor de F es H.
+- El sucesor de G es H, el predecesor de G es C.
+- El sucesor de B es F, el predecesor de B es F.
+
 6. Explica qué calcula `depth(u)` y por qué puede implementarse subiendo por `parent`.
 7. Explica qué calcula `height(u)` y por qué suele implementarse bajando recursivamente por los hijos.
 8. Explica qué calcula `subtreeSize(u)`.
@@ -49,6 +76,25 @@
 
 ### Bloque 3 - Recorridos y trazado guiado
 
+1. En preorden primero visita el nodo padre, luego el hijo izquierdo y finalmente el hijo derecho.
+
+2. Inorder visita primero el hijo izquierdo, luego el nodo y finalmente el hijo derecho.
+
+3. En postorden visita primero el hijo izquierdo, luego el hijo derecho y finalmente el nodo.
+
+4. Cuando se visita por niveles empieza desde la raíz y luego visita los nodos de cada nivel de izquierda a derecha antes de pasar al siguiente nivel.
+
+5. Los recorridos recursivos tienen tiempo O(n) porque cada nodo del árbol se visita exactamente una vez. 
+
+6. Porque también visitan cada nodo exactamente una vez, pero utilizan estructuras auxiliares como pilas o colas para gestionar el recorrido.
+
+7. En un árbol balanceado, la memoria auxiliar de un recorrido recursivo es O(log n) porque cada nodo se divide hasta en dos subárboles, lo que genera una profundidad logarítmica.
+
+8. En un árbol degenerado, la memoria auxiliar de un recorrido recursivo es O(n) porque cada nodo tiene solo un hijo.
+
+9. Usar una pila explícita permite controlar manualmente el orden de los nodos a visitar y evita desbordamiento de pila en árboles muy profundos, ya que una pila de llamadas tiene un tamaño limitado por el compilador.
+
+10. En un árbol completo, cada nivel tiene el doble de nodos que el nivel anterior, lo que hace que la cola pueda crecer exponencialmente a medida que se avanza por los niveles. En cambio, en un árbol degenerado, cada nivel tiene solo un nodo.
 
 ### Bloque 4 - Demos
 
