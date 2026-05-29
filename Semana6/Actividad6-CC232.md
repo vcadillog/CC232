@@ -110,12 +110,38 @@ ctest --test-dir build --output-on-failure
 Responde:
 
 1. ¿Qué targets de demostraciones o pruebas aparecen para Semana 6?
+
 2. ¿Qué archivos se incluyen desde `Capitulo6.h`?
-3. ¿Qué diferencia práctica hay entre `Capitulo6.h` y `Capitulo10.h`?
-4. ¿Qué partes de Semana 6 dependen conceptualmente de Semana 5?
-5. ¿Qué estructura se usa para prioridad pura?
-6. ¿Qué estructura se usa para búsqueda ordenada?
-7. ¿Qué estructura mezcla búsqueda ordenada con prioridad?
+
+```cpp
+#include "PQ.h"
+#include "PQ_ComplHeap_macro.h"
+#include "PQ_ComplHeap.h"
+#include "PQ_ComplHeap_getMax.h"
+#include "PQ_ComplHeap_insert.h"
+#include "PQ_ComplHeap_percolateUp.h"
+#include "PQ_ComplHeap_delMax.h"
+#include "PQ_ComplHeap_percolateDown.h"
+#include "PQ_ComplHeap_heapifyFloyd.h"
+#include "PQ_LeftHeap.h"
+#include "PQ_LeftHeap_merge.h"
+#include "PQ_LeftHeap_insert.h"
+#include "PQ_LeftHeap_delMax.h"
+#include "vector_heapSort.h"
+#include "Huffman_PQ.h"
+#include "Treap.h"
+```
+
+3. En Capítulo10.h es una abstracción que reutiliza Capitulo6.h.
+
+4. Se utilizan árboles y/o heap en los archivos PQ_*.h, Huffman.h y Treap.
+
+5. Se usa la estructura heap para prioridad.
+
+6. Se utilizan las colas de prioridad 
+
+7. Treap mezcla busqueda ordenada con prioridad.
+
 8. ¿Qué evidencia inicial obtuviste al ejecutar las pruebas sin modificar nada?.
 
 Entrega en este bloque:
