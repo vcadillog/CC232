@@ -194,9 +194,10 @@ Responde:
 2. Porque constexpr permite el uso de tipos, tiene un ambito de ejecucion controlado y permite depuración.
 
 3. ¿Qué caso borde aparece cuando el nodo tiene solo hijo izquierdo?
-3. Cuando un nodo tiene un solo hijo izquierdo y no un hijo derecho, este hijo derecho puede tener un índice fuera del rango del arreglo.
+3. Cuando un nodo tiene un solo hijo izquierdo y no un hijo derecho, el acceso al hijo derecho tiene un índice fuera del rango del arreglo.
 
 4. ¿Qué condición identifica una hoja en la representación implícita?
+4. La condició que identifica una hoja es que no tenga hijos, es decir, que el índice de su hijo izquierdo sea mayor o igual al tamaño del arreglo.
 
 5. ¿Qué cambió en `percolateDown` después de usar las funciones auxiliares?
 
