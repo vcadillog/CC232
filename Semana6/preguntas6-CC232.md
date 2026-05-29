@@ -110,61 +110,18 @@ ctest --test-dir build --output-on-failure
 Responde:
 
 1. ¿Qué targets de demostraciones o pruebas aparecen para Semana 6?
-
-
-```cpp
-#include "PQ.h"
-#include "PQ_ComplHeap_macro.h"
-#include "PQ_ComplHeap.h"
-#include "PQ_ComplHeap_getMax.h"
-#include "PQ_ComplHeap_insert.h"
-#include "PQ_ComplHeap_percolateUp.h"
-#include "PQ_ComplHeap_delMax.h"
-#include "PQ_ComplHeap_percolateDown.h"
-#include "PQ_ComplHeap_heapifyFloyd.h"
-#include "PQ_LeftHeap.h"
-#include "PQ_LeftHeap_merge.h"
-#include "PQ_LeftHeap_insert.h"
-#include "PQ_LeftHeap_delMax.h"
-#include "vector_heapSort.h"
-#include "Huffman_PQ.h"
-#include "Treap.h"
-```
-
-3. En Capítulo10.h es una abstracción que reutiliza Capitulo6.h y crea un alias
-
-4. Se utilizan árboles y/o heap en los archivos PQ_*.h, Huffman.h y Treap.
-
-5. Se usa la estructura heap para prioridad.
-
-6. Se utilizan BST para busqueda ordenada.
-
-7. Treap mezcla busqueda ordenada con prioridad.
-
+2. ¿Qué archivos se incluyen desde `Capitulo6.h`?
+3. ¿Qué diferencia práctica hay entre `Capitulo6.h` y `Capitulo10.h`?
+4. ¿Qué partes de Semana 6 dependen conceptualmente de Semana 5?
+5. ¿Qué estructura se usa para prioridad pura?
+6. ¿Qué estructura se usa para búsqueda ordenada?
+7. ¿Qué estructura mezcla búsqueda ordenada con prioridad?
 8. ¿Qué evidencia inicial obtuviste al ejecutar las pruebas sin modificar nada?.
 
 Entrega en este bloque:
 
 - Una tabla con: comando ejecutado, resultado, error si hubo, interpretación.
 - Una lista de los archivos que planeas modificar.
-
-```cpp
-cmake --build build-debug 
-[100%] Built target sem6_test_internal
-
-ctest --test-dir build-debug -R semana6 --output-on-failure
-Internal ctest changing into directory: /home/victor/clases/algoritmos/CC232/Semana6/build-debug
-Test project /home/victor/clases/algoritmos/CC232/Semana6/build-debug
-    Start 1: semana6_public
-1/2 Test #1: semana6_public ...................   Passed    0.00 sec
-    Start 2: semana6_internal
-2/2 Test #2: semana6_internal .................   Passed    0.00 sec
-
-100% tests passed, 0 tests failed out of 2
-
-Total Test time (real) =   0.01 sec
-```
-
 
 #### Bloque 2 - Modificación de utilidades de heap completo
 
@@ -188,16 +145,9 @@ Luego modifica `PQ_ComplHeap_percolateDown.h` para usar esas funciones auxiliare
 Responde:
 
 1. ¿Por qué conviene expresar `parent`, `left`, `right` y pruebas de frontera como funciones pequeñas?
-1. Porque el usar funciones pequeñas mejora la legibilidad del código.
 2. ¿Qué ventaja tiene `constexpr` frente a macros?
-
-2. Porque constexpr permite el uso de tipos, tiene un ambito de ejecucion controlado y permite depuración.
-
 3. ¿Qué caso borde aparece cuando el nodo tiene solo hijo izquierdo?
-3. Cuando un nodo tiene un solo hijo izquierdo y no un hijo derecho, este hijo derecho puede tener un índice fuera del rango del arreglo.
-
 4. ¿Qué condición identifica una hoja en la representación implícita?
-
 5. ¿Qué cambió en `percolateDown` después de usar las funciones auxiliares?
 
 Entrega en este bloque:

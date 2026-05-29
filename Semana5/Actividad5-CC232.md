@@ -36,7 +36,6 @@
 
 ### Bloque 2 - Navegación, altura, profundidad y tamaño
 
-1. En `BinNode`, explica qué significan `hasLeft()`, `hasRight()`, `isRoot()`, `isLeaf()`, `isLeftChild()` e `isRightChild()`.
 1.
 - hasLeft: busca si el hijo izquierdo existe si el puntero no es nulo.
 - hasRight: busca si el hijo derecho existe si el puntero no es nulo.
