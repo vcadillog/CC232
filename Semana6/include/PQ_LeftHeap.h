@@ -95,6 +95,22 @@ class PQ_LeftHeap : public PQ<T> {
     return ans;
   }
 
+  T delMaxComentado() override {
+    if (!root_) {
+      throw std::out_of_range("delMax() sobre heap izquierdista vacio");
+    }
+    T ans = root_->value;
+    Node* old = root_;
+    Node* a = root_->left;
+    Node* b = root_->right;
+    old->left = nullptr;
+    old->right = nullptr;
+    delete old;
+    root_ = mergeNodes(a, b);
+    --n_;
+    return ans;
+  }
+
   void merge(PQ_LeftHeap& other) {
     if (this == &other) {
       return;

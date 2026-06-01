@@ -9,7 +9,8 @@
 namespace ods {
 
 template <class T, class Compare>
-std::size_t complHeapPercolateDown(std::vector<T>& a, std::size_t n, std::size_t i, Compare comp) {
+std::size_t complHeapPercolateDown(std::vector<T> &a, std::size_t n,
+                                   std::size_t i, Compare comp) {
   while (pqInHeap(pqLeftChild(i), n)) {
     std::size_t c = pqLeftChild(i);
     const std::size_t r = pqRightChild(i);
@@ -26,8 +27,9 @@ std::size_t complHeapPercolateDown(std::vector<T>& a, std::size_t n, std::size_t
 }
 
 template <class T, class Compare>
-std::size_t complHeapPercolateDownCount(std::vector<T>& a, std::size_t n, std::size_t i, Compare comp) {
-  int counter = 0;
+std::size_t complHeapPercolateDownCount(std::vector<T> &a, std::size_t n,
+                                        std::size_t i, Compare comp) {
+  std::size_t counter = 0;
   while (pqInHeap(pqLeftChild(i), n)) {
     std::size_t c = pqLeftChild(i);
     const std::size_t r = pqRightChild(i);
@@ -43,4 +45,4 @@ std::size_t complHeapPercolateDownCount(std::vector<T>& a, std::size_t n, std::s
   }
   return counter;
 }
-}  // namespace ods
+} // namespace ods

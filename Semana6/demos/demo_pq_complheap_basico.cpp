@@ -35,9 +35,17 @@ int main() {
     std::cout << "max actual = " << pq.getMax() << "\n\n";
   }
 
+  ods::PQ_ComplHeap<int> pq_copia(pq.data());
   while (!pq.empty()) {
     int y = pq.delMax();
     std::cout << "delMax() -> " << y << "\n";
     printVector(pq.data(), "heap interno");
+  }
+
+  std::cout << "\nContando el número de intercambios\n";
+  while (!pq_copia.empty()) {
+    int y = pq_copia.delMaxComentado();
+    std::cout << "delMax() -> " << y << "\n";
+    printVector(pq_copia.data(), "heap interno");
   }
 }
