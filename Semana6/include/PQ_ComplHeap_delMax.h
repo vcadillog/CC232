@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 #include "PQ_ComplHeap_percolateDown.h"
 
@@ -16,7 +17,9 @@ T complHeapDelMax(std::vector<T>& a, Compare comp) {
   a.front() = a.back();
   a.pop_back();
   if (!a.empty()) {
-    complHeapPercolateDown(a, a.size(), 0, comp);
+    //complHeapPercolateDown(a, a.size(), 0, comp);
+    int count = complHeapPercolateDownCount(a, a.size(), 0, comp);
+    std::cout << "Número de intercambios:" << count << std::endl;
   }
   return ans;
 }
