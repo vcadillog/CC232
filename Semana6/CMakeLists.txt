@@ -22,6 +22,8 @@ function(cc232_add_sem6_target target_name source_file)
   target_link_libraries(${target_name} PRIVATE sem6_headers)
 endfunction()
 
+cc232_add_sem6_target(sem6_demo_bloque3 "demos/demo_bloque3.cpp")
+cc232_add_sem6_target(sem6_demo_bloque4 "demos/demo_bloque4.cpp")
 cc232_add_sem6_target(sem6_demo_pq_complheap_basico "demos/demo_pq_complheap_basico.cpp")
 cc232_add_sem6_target(sem6_demo_heapify_floyd "demos/demo_heapify_floyd.cpp")
 cc232_add_sem6_target(sem6_demo_heapsort "demos/demo_heapsort.cpp")

@@ -19,6 +19,7 @@ void printVector(const std::vector<T> &xs, const char *label) {
 } // namespace
 
 int main() {
+  std::cout << "Bloque 4:\n\n";
   std::vector<int> base{4, 10, 7, 1, 3, 9};
   ods::PQ_ComplHeap<int> pq(base);
 
@@ -34,10 +35,14 @@ int main() {
     std::cout << "max actual = " << pq.getMax() << "\n\n";
   }
 
-  ods::PQ_ComplHeap<int> pq_copia(pq.data());
+  printVector(pq.data(), "heap interno");
+  std::cout << "\nContando el número de intercambios\n";
   while (!pq.empty()) {
-    int y = pq.delMax();
+    auto [y, count] = pq.delMaxComentado();
+    std::cout << "Número de intercambios:" << count << std::endl;
     std::cout << "delMax() -> " << y << "\n";
     printVector(pq.data(), "heap interno");
+    std::cout << std::endl;
   }
+
 }

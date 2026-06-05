@@ -19,25 +19,21 @@ void printVector(const std::vector<T> &xs, const char *label) {
 } // namespace
 
 int main() {
-  std::vector<int> base{4, 10, 7, 1, 3, 9};
+  std::vector<int> base{};
   ods::PQ_ComplHeap<int> pq(base);
 
   std::cout << "PQ_ComplHeap construido con heapify de Floyd\n";
   printVector(base, "entrada");
   printVector(pq.data(), "heap interno");
-  std::cout << "getMax() = " << pq.getMax() << "\n\n";
+  std::cout << "\nBloque 3:\n";
 
-  for (int x : {12, 5, 14}) {
-    pq.insert(x);
+  std::cout << "\nContando el número de intercambios para inserciones para:\n";
+  std::cout << "{ 40, 10, 70, 30, 90, 20, 80, 60 }\n";
+  for (int x : {40, 10, 70, 30, 90, 20, 80, 60}) {
+      std::size_t count = pq.insertComentado(x);
+    std::cout << "Número de intercambios:" << count << std::endl;
     std::cout << "insert(" << x << ")\n";
     printVector(pq.data(), "heap interno");
     std::cout << "max actual = " << pq.getMax() << "\n\n";
-  }
-
-  ods::PQ_ComplHeap<int> pq_copia(pq.data());
-  while (!pq.empty()) {
-    int y = pq.delMax();
-    std::cout << "delMax() -> " << y << "\n";
-    printVector(pq.data(), "heap interno");
   }
 }
