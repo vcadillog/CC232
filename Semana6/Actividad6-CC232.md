@@ -278,10 +278,15 @@ Crea una demostración pequeña donde elimines repetidamente el máximo de un he
 Responde:
 
 1. ¿Por qué después de `delMax` se mueve el último elemento a la raíz?
+1. Porque el último elemento se mueve a la raíz para llenar el espacio dejado por el máximo eliminado, y luego se baja para restaurar la propiedad de heap.
 2. ¿Por qué la reparación baja y no sube?
+2. Porque el elemento que se mueve a la raíz puede ser menor que sus hijos, por lo que necesita bajar para restaurar la propiedad de heap.
 3. ¿Cómo se decide entre hijo izquierdo e hijo derecho?
+3. Empieza eligiendo al hijo izquierdo y luego se compara el valor del hijo izquierdo con el del hijo derecho utilizando comp. Si el hijo derecho existe y es mayor que el hijo izquierdo, entonces se selecciona el hijo derecho como el candidato. Luego se continúa con el intercambio.
 4. ¿Qué pasa si el nodo actual tiene un solo hijo?
+4. Al ser un heap, tiene que tener un hijo izquierdo y no se compara con el derecho si no existe, luego se intercambia solo con el hijo izquierdo.
 5. ¿Por qué `delMax` tiene costo `O(log n)`?.
+5. Porque en el peor caso, el elemento que se mueve a la raíz puede bajar hasta la hoja más profunda del heap, en un árbol binario la altura es logn. 
 
 Entrega en este bloque:
 
@@ -289,12 +294,8 @@ Entrega en este bloque:
 - Salida de la demostración.
 - Trazado manual de una eliminación.
 
-heap interno: [14, 12, 10, 5, 3, 7, 9, 1, 4]
-Has el array con el primer intercambio: el último elemento (4) se mueve a la raíz, luego se compara con sus hijos (12 y 10). Se elige el hijo dominante (12) y se intercambia con la raíz. Luego se compara el nuevo nodo (4) con sus hijos (5 y 3). Se elige el hijo dominante (5) y se intercambia con el nodo actual (4). En total, se realizaron 2 intercambios para restaurar la propiedad de heap.
-[4, 12, 10, 5, 3, 7, 9, 1, 14]
-[4, 12, 10, 5, 3, 7, 9, 1]
-
-Número de intercambios:2 // por qué el número de intercambios es 2: el último elemento (4) se mueve a la raíz, luego se compara con sus hijos (12 y 10). Se elige el hijo dominante (12) y se intercambia con la raíz. Luego se compara el nuevo nodo (4) con sus hijos (5 y 3). Se elige el hijo dominante (5) y se intercambia con el nodo actual (4). En total, se realizaron 2 intercambios para restaurar la propiedad de heap.
+Contando el número de intercambios
+Número de intercambios:2
 delMax() -> 14
 heap interno: [12, 5, 10, 4, 3, 7, 9, 1]
 Número de intercambios:2
@@ -306,6 +307,22 @@ heap interno: [9, 5, 7, 4, 3, 1]
 Número de intercambios:1
 delMax() -> 9
 heap interno: [7, 5, 1, 4, 3]
+Número de intercambios:2
+delMax() -> 7
+heap interno: [5, 4, 1, 3]
+Número de intercambios:1
+delMax() -> 5
+heap interno: [4, 3, 1]
+Número de intercambios:1
+delMax() -> 4
+heap interno: [3, 1]
+Número de intercambios:0
+delMax() -> 3
+heap interno: [1]
+Número de intercambios:0
+delMax() -> 1
+heap interno: []
+
 Explica por qué es ese número de intercambios cada vez y por qué el arreglo interno no queda ordenado.
 Después de cada `delMax()`, el último elemento del heap se mueve a la raíz y luego se baja para restaurar la propiedad de heap. El número de intercambios depende de la posición del último elemento y de cómo se comparan los hijos durante la bajada.
 El arreglo interno no queda ordenado porque el heap solo garantiza que cada padre tenga prioridad mayor o igual que sus hijos, no que los elementos estén en orden secuencial. El orden solo se garantiza para el máximo, que siempre está en la raíz, pero los demás elementos pueden estar en cualquier orden relativo mientras se mantenga la propiedad de heap.

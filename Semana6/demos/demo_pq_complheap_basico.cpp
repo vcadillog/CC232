@@ -41,12 +41,14 @@ int main() {
     printVector(pq.data(), "heap interno");
   }
 
+  printVector(pq_copia.data(), "heap interno");
   std::cout << "\nContando el número de intercambios\n";
   while (!pq_copia.empty()) {
     auto [y, count] = pq_copia.delMaxComentado();
     std::cout << "Número de intercambios:" << count << std::endl;
     std::cout << "delMax() -> " << y << "\n";
     printVector(pq_copia.data(), "heap interno");
+    std::cout << std::endl;
   }
 
   std::vector<int> base2{};

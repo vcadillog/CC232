@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 #include "PQ_ComplHeap_percolateDown.h"
 #include "PQ.h"
@@ -32,7 +33,13 @@ HeapResult<T> complHeapDelMaxComentado(std::vector<T>& a, Compare comp) {
   a.front() = a.back();
   a.pop_back();
   std::size_t count = 0;
+
   if (!a.empty()) {
+    std::cout << "Heap antes de reparar:[ ";
+    for (const T& x : a) {
+      std::cout << x << ' ';
+    }
+    std::cout <<"]"<< std::endl;
     count = complHeapPercolateDownCount(a, a.size(), 0, comp);
   }
   return {ans, count};
