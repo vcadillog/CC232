@@ -18,24 +18,26 @@ class PQ_LeftHeap : public PQ<T> {
   struct Node {
     T value;
     int npl{1};
-    Node* left{nullptr};
-    Node* right{nullptr};
-    explicit Node(const T& v) : value(v) {}
+    Node *left{nullptr};
+    Node *right{nullptr};
+    explicit Node(const T &v) : value(v) {}
   };
 
- public:
+public:
   PQ_LeftHeap() = default;
 
   explicit PQ_LeftHeap(Compare comp) : comp_(std::move(comp)) {}
 
-  PQ_LeftHeap(std::initializer_list<T> xs, Compare comp = Compare{}) : comp_(std::move(comp)) {
-    for (const T& x : xs) {
+  PQ_LeftHeap(std::initializer_list<T> xs, Compare comp = Compare{})
+      : comp_(std::move(comp)) {
+    for (const T &x : xs) {
       insert(x);
     }
   }
 
   template <class InputIt>
-  PQ_LeftHeap(InputIt first, InputIt last, Compare comp = Compare{}) : comp_(std::move(comp)) {
+  PQ_LeftHeap(InputIt first, InputIt last, Compare comp = Compare{})
+      : comp_(std::move(comp)) {
     for (; first != last; ++first) {
       insert(*first);
     }
@@ -43,16 +45,16 @@ class PQ_LeftHeap : public PQ<T> {
 
   ~PQ_LeftHeap() { clear(root_); }
 
-  PQ_LeftHeap(const PQ_LeftHeap&) = delete;
-  PQ_LeftHeap& operator=(const PQ_LeftHeap&) = delete;
+  PQ_LeftHeap(const PQ_LeftHeap &) = delete;
+  PQ_LeftHeap &operator=(const PQ_LeftHeap &) = delete;
 
-  PQ_LeftHeap(PQ_LeftHeap&& other) noexcept
+  PQ_LeftHeap(PQ_LeftHeap &&other) noexcept
       : root_(other.root_), n_(other.n_), comp_(std::move(other.comp_)) {
     other.root_ = nullptr;
     other.n_ = 0;
   }
 
-  PQ_LeftHeap& operator=(PQ_LeftHeap&& other) noexcept {
+  PQ_LeftHeap &operator=(PQ_LeftHeap &&other) noexcept {
     if (this != &other) {
       clear(root_);
       root_ = other.root_;
@@ -67,16 +69,23 @@ class PQ_LeftHeap : public PQ<T> {
   bool empty() const noexcept override { return n_ == 0; }
   std::size_t size() const noexcept override { return n_; }
 
-  const T& getMax() const override {
+  const T &getMax() const override {
     if (!root_) {
       throw std::out_of_range("getMax() sobre heap izquierdista vacio");
     }
     return root_->value;
   }
 
-  void insert(const T& e) override {
+  void insert(const T &e) override {
     root_ = mergeNodes(root_, new Node(e));
     ++n_;
+  }
+
+  std::size_t insertComentado(const T &e) override {
+    root_ = mergeNodes(root_, new Node(e));
+    std::size_t count = 0; 
+    ++n_;
+    return count;
   }
 
   T delMax() override {
@@ -84,9 +93,9 @@ class PQ_LeftHeap : public PQ<T> {
       throw std::out_of_range("delMax() sobre heap izquierdista vacio");
     }
     T ans = root_->value;
-    Node* old = root_;
-    Node* a = root_->left;
-    Node* b = root_->right;
+    Node *old = root_;
+    Node *a = root_->left;
+    Node *b = root_->right;
     old->left = nullptr;
     old->right = nullptr;
     delete old;
@@ -95,23 +104,24 @@ class PQ_LeftHeap : public PQ<T> {
     return ans;
   }
 
-  T delMaxComentado() override {
+  HeapResult<T> delMaxComentado() override {
     if (!root_) {
       throw std::out_of_range("delMax() sobre heap izquierdista vacio");
     }
+    std::size_t count=0;
     T ans = root_->value;
-    Node* old = root_;
-    Node* a = root_->left;
-    Node* b = root_->right;
+    Node *old = root_;
+    Node *a = root_->left;
+    Node *b = root_->right;
     old->left = nullptr;
     old->right = nullptr;
     delete old;
     root_ = mergeNodes(a, b);
     --n_;
-    return ans;
+    return {ans,count};
   }
 
-  void merge(PQ_LeftHeap& other) {
+  void merge(PQ_LeftHeap &other) {
     if (this == &other) {
       return;
     }
@@ -123,35 +133,40 @@ class PQ_LeftHeap : public PQ<T> {
 
   std::vector<T> levelOrder() const {
     std::vector<T> out;
-    std::queue<Node*> q;
-    if (root_) q.push(root_);
+    std::queue<Node *> q;
+    if (root_)
+      q.push(root_);
     while (!q.empty()) {
-      Node* u = q.front();
+      Node *u = q.front();
       q.pop();
       out.push_back(u->value);
-      if (u->left) q.push(u->left);
-      if (u->right) q.push(u->right);
+      if (u->left)
+        q.push(u->left);
+      if (u->right)
+        q.push(u->right);
     }
     return out;
   }
 
   bool isLeftistHeap() const { return check(root_).ok; }
 
- private:
+private:
   struct Check {
     bool ok;
     int npl;
   };
 
-  Node* root_{nullptr};
+  Node *root_{nullptr};
   std::size_t n_{0};
   Compare comp_{};
 
-  static int npl(Node* u) noexcept { return u ? u->npl : 0; }
+  static int npl(Node *u) noexcept { return u ? u->npl : 0; }
 
-  Node* mergeNodes(Node* a, Node* b) {
-    if (!a) return b;
-    if (!b) return a;
+  Node *mergeNodes(Node *a, Node *b) {
+    if (!a)
+      return b;
+    if (!b)
+      return a;
     if (comp_(a->value, b->value)) {
       std::swap(a, b);
     }
@@ -163,22 +178,25 @@ class PQ_LeftHeap : public PQ<T> {
     return a;
   }
 
-  Check check(Node* u) const {
-    if (!u) return {true, 0};
+  Check check(Node *u) const {
+    if (!u)
+      return {true, 0};
     const Check l = check(u->left);
     const Check r = check(u->right);
     const bool heapOk = (!u->left || !comp_(u->value, u->left->value)) &&
                         (!u->right || !comp_(u->value, u->right->value));
-    const bool leftistOk = npl(u->left) >= npl(u->right) && u->npl == npl(u->right) + 1;
+    const bool leftistOk =
+        npl(u->left) >= npl(u->right) && u->npl == npl(u->right) + 1;
     return {l.ok && r.ok && heapOk && leftistOk, u->npl};
   }
 
-  static void clear(Node* u) noexcept {
-    if (!u) return;
+  static void clear(Node *u) noexcept {
+    if (!u)
+      return;
     clear(u->left);
     clear(u->right);
     delete u;
   }
 };
 
-}  // namespace ods
+} // namespace ods

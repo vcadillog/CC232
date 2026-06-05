@@ -32,6 +32,7 @@ class PQ_ComplHeap : public PQ<T> {
   }
 
   void insert(const T& e) override { complHeapInsert(data_, e, comp_); }
+  std::size_t insertComentado(const T& e) override { return complHeapInsertComentado(data_, e, comp_); }
 
   template <class InputIt>
   void insertAll(InputIt first, InputIt last) {
@@ -41,7 +42,7 @@ class PQ_ComplHeap : public PQ<T> {
   }
 
   T delMax() override { return complHeapDelMax(data_, comp_); }
-  T delMaxComentado() override { return complHeapDelMaxComentado(data_, comp_); }
+  HeapResult<T> delMaxComentado() override { return complHeapDelMaxComentado(data_, comp_); }
 
   const T& getMax() const override { return complHeapGetMax(data_); }
   bool empty() const noexcept override { return data_.empty(); }
