@@ -32,6 +32,7 @@ class PQ_ComplHeap : public PQ<T> {
   }
 
   void insert(const T& e) override { complHeapInsert(data_, e, comp_); }
+  void insertMerge(const T& e) override { complHeapInsert(data_, e, comp_); }
   std::size_t insertComentado(const T& e) override { return complHeapInsertComentado(data_, e, comp_); }
 
   template <class InputIt>

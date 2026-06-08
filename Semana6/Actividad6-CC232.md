@@ -294,39 +294,54 @@ Entrega en este bloque:
 - Salida de la demostración.
 - Trazado manual de una eliminación.
 
+Bloque 4:
+
+heap interno: [14, 12, 10, 5, 3, 7, 9, 1, 4]
+
 Contando el número de intercambios
+Heap antes de reparar:[ 4 12 10 5 3 7 9 1 ]
 Número de intercambios:2
 delMax() -> 14
 heap interno: [12, 5, 10, 4, 3, 7, 9, 1]
+
+Heap antes de reparar:[ 1 5 10 4 3 7 9 ]
 Número de intercambios:2
 delMax() -> 12
 heap interno: [10, 5, 9, 4, 3, 7, 1]
+
+Heap antes de reparar:[ 1 5 9 4 3 7 ]
 Número de intercambios:2
 delMax() -> 10
 heap interno: [9, 5, 7, 4, 3, 1]
+
+Heap antes de reparar:[ 1 5 7 4 3 ]
 Número de intercambios:1
 delMax() -> 9
 heap interno: [7, 5, 1, 4, 3]
+
+Heap antes de reparar:[ 3 5 1 4 ]
 Número de intercambios:2
 delMax() -> 7
 heap interno: [5, 4, 1, 3]
+
+Heap antes de reparar:[ 3 4 1 ]
 Número de intercambios:1
 delMax() -> 5
 heap interno: [4, 3, 1]
+
+Heap antes de reparar:[ 1 3 ]
 Número de intercambios:1
 delMax() -> 4
 heap interno: [3, 1]
+
+Heap antes de reparar:[ 1 ]
 Número de intercambios:0
 delMax() -> 3
 heap interno: [1]
+
 Número de intercambios:0
 delMax() -> 1
 heap interno: []
-
-Explica por qué es ese número de intercambios cada vez y por qué el arreglo interno no queda ordenado.
-Después de cada `delMax()`, el último elemento del heap se mueve a la raíz y luego se baja para restaurar la propiedad de heap. El número de intercambios depende de la posición del último elemento y de cómo se comparan los hijos durante la bajada.
-El arreglo interno no queda ordenado porque el heap solo garantiza que cada padre tenga prioridad mayor o igual que sus hijos, no que los elementos estén en orden secuencial. El orden solo se garantiza para el máximo, que siempre está en la raíz, pero los demás elementos pueden estar en cualquier orden relativo mientras se mantenga la propiedad de heap.
-
 
 #### Bloque 5 - Validación explícita de la propiedad heap
 
@@ -488,10 +503,15 @@ Luego modifica la demostración de `merge` para construir dos heaps, mezclarlos 
 Responde:
 
 1. ¿Por qué `merge` es la operación central del heap izquierdista?
+1. Porque merge es la operación que permite combinar dos heaps izquierdistas manteniendo la propiedad izquierdista.
 2. ¿Cómo se implementa `insert` usando `merge`?
+2. Para insertar un nuevo elemento, se crea un nuevo heap con ese elemento como único nodo y luego se mezcla con el heap existente usando merge.
 3. ¿Cómo se implementa `delMax` usando `merge`?
+3. Para eliminar el máximo, se elimina la raíz del heap y luego se mezclan sus hijos izquierdo y derecho usando merge para formar el nuevo heap.
 4. ¿Qué propiedad adicional diferencia un heap izquierdista de un heap binario completo?
+4. La propiedad adicional es que en un heap izquierdista, el subárbol izquierdo siempre tiene una distancia nula (npl) mayor o igual que la del subárbol derecho.
 5. ¿Qué ventaja conceptual tiene un heap izquierdista frente a un heap binario completo?.
+5. Un heap izquierdista usa operaciones sobre nodos enlazados para tener costo O(logn) para fusionar heaps.
 
 Entrega en este bloque:
 

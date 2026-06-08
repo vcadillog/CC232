@@ -24,6 +24,7 @@ endfunction()
 
 cc232_add_sem6_target(sem6_demo_bloque3 "demos/demo_bloque3.cpp")
 cc232_add_sem6_target(sem6_demo_bloque4 "demos/demo_bloque4.cpp")
+cc232_add_sem6_target(sem6_demo_bloque8 "demos/demo_bloque8.cpp")
 cc232_add_sem6_target(sem6_demo_pq_complheap_basico "demos/demo_pq_complheap_basico.cpp")
 cc232_add_sem6_target(sem6_demo_heapify_floyd "demos/demo_heapify_floyd.cpp")
 cc232_add_sem6_target(sem6_demo_heapsort "demos/demo_heapsort.cpp")

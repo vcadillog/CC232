@@ -13,6 +13,7 @@ template <class T> class PQ {
 public:
   virtual ~PQ() = default;
   virtual void insert(const T &e) = 0;
+  virtual void insertMerge(const T &e) = 0;
   virtual std::size_t insertComentado(const T &e) = 0;
   virtual T delMax() = 0;
   virtual HeapResult<T> delMaxComentado() = 0;

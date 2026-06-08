@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
+#include <iostream>
 #include <queue>
 #include <stdexcept>
 #include <utility>
@@ -83,10 +84,27 @@ public:
 
   std::size_t insertComentado(const T &e) override {
     root_ = mergeNodes(root_, new Node(e));
-    std::size_t count = 0; 
+    std::size_t count = 0;
     ++n_;
     return count;
   }
+
+  // T delMax() override {
+  //   if (!root_) {
+  //     throw std::out_of_range("delMax() sobre heap izquierdista vacio");
+  //   }
+  //   T ans = root_->value;
+  //   Node *old = root_;
+  //   Node *a = root_->left;
+  //   Node *b = root_->right;
+  //   old->left = nullptr;
+  //   old->right = nullptr;
+  //   delete old;
+  //   root_ = mergeNodes(a, b);
+  //   --n_;
+  //   return ans;
+  // }
+  //
 
   T delMax() override {
     if (!root_) {
@@ -94,13 +112,23 @@ public:
     }
     T ans = root_->value;
     Node *old = root_;
-    Node *a = root_->left;
-    Node *b = root_->right;
+
+    PQ_LeftHeap r;
+    PQ_LeftHeap l;
+    r.root_ = root_->right;
+    l.root_ = root_->left;
+    l.n_ = countNodes(l.root_);
+    r.n_ = countNodes(r.root_);
+    l.merge(r);
+    root_ = l.root_;
+    n_ = l.n_;
+
+    l.root_ = nullptr;
     old->left = nullptr;
     old->right = nullptr;
     delete old;
-    root_ = mergeNodes(a, b);
-    --n_;
+    // --n_;
+
     return ans;
   }
 
@@ -108,7 +136,7 @@ public:
     if (!root_) {
       throw std::out_of_range("delMax() sobre heap izquierdista vacio");
     }
-    std::size_t count=0;
+    std::size_t count = 0;
     T ans = root_->value;
     Node *old = root_;
     Node *a = root_->left;
@@ -118,7 +146,7 @@ public:
     delete old;
     root_ = mergeNodes(a, b);
     --n_;
-    return {ans,count};
+    return {ans, count};
   }
 
   void merge(PQ_LeftHeap &other) {
@@ -129,6 +157,13 @@ public:
     n_ += other.n_;
     other.root_ = nullptr;
     other.n_ = 0;
+  }
+
+  void insertMerge(const T &e) override {
+    PQ_LeftHeap heapTemp;
+    heapTemp.root_ = new Node(e);
+    heapTemp.n_ = 1;
+    merge(heapTemp);
   }
 
   std::vector<T> levelOrder() const {
@@ -150,6 +185,8 @@ public:
 
   bool isLeftistHeap() const { return check(root_).ok; }
 
+  bool isValidLeftHeap() const { return check(root_).ok; }
+
 private:
   struct Check {
     bool ok;
@@ -160,6 +197,7 @@ private:
   std::size_t n_{0};
   Compare comp_{};
 
+  // consistencia de distancia nula
   static int npl(Node *u) noexcept { return u ? u->npl : 0; }
 
   Node *mergeNodes(Node *a, Node *b) {
@@ -183,8 +221,10 @@ private:
       return {true, 0};
     const Check l = check(u->left);
     const Check r = check(u->right);
+    // propiedad de heap
     const bool heapOk = (!u->left || !comp_(u->value, u->left->value)) &&
                         (!u->right || !comp_(u->value, u->right->value));
+    // propiedad izquierdista y consistencia de tamaño
     const bool leftistOk =
         npl(u->left) >= npl(u->right) && u->npl == npl(u->right) + 1;
     return {l.ok && r.ok && heapOk && leftistOk, u->npl};
@@ -196,6 +236,11 @@ private:
     clear(u->left);
     clear(u->right);
     delete u;
+  }
+  std::size_t countNodes(Node *u) const {
+    if (!u)
+      return 0;
+    return 1 + countNodes(u->left) + countNodes(u->right);
   }
 };
 
