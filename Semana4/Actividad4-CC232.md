@@ -233,4 +233,48 @@ Para cada laberinto registra:
 - interpretación.
 
 #### Bloque 7 
+Revisa:
+
+- `Semana4/include/Queue.h`
+- `Semana4/include/BankSimulation.h`
+- `Semana4/demos/demo_bank.cpp`
+- `Semana4/pruebas_publicas/test_public_week4.cpp`
+- `Semana4/pruebas_internas/test_internal_week4.cpp`
+
+Responde:
+
+1. Representa una cola de Customer (clientes), almacena el tiempo que falta para atender un conjunto de clientes por ventanilla.
+2. Compara el tamaño de las colas y toma la cola más corta, si hay empate toma la cola con el menor índice.
+3. La simulación genera números pseudoaleatorios, al poner una semilla hacemos que los números aleatorios sean siempre los mismos para el mismo valor de semilla y poder tener resultados reproducibles.
+4. totalServed debe ser menor o igual a totalArrivals porque  no pueden atenderse más clientes que los que llegan al banco.
+5. Es un arreglo que almacena la simulación por cada paso de tiempo como cambian las tiempos en las colas, por ventanillas y la llegada o salida de clientes.
+6. Porque las colas de espera funcionan bajo un funcionamiento LIFO, entran por la cola y salen por el frente, mientras que en una pila es FIFO, entra por la cima y sale el elemento que entró más recientemente.
+7. Es un ejemplo práctico de una cola LIFO que modela el funcionamiento de una cola de espera, algo muy común del mundo real en el que se atiende según orden de llegada.
+8. Dependiendo del cambio podría afectar al tiempo de espera, longitud de las colas, la cantidad de clientes que se atienden para un mismo periodo de tiempo.
+
+##### Experimento 6
+
+Ejecuta la simulación variando al menos tres parámetros:
+
+- número de ventanillas,
+- duración total,
+- semilla.
+
+Construye una tabla con:
+
+- `nWin`
+- `servTime`
+- `seed`
+- `totalArrivals`
+- `totalServed`
+- tamaño final de cada cola
+- observación
+
+Luego responde:
+
+1. ¿Qué parámetro parece influir más en la congestión observable?
+2. ¿Qué cambia cuando repites exactamente la misma semilla?
+3. ¿Qué cambia cuando mantienes `nWin` y `servTime`, pero alteras la semilla?
+4. ¿Qué evidencia usarías para defender que la cola más corta es una política razonable, aunque no necesariamente óptima?
+
 #### Bloque 8 
