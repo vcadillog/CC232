@@ -172,5 +172,65 @@ La defensa debe incluir obligatoriamente:
 - qué parte del código tuviste que modificar.
 
 #### Bloque 6 
+
+Revisa:
+
+- `Semana4/include/Queen.h`
+- `Semana4/include/NQueens.h`
+- `Semana4/include/Maze.h`
+- `Semana4/demos/demo_nqueens.cpp`
+- `Semana4/demos/demo_maze.cpp`
+- `Semana4/pruebas_publicas/test_public_week4.cpp`
+- `Semana4/pruebas_internas/test_internal_week4.cpp`
+
+Responde:
+
+1. Cuando dos reinas comparten fila, columna o diagonal significa que están en conflicto.
+2. La pila representa el orden por fila en el que las reinas fueron colocadas en el tablero para una solución válida.
+3. El algoritmo avanza cuando encuentra una columna válida y retrocede a la fila anterior si no encontró una solución a nivel de columnas.
+4. Porque checks cuenta cuantas iteraciones fueron necesarias para obtener una solución.
+5. Cuando collectPlacement se hace falso ya no se guardan las posiciones de las reinas para la solución.
+6. Son variables con nombres explicitos que representan los estados:
+ - AVAILABLE: Camino no visitado.
+ - BACKTRACKED: Camino sin salida ya visitado.
+ - WALL: Un obstáculo
+7. incoming es la dirección desde le que se llegó a una celda y outgoing la dirección que se va a tomar en el siguiente paso.
+8. Porque necesita saber lo que se ha recorrido sino puede recorrer el mismo camino de forma ilimitada y entrar en un bucle infinito o recorrer las mismas celdas más de una vez.
+9. El problema de las N-Reinas y laberintos comparten la idea del backtracking para solucionar el problema, mientras que al ser Maze un problema más complicado que admite diferentes caminos complejos requiere asignar de forma más explícita cada posición recorrida, mientras que en N-Reinas solo es necesario avanzar a nivel de columnas y deshacer los cambios a nivel de filas.
+
+##### Experimento 4
+
+Ejecuta `placeQueens(n)` para al menos cuatro valores de `n`.
+
+Registra en una tabla:
+
+- `n`
+- número de soluciones
+- número de `checks`
+- ¿crece rápido o lento?
+- comentario
+
+Luego responde:
+
+1. ¿Qué patrón observas en el crecimiento de `checks`?
+2. ¿Por qué contar verificaciones no es lo mismo que contar soluciones?
+3. ¿Dónde aparece la "poda" en este código, aunque no haya una estructura formal con ese nombre?
+
+##### Experimento 5
+
+Diseña al menos tres laberintos propios:
+
+- uno con camino claro,
+- uno sin salida,
+- uno donde el algoritmo deba retroceder varias veces.
+
+Para cada laberinto registra:
+
+- grilla usada,
+- coordenadas de inicio y destino,
+- longitud del camino o ausencia de camino,
+- evidencia de retroceso,
+- interpretación.
+
 #### Bloque 7 
 #### Bloque 8 
