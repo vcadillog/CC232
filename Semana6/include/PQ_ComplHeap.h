@@ -43,6 +43,7 @@ class PQ_ComplHeap : public PQ<T> {
   }
 
   T delMax() override { return complHeapDelMax(data_, comp_); }
+  T delMaxLeftist() override { return complHeapDelMax(data_, comp_); }
   HeapResult<T> delMaxComentado() override { return complHeapDelMaxComentado(data_, comp_); }
 
   const T& getMax() const override { return complHeapGetMax(data_); }

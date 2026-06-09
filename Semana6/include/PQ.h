@@ -16,6 +16,7 @@ public:
   virtual void insertMerge(const T &e) = 0;
   virtual std::size_t insertComentado(const T &e) = 0;
   virtual T delMax() = 0;
+  virtual T delMaxLeftist() = 0;
   virtual HeapResult<T> delMaxComentado() = 0;
   virtual const T &getMax() const = 0;
   virtual bool empty() const noexcept = 0;

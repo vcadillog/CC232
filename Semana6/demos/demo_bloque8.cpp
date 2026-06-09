@@ -50,7 +50,7 @@ int main() {
             << a.isValidLeftHeap() << "\n";
 
   while (!a.empty()) {
-    int y = a.delMax();
+    int y = a.delMaxLeftist();
     std::cout << "delMax() -> " << y << "\n";
     printVector(a.levelOrder(), "heap después de delMax()");
   }

@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
-#include <iostream>
 #include <queue>
 #include <stdexcept>
 #include <utility>
@@ -89,24 +88,24 @@ public:
     return count;
   }
 
-  // T delMax() override {
-  //   if (!root_) {
-  //     throw std::out_of_range("delMax() sobre heap izquierdista vacio");
-  //   }
-  //   T ans = root_->value;
-  //   Node *old = root_;
-  //   Node *a = root_->left;
-  //   Node *b = root_->right;
-  //   old->left = nullptr;
-  //   old->right = nullptr;
-  //   delete old;
-  //   root_ = mergeNodes(a, b);
-  //   --n_;
-  //   return ans;
-  // }
-  //
-
   T delMax() override {
+    if (!root_) {
+      throw std::out_of_range("delMax() sobre heap izquierdista vacio");
+    }
+    T ans = root_->value;
+    Node *old = root_;
+    Node *a = root_->left;
+    Node *b = root_->right;
+    old->left = nullptr;
+    old->right = nullptr;
+    delete old;
+    root_ = mergeNodes(a, b);
+    --n_;
+    return ans;
+  }
+
+
+  T delMaxLeftist() override {
     if (!root_) {
       throw std::out_of_range("delMax() sobre heap izquierdista vacio");
     }
@@ -118,7 +117,9 @@ public:
     r.root_ = root_->right;
     l.root_ = root_->left;
     l.n_ = countNodes(l.root_);
-    r.n_ = countNodes(r.root_);
+    // r.n_ = countNodes(r.root_);
+    r.n_ = n_ - 1 - l.n_;
+    // std::cout << l.n_ << " " << r.n_<<" "<<n_ << std::endl;
     l.merge(r);
     root_ = l.root_;
     n_ = l.n_;
