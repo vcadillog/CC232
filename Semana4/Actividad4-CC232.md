@@ -278,3 +278,10 @@ Luego responde:
 4. ¿Qué evidencia usarías para defender que la cola más corta es una política razonable, aunque no necesariamente óptima?
 
 #### Bloque 8 
+
+- La elección de una pila o cola dependerá del tipo de problema a resolver, su implementación explícita permite un mayor control y mayor flexibilidad en el uso de recursos respecto a una implícita.
+- Para evaluación de expresiones el uso de las pilas es más adecuado porque facilita el uso de operadores binarios/unarios y precedencia.
+- El backtracking es un mecanismo necesario para recordar un camino no exitoso recorrido cuando hay múltiples posibilidades para resolver el problema.
+- En las simulaciones las colas modelan procesos de espera. 
+- Una correctitud teórica se valida con pruebas sobre salidas esperadas.
+- Un problema de conversión de base solo requiere de un uso de pilas, mientras que paréntesis agrega anidamiento y uso de una pila explícita para manejar diferentes pares, el problema de las N-Reinas extiende el uso de pilas con el uso de backtracking mientras que el laberinto requiere una implementación más detallada de la pila para recordar los caminos recorridos y un banco requiere el uso de colas, un orden muy diferente a las operaciones LIFO usadas para resolver los problemas anteriores.
