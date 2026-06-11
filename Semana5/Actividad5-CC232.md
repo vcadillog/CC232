@@ -76,34 +76,17 @@
 ### Bloque 3 - Recorridos y trazado guiado
 
 1. En preorden primero visita el nodo padre, luego el hijo izquierdo y finalmente el hijo derecho.
-
 2. Inorder visita primero el hijo izquierdo, luego el nodo y finalmente el hijo derecho.
-
 3. En postorden visita primero el hijo izquierdo, luego el hijo derecho y finalmente el nodo.
-
 4. Cuando se visita por niveles empieza desde la raíz y luego visita los nodos de cada nivel de izquierda a derecha antes de pasar al siguiente nivel.
-
 5. Los recorridos recursivos tienen tiempo O(n) porque cada nodo del árbol se visita exactamente una vez. 
-
 6. Porque también visitan cada nodo exactamente una vez, pero utilizan estructuras auxiliares como pilas o colas para gestionar el recorrido.
-
 7. En un árbol balanceado, la memoria auxiliar de un recorrido recursivo es O(log n) porque cada nodo se divide hasta en dos subárboles, lo que genera una profundidad logarítmica.
-
 8. En un árbol degenerado, la memoria auxiliar de un recorrido recursivo es O(n) porque cada nodo tiene solo un hijo.
-
 9. Usar una pila explícita permite controlar manualmente el orden de los nodos a visitar y evita desbordamiento de pila en árboles muy profundos, ya que una pila de llamadas tiene un tamaño limitado por el compilador.
-
 10. En un árbol completo, cada nivel tiene el doble de nodos que el nivel anterior, lo que hace que la cola pueda crecer exponencialmente a medida que se avanza por los niveles. En cambio, en un árbol degenerado, cada nivel tiene solo un nodo.
 
 ### Bloque 4 - Demos
-
-Revisa y ejecuta:
-
-- `Semana5/demos/demo_binary_tree.cpp`
-- `Semana5/demos/demo_bst.cpp`
-- `Semana5/demos/demo_heap.cpp`
-- `Semana5/demos/demo_capitulo5_panorama.cpp`
-
 
 | Archivo | Salida u observable importante | Idea estructural | Argumento de costo, espacio o diseño |
 |:---|:---:|:---:|---:|
@@ -111,8 +94,6 @@ Revisa y ejecuta:
 | sem5_demo_bst | findEQ, lowerBound, upperBound, remove, rotateLeft, construcción balanceada | Árbol BST | Búsqueda O(h) en tiempo; rotación O(1); balanceo cuesta O(n) |
 | sem5_demo_heap | Heapify, add, remove, extracción ordenada produce secuencia ascendente | Min Heap parent = (i-1)/2, left = 2*i+1, right = 2*i+2 | Heapify O(n); add y remove O(log n); espacio O(n)|
 | sem5_demo_capitulo5_panorama | Salida integrada: Min heap , BST, recorrido STL | Integración de todas las estructuras: heap, BST , recorridos |  Recorrido sobre BST es inorden y cuesta O(n)|
-
-Luego responde:
 
 1. Se realizan diferentes tipos de recorridos usando métodos iterativos y recursivos, la coincidencia entr estrategias podría dar un orden esperado, pero requiere de pruebas adicionales.
 2. El recorrido inorder da el camino para todo el árbol y luego para el elemento 5 se revisa la coincidencia del sucesor y predecesor respeta el orden inorder.
@@ -129,28 +110,24 @@ Se puede corroborar que la salida inorder es correcta.
 
 ### Bloque 5 - Pruebas e invariantes
 
-Revisa:
-
-- `Semana5/pruebas_publicas/test_public_week5.cpp`
-- `Semana5/pruebas_internas/test_internal_week5.cpp`
-
-Responde:
-
-1. ¿Qué operaciones del BST valida la prueba pública?
-2. ¿Qué casos validan que el BST no acepta duplicados?
-3. ¿Qué se verifica al comparar el inorden recursivo con las versiones iterativas?
-4. ¿Qué se espera de `findEQ(8)` en la prueba pública?
-5. ¿Qué se espera de `lowerBound(9)` y `upperBound(8)`?
-6. ¿Qué propiedad se valida con `isBST()`?
-7. ¿Qué se valida después de eliminar un nodo con `remove()`?
-8. ¿Qué valida `checkParentLinks()` después de borrar, separar o adjuntar subárboles?
-9. ¿Qué operaciones del heap valida la prueba pública?
-10. ¿Qué demuestra extraer repetidamente de un min-heap hasta vaciarlo?
-11. ¿Qué operaciones de `BinTree` se validan con `attachAsRC`, `secede` y `removeSubtree`?
-12. ¿Qué agregan las pruebas internas respecto a rotaciones, `bubbleUp`, `trickleDown`, profundidad, altura, sucesor y predecesor?
-13. ¿Qué sí demuestra pasar las pruebas públicas?
-14. ¿Qué no demuestra pasar las pruebas públicas?
-15. ¿Por qué una defensa correcta debe mencionar invariantes y complejidad además de resultados observables?.
+1. Para BST se valida las operaciones add, inorder, findEQ, find, lowerBound, upperBound, minNode, isBST, contains, checkParentLinks.
+2. add valida que no se ingresen duplicados.
+3. Se verifica que independientemente del método utilizado el orden sea el mismo.
+4. Espera que exista el elemento con clave 8 y que el dato del nodo sea 8.
+5. De lowerBound se espera el elemento mayor o igual a x (9); para el caso debe ser 10 y upperBound el menor elemento estrictamente mayor a x (8); también 10 para el caso.
+6. Se valida que la estructura cumpla con las condiciones de un árbol BST.
+7. Se valida que el elemento ya no está en el árbol, que los enlaces a los parents sigan siendo válidas y que el bst debe seguir cumpliendo el recorrido inorder.
+8. Que los punteros de los hijos sigan apuntando al padre.
+9. valida isHeap, remove.
+10. Demuestra que las extracciones deben salir ordenadamente de menor a mayor.
+11.
+- Para attachAsRC se valida que se inserta un nodo, que el tamaño del árbol crece en uno y que el nodo insertado queda vacío.
+- Para secede se verifica que los tamaños del árbol original disminuye y el subárbol tiene un tamaño del complemento y que las relaciones de los padres se mantiene.
+- Para removeSubtree elimina un subárbol desde la raíz y que el árbol queda vacío.
+12. Top valida que el elemento mínimo ha sido llevado a la raíz después de hacer add e implícitamente bubbleUp, luego que al remover un elemento se quitó la raíz y que después de realizar esas operaciones se sigue preservando la propiedad del heap.
+13. Demuestra que los casos probados son correctos.
+14. No demuestra que el código sea correcto para todos los casos.
+15. Porque al ser ideas conceptuales del algoritmo estas deben mantenerse para cualquier caso.
 
 
 ### Bloque 6 - Lectura cercana de código
