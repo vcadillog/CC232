@@ -27,6 +27,9 @@ int main() {
 
   std::cout << "BST:\n" << bst;
   printVector("BST inorden", bst.inorder());
+  printVector("BST preorder", bst.preorder());
+  printVector("BST postorder", bst.postorder());
+  printVector("BST levelorder", bst.levelOrder());
 
   if (auto* exact = bst.findEQ(5); exact != nullptr) {
     std::cout << "findEQ(5): " << exact->data << '\n';

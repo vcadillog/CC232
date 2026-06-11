@@ -162,31 +162,59 @@ Se puede corroborar que la salida inorder es correcta.
 
 ### Bloque 7 - BST
 
-Revisa:
+1. La propiedad BST es que para cada nodo en un árbol se debe cumplir que el hijo izquierdo almacena un valor menor que el padre y el hijo derecho un valor mayor que su padre.
+2. Porque el recorrido inorder en un BST coincide con la propiedad, ya que primero recorre el subárbol izquierdo, luego el nodo y luego el subárbol derecho; es decir va de menor a mayor.
+3. find es un alias de lowerBound, lowerBound busca el primer valor que sea mayor o igual, upperBound busca el valor estrictamente mayor y findEQ busca el valor exacto en el árbol.
+4. findEQ puede fallar en encontrar el valor porque es una igualdad, mientras que lowerBound es una condición menos estricta y solo requiere un valor mayor o igual, no estrictamente igual, tiene un rango de búsqueda más grande.
+5.
+│       ┌── 12
+│   ┌── 10
+│   │   └── 8
+└── 7
+    │       ┌── 6
+    │   ┌── 5
+    │   │   └── 4
+    └── 3
+        └── 1
+6. 
+- inorden: 1 3 4 5 6 7 8 10 12
+- preorder: 7 3 1 5 4 6 10 8 12
+- postorder: 1 4 6 5 3 8 12 10 7
+- por niveles: 7 3 10 1 5 8 12 4 6
 
-- `Semana5/include/BinarySearchTree.h`
-- `Semana5/demos/demo_bst.cpp`
-- `Semana5/pruebas_publicas/test_public_week5.cpp`
-- `Semana5/pruebas_internas/test_internal_week5.cpp`
+7. 
+lowerbound(9)
+- 9 > 7 candidato = nullptr
+- 9 < 10 candidato = 10
+- 9 > 8 candidato = 10 , fin
+upperbound(8)
+- 8 > 7 candidato = nullptr
+- 8 < 10 candidato = 10
+- 8 == 8 candidato = 10 , fin
 
-Responde:
+8.
+- Caso nodo es hoja: Descnecta y elimina el nodo, actualiza la altura.
+- Caso nodo con un hijo: El hijo se conecta al padre del padre se actualiza la altura, se desconeta y elimina el nodo.
+- Caso nodo con dos hijos: Se busca el sucesor inorder del nodo y se conecta al padre del nodo, se actualiza la altura, se desconecta y elimina el nodo.
 
-1. Define formalmente la propiedad BST.
-2. Explica por qué el recorrido inorden de un BST debe producir una secuencia no decreciente.
-3. Explica la diferencia entre `find`, `findEQ`, `lowerBound` y `upperBound`.
-4. Explica por qué `findEQ(x)` puede fallar aunque `lowerBound(x)` no falle.
-5. Construye manualmente el BST que se obtiene al insertar: `7, 3, 10, 1, 5, 8, 12, 4, 6`.
-6. Escribe el inorden, preorden, postorden y recorrido por niveles de ese árbol.
-7. Simula `lowerBound(9)` y `upperBound(8)` paso a paso.
-8. Explica qué casos de eliminación existen en un BST: hoja, un hijo, dos hijos.
-9. Explica qué papel cumple `splice` durante una eliminación.
-10. Después de eliminar una clave, ¿qué invariantes deben seguir siendo ciertos?
-11. Explica por qué `remove(3)` en las pruebas debe conservar el inorden ordenado.
-12. Explica qué hace `rotateLeft`.
-13. Explica qué hace `rotateRight`.
+9. Lo que hace splice es elegir como se conecta el padre del nodo al hijo y luego actualiza la altura.
+10. Se debe seguir cumpliendo la propiedad BST, es decir la relación de un padre con sus hijos izquierdo y derecho.
+11. Porque al eliminar el nodo debe seguir cumpliendo la propiedad BST lo que deriva a conservar el orden inorder.
+12. Reorganiza los punteros mueve el hijo derecho hacia arriba y reubica el subárbol izquierdo de ese hijo como derecho del nodo original.
+13. Reorganiza los punteros mueve el hijo izquierdo hacia arriba y reubica el subárbol derecho de ese hijo como izquierdo del nodo original.
 14. Demuestra que una rotación local preserva la propiedad BST.
-15. Explica para qué sirve construir un BST balanceado desde un arreglo ordenado.
-16. Compara el costo de búsqueda en un BST balanceado y en un BST degenerado.
+14. Rotarlo no altera el orden relativo de los nodos, solo cambia la estructura de enlaces manteniendo intacto el recorrido inorden.
+```cpp
+u->right = w->left;
+w->left = u;
+...
+w->parent = u->parent;
+u->parent = w;
+```
+No altera la relación de orden.
+
+15. Al ser una lista ordenada construye un BST balanceado a través de los medios, tener un árbol balanceado mejora el costo de operaciones en el árbol, ya que el recorrido de un nodo a la hoja es mínima en promedio comparado a un árbol desbalanceado.
+16. Un árbol balanceado tiene costo de búsqueda O(logn) mientras que un BST degenerado es el peor caso posible y tiene que recorrer todos los elementos y es de costo O(n). 
 
 ### Bloque 8 - Heap
 
@@ -200,6 +228,7 @@ Revisa:
 Responde:
 
 1. Explica por qué un heap binario puede almacenarse en un `std::vector` sin punteros.
+1.
 2. Demuestra las fórmulas:
 
    ```cpp
@@ -207,18 +236,29 @@ Responde:
    right(i) = 2*i + 2
    parent(i) = (i - 1) / 2
    ```
-
+2. 
 3. Define la propiedad de min-heap.
+3.
 4. Explica por qué `top()` devuelve el mínimo.
+4.
 5. Explica paso a paso cómo `bubbleUp(i)` restaura la propiedad de heap después de insertar.
+5.
 6. Explica paso a paso cómo `trickleDown(i)` restaura la propiedad de heap después de eliminar la raíz.
+6.
 7. Explica por qué `remove()` debe mover el último elemento a la raíz antes de aplicar `trickleDown(0)`.
+7.
 8. Explica qué verifica `isHeap()`.
+8.
 9. Compara construir un heap insertando `n` elementos con construirlo usando `heapify()`.
+9.
 10. Justifica por qué insertar `n` elementos uno por uno cuesta `O(n log n)` en el peor caso.
+10.
 11. Justifica por qué `heapify()` puede ejecutarse en `O(n)`.
+11.
 12. Ejecuta una extracción completa del heap construido con `{7, 3, 10, 1, 5, 8, 2}` y explica por qué la secuencia extraída sale ordenada.
+12.
 13. Compara el heap con el BST: ¿cuál estructura conviene para consultar mínimo repetidamente y cuál conviene para búsquedas ordenadas?.
+13.
 
 ### Bloque 9 - Cierre comparativo
 
