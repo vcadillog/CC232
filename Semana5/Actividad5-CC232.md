@@ -114,22 +114,18 @@ Revisa y ejecuta:
 
 Luego responde:
 
-1. En `demo_binary_tree.cpp`, ¿qué salida permite verificar que los recorridos visitan los nodos en el orden esperado?
 1. Se realizan diferentes tipos de recorridos usando métodos iterativos y recursivos, la coincidencia entr estrategias podría dar un orden esperado, pero requiere de pruebas adicionales.
-2. ¿Qué parte de la demo permite defender que `succ()` y `pred()` respetan el orden inorden?
 2. El recorrido inorder da el camino para todo el árbol y luego para el elemento 5 se revisa la coincidencia del sucesor y predecesor respeta el orden inorder.
-3. ¿Qué evidencia produce la representación ASCII del árbol?
 3. La construcción del árbol permite una visualización gráfica a través de una sobrecarga del operador <<.
-4. En `demo_bst.cpp`, ¿qué observable permite defender que el inorden del BST queda ordenado?
-4.
-5. ¿Qué operaciones de búsqueda se distinguen mejor en la demo del BST: `find`, `findEQ`, `lowerBound` o `upperBound`?
-5.
-6. En `demo_heap.cpp`, ¿qué salida permite defender que el mínimo queda en la raíz?
-6.
-7. ¿Qué evidencia permite distinguir entre insertar con `add()` y construir con `heapify()`?
-7.
-8. En `demo_capitulo5_panorama.cpp`, ¿qué comparación resume mejor la semana: árbol enlazado, BST o heap?.
-8.
+4. En el demo bst.inorder nos permite observar el BST inorder.
+```cpp
+BST inorden: 1 3 4 5 6 7 8 10 12
+```
+Se puede corroborar que la salida inorder es correcta. 
+5. findEQ se distingue mejor al ser una condición exacta de búsqueda, los otros dan el mismo valor al trabajar con desigualdades.
+6. En el demo se puede observar que el mínimo queda en la raíz, cuando está como primer elemento en el arreglo y eso se visualiza después de hacer add y remove, el observable es heap.data.
+7. BinaryHeap de la librería ods nos permite distinguir la diferencia entre crear un heap desde un vector e insertar nuevos nodos.
+8. Un árbol organiza nodos, un heap los ordena por mínimos o máximos y un BST los organiza para que según su posición relativa al nodo padre cumplan una relación de desigualdad.
 
 ### Bloque 5 - Pruebas e invariantes
 
