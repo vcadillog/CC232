@@ -132,14 +132,110 @@ Se puede corroborar que la salida inorder es correcta.
 
 ### Bloque 6 - Lectura cercana de código
 
+1. Que la raíz no tenga parent, que un nodo solo tenga un padre y que puede tener hasta un hijo izquierdo y derecho y el hijo solo puede ser izquierdo o derecho. 
+2. Porque la invariante exige que solo tenga un hijo izquierdo o derecho, sino deja de ser un árbol binario.
+3. size recorre de forma recursiva, cuenta el nodo actual y los subárboles izquierdo y derecho hasta llegar a las hojas.
+4. 
+- leftmost va recorriendo desde el nodo actual por la izquierda hasta llegar a una hoja.
+- rightmost va recorriendo desde el nodo actual por la derecha hasta llegar a una hoja.
+5. succ va recorriendo según dos casos: 
+ - Si tiene hijo derecho, va por el hijo derecho y luego va recorriendo por el hijo izquierdo hasta llegar a una hoja.
+ - Si no tiene hijo derecho y a la vez es hijo derecho va recorriendo en bucle por los padres mientras sean hijos derechos y devuelve el padre del último padre derecho.   
+6. pred va recorriendo de forma similar a succ:
+ - Si tiene hijo izquierdo, va por el hijo izquierdo y luego va recorriendo por el hijo derecho hasta llegar a una hoja.
+ - Si no tiene hijo izquierdo y a la vez es hijo izquierdo va recorriendo en bucle por los padres mientras sean hijos izquierdos y devuelve el padre del último padre izquierdo.   
+7. root_ almacena la información de la raíz del árbol y se actualiza cada vez que se inserta un nodo como raíz, pero a la vez deshace todo el árbol. size_ almacena la cantidad de nodos del árbol, empieza en 1 cuando se crea la raíz y se va actualizando cada vez que se insertan hijos.
+8. Retorna la altura del súbarbol formado desde el nodo, elige la mayor altura formada por los subárboles formados por su hijo izquierdo o derecho y le agrega 1, la altura adicional del nodo actual, esto se actualiza en las inserciones.
+9. Esto actualiza la altura del subárbol formado por los padres del nodo, ya que llama a updateHeight y va actualizando el nodo actual a su nodo padre hasta llegar a la raíz.
+10. attachAsLC lo que hace es primero verificar que los punteros sean válidos y que no tenga hijo izquierdo, luego hace que el puntero del hijo izquierdo apunte a la raíz del subárbol y a la vez que la raíz del subárbol apunte al padre, luego actualiza la altura y deja al subárbol vacío. Lo mismo para attachAsRC, pero en lugar de trabajar por la izquierda lo hace por la derecha.
+11. Si se toma un nodo lo que hace removeSubtree es desconectar el nodo del árbol y destruir sus elementos, mientras secede lo que hace es desconectar el nodo del árbol y formar con el subárbol un nuevo árbol y lo retorna, es decir no lo destruye.
+12. Porque si el objetivo es crear un nuevo árbol desde el subárbol si fuesen destruidos primero tendrían que haber sido copiados para luego restaurase, lo que complica la implementación, ya que es mucho más simple solo desconectarlo.
+13. Porque el objetivo es eliminar el subárbol para eso tiene que desconectarlo y liberar los punteros de todos los hijos.
+14. Verifica que los punteros de los hijos hacia los padres apunten correctamente.
+15. 
+- firstNode devuelve el puntero nulo si es la raíz y sino devuelve el nodo más a la izquierda.
+- lastNode devuelve el puntero nulo si es la raíz y sino devuelve el nodo más a la derecha.
+- nextNode devuelve el puntero nulo si es nulo y sino devuelve el sucesor del nodo según succ.
+- prevNode devuelve el puntero nulo si es nulo y sino devuelve el predecesor del nodo según pred.
+16. Porque succ está diseñado para dar el siguiente sucesor inorder y un iterador dará un recorrido de los elementos inorder.
+17. asciiArt nos da una representación visual del árbol lo que hace más comprensible como los punteros están conectados.
 
 ### Bloque 7 - BST
 
+Revisa:
+
+- `Semana5/include/BinarySearchTree.h`
+- `Semana5/demos/demo_bst.cpp`
+- `Semana5/pruebas_publicas/test_public_week5.cpp`
+- `Semana5/pruebas_internas/test_internal_week5.cpp`
+
+Responde:
+
+1. Define formalmente la propiedad BST.
+2. Explica por qué el recorrido inorden de un BST debe producir una secuencia no decreciente.
+3. Explica la diferencia entre `find`, `findEQ`, `lowerBound` y `upperBound`.
+4. Explica por qué `findEQ(x)` puede fallar aunque `lowerBound(x)` no falle.
+5. Construye manualmente el BST que se obtiene al insertar: `7, 3, 10, 1, 5, 8, 12, 4, 6`.
+6. Escribe el inorden, preorden, postorden y recorrido por niveles de ese árbol.
+7. Simula `lowerBound(9)` y `upperBound(8)` paso a paso.
+8. Explica qué casos de eliminación existen en un BST: hoja, un hijo, dos hijos.
+9. Explica qué papel cumple `splice` durante una eliminación.
+10. Después de eliminar una clave, ¿qué invariantes deben seguir siendo ciertos?
+11. Explica por qué `remove(3)` en las pruebas debe conservar el inorden ordenado.
+12. Explica qué hace `rotateLeft`.
+13. Explica qué hace `rotateRight`.
+14. Demuestra que una rotación local preserva la propiedad BST.
+15. Explica para qué sirve construir un BST balanceado desde un arreglo ordenado.
+16. Compara el costo de búsqueda en un BST balanceado y en un BST degenerado.
 
 ### Bloque 8 - Heap
 
+Revisa:
+
+- `Semana5/include/BinaryHeap.h`
+- `Semana5/demos/demo_heap.cpp`
+- `Semana5/pruebas_publicas/test_public_week5.cpp`
+- `Semana5/pruebas_internas/test_internal_week5.cpp`
+
+Responde:
+
+1. Explica por qué un heap binario puede almacenarse en un `std::vector` sin punteros.
+2. Demuestra las fórmulas:
+
+   ```cpp
+   left(i) = 2*i + 1
+   right(i) = 2*i + 2
+   parent(i) = (i - 1) / 2
+   ```
+
+3. Define la propiedad de min-heap.
+4. Explica por qué `top()` devuelve el mínimo.
+5. Explica paso a paso cómo `bubbleUp(i)` restaura la propiedad de heap después de insertar.
+6. Explica paso a paso cómo `trickleDown(i)` restaura la propiedad de heap después de eliminar la raíz.
+7. Explica por qué `remove()` debe mover el último elemento a la raíz antes de aplicar `trickleDown(0)`.
+8. Explica qué verifica `isHeap()`.
+9. Compara construir un heap insertando `n` elementos con construirlo usando `heapify()`.
+10. Justifica por qué insertar `n` elementos uno por uno cuesta `O(n log n)` en el peor caso.
+11. Justifica por qué `heapify()` puede ejecutarse en `O(n)`.
+12. Ejecuta una extracción completa del heap construido con `{7, 3, 10, 1, 5, 8, 2}` y explica por qué la secuencia extraída sale ordenada.
+13. Compara el heap con el BST: ¿cuál estructura conviene para consultar mínimo repetidamente y cuál conviene para búsquedas ordenadas?.
 
 ### Bloque 9 - Cierre comparativo
+
+Responde esta pregunta final:
+
+¿Qué cambia cuando pasamos de estudiar listas, pilas y colas a diseñar árboles binarios, heaps y árboles binarios de búsqueda?
+
+La respuesta debe incluir obligatoriamente:
+
+- Una afirmación sobre representación enlazada con nodos y punteros.
+- Una afirmación sobre representación implícita en arreglo.
+- Una afirmación sobre la diferencia entre propiedad estructural y propiedad de orden.
+- Una afirmación sobre recorridos y por qué son una forma de convertir un árbol en una secuencia.
+- Una afirmación sobre mantenimiento de alturas y enlaces `parent`.
+- Una afirmación sobre BST, búsqueda ordenada y recorrido inorden.
+- Una afirmación sobre heap, prioridad y costo de `add`, `remove` y `heapify`.
+- Una afirmación sobre qué evidencia usarías para defender correctitud: pruebas, demos, invariantes, trazados y complejidad.
 
 
 ### Autoevaluación breve
