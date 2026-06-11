@@ -100,5 +100,4 @@ private:
 
 template <class T, class Compare>
 std::ostream &operator<<(std::ostream &out, const Treap<T, Compare> &t);
-
 } // namespace ods

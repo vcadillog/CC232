@@ -10,6 +10,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(algorithms STATIC
     "src/Treap.cpp"
+    "src/ImplicitTreap.cpp"
+    "src/FWideSwap.cpp"
 )
 
 add_compile_options(-Wall -Wextra -Wpedantic)
@@ -18,6 +20,9 @@ target_include_directories(algorithms PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/includ
 
 add_executable(pc3_demo_treap "demos/demo_treap.cpp")
 target_link_libraries(pc3_demo_treap PRIVATE algorithms)
+
+add_executable(pc3_demo_fwideswap "demos/demo_fwideswap.cpp")
+target_link_libraries(pc3_demo_fwideswap PRIVATE algorithms)
 
 # add_executable(test_internal "tests/test_internal.cpp")
 # target_link_libraries(test_internal PRIVATE algorithms)
