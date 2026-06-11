@@ -218,17 +218,9 @@ No altera la relación de orden.
 
 ### Bloque 8 - Heap
 
-Revisa:
-
-- `Semana5/include/BinaryHeap.h`
-- `Semana5/demos/demo_heap.cpp`
-- `Semana5/pruebas_publicas/test_public_week5.cpp`
-- `Semana5/pruebas_internas/test_internal_week5.cpp`
-
 Responde:
 
-1. Explica por qué un heap binario puede almacenarse en un `std::vector` sin punteros.
-1.
+1. Puede almacenarse en un arreglo mientras se mantega la relación implícita entre los elementos a través de sus índices.
 2. Demuestra las fórmulas:
 
    ```cpp
@@ -236,29 +228,40 @@ Responde:
    right(i) = 2*i + 2
    parent(i) = (i - 1) / 2
    ```
-2. 
-3. Define la propiedad de min-heap.
-3.
-4. Explica por qué `top()` devuelve el mínimo.
-4.
-5. Explica paso a paso cómo `bubbleUp(i)` restaura la propiedad de heap después de insertar.
-5.
-6. Explica paso a paso cómo `trickleDown(i)` restaura la propiedad de heap después de eliminar la raíz.
-6.
-7. Explica por qué `remove()` debe mover el último elemento a la raíz antes de aplicar `trickleDown(0)`.
-7.
-8. Explica qué verifica `isHeap()`.
-8.
-9. Compara construir un heap insertando `n` elementos con construirlo usando `heapify()`.
-9.
-10. Justifica por qué insertar `n` elementos uno por uno cuesta `O(n log n)` en el peor caso.
-10.
-11. Justifica por qué `heapify()` puede ejecutarse en `O(n)`.
-11.
-12. Ejecuta una extracción completa del heap construido con `{7, 3, 10, 1, 5, 8, 2}` y explica por qué la secuencia extraída sale ordenada.
-12.
-13. Compara el heap con el BST: ¿cuál estructura conviene para consultar mínimo repetidamente y cuál conviene para búsquedas ordenadas?.
-13.
+2. El ordenamiento sigue un ordenamiento por niveles:
+Nivel 0: 0
+Nivel 1: 1, 2
+Nivel 2: 3, 4, 5, 6
+Nivel 3: 7, 8, 9, 10, ...
+Porque es binario, entonces cada nivel va duplicando la cantidad de elementos del nivel anterior.
+Un nivel k va a tener 2^k elementos.
+un elemento i tiene posición relativa en el nivel k igual a j.
+Entonces en el nivel k+1 sus hijos tienen posición relativa 2*j y 2*j + 1
+j = i - (2^k -1)
+2^k = i - j + 1
+Hijo izquierdo: (2^(k+1) - 1) + 2*j
+Reemplazando: 2*(i-j+1) - 1 + 2*j = 2*i + 1
+Hijo derecho: (2^(k+1) - 1) + 2*j + 1 = 2*i + 2
+Sea p el índice del padre, entonces i = 2*p + 1
+p = (i-1)/2
+
+3. La propiedad min-heap es que un nodo tiene un valor menor que los valores que tienen sus hijos.
+4. Porque el menor elemento siempre se ubica en la raíz.
+5. El nodo insertado al final podría no cumplir la condición del heap, por lo que va subiendo intercambiandose con el padre hasta cumplir que este sea menor que el padre o la raíz.
+6. La raíz eliminada podría dejar un nodo como raíz a alguno que no sea el mínimo, por lo que tiene que ir comparándose con su hijo izquierdo si su hijo es menor lo toma como candidato a intercambiar, sino verifica al derecho lo intercambia, si ya es el menor termina el algortimo sin intercambiarse.
+7. remove() mueve el último elemento a la raíz porque, al eliminar la raíz, debe mantenerse la estructura de árbol binario completo del heap. Sin embargo, ese elemento puede violar la propiedad de heap en la raíz, por lo que se aplica trickleDown(0) para hacerlo descender hasta la posición donde se restaure la propiedad de heap.
+8. Verifica que los elementos del arreglo cumpla con la propiedad que el padre sea menor que sus hijos.
+9. Al insertar con add se suben los elementos con bubbleUp, mientras heapify lo convierte en heap bajando con trickleDown.
+10. Porque cada bubbleUp cuesta O(logn) y recorrer todos los n elementos es O(nlogn).
+11. Porque trickleDown no ejecuta para todos los nodos, sino que los nodos están cerca de sus hojas.
+Digamos tiene altura h (2^h ~ n/2 )y si está en el nivel más bajo, tiene costo 0.
+Si está en el anterior al más bajo n/4 * 1 = n/4
+Si está en el segundo anterior al más bajo n/8 * 2 = n/4
+Y así se crea una serie en función de n = n*(1/2+2/8+3/16+4/32+...)
+Que converge a 2n, entonces O(n) = n.
+
+12. Tras remove(): 1 3 2 7 5 8 10, sale ordenada porque después de cada remove se extrae la raíz y se restaura el heap y se extrae el mínimo que da salida en secuencia creciente.
+13. Un heap es mejor para consulta mínimos, pero no guarda relación de orden entre sus nodos, solo una condición de mínimo, mientras que un BST para consultas ordenadas, ya que almacena sus nodos inorder de forma creciente.
 
 ### Bloque 9 - Cierre comparativo
 
