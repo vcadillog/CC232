@@ -6,6 +6,122 @@
 #include "Capitulo5.h"
 #include "Capitulo6.h"
 
+static void testBloque9HuffmanDesempateYUnSimbolo() {
+  const std::vector<ods::HuffmanSymbol> alphabet{
+      {'A', 5}, {'B', 5}, {'C', 10}, {'D', 10}, {'E', 20}};
+
+  const auto codes = ods::huffmanGenerateCodes(alphabet);
+  const auto tree = ods::huffmanGenerateTree(alphabet);
+
+  assert(ods::huffmanIsPrefixFree(codes));
+  assert(ods::huffmanWeightedPathLength(alphabet, codes) == 110);
+
+  // MOD-A6-B9: estos codigos documentan el desempate elegido.
+  assert(codes.at('A') == "1100");
+  assert(codes.at('B') == "1101");
+  assert(codes.at('C') == "111");
+  assert(codes.at('D') == "10");
+  assert(codes.at('E') == "0");
+
+  const std::string text = "ABCDE";
+  const std::string bits = ods::huffmanEncode(text, codes);
+  assert(ods::huffmanDecode(bits, tree) == text);
+
+  const std::vector<ods::HuffmanSymbol> singleSymbol{{'X', 100}};
+  const auto singleCodes = ods::huffmanGenerateCodes(singleSymbol);
+  const auto singleTree = ods::huffmanGenerateTree(singleSymbol);
+
+  assert(singleCodes.size() == 1);
+  assert(singleCodes.at('X') == "0");
+  assert(ods::huffmanIsPrefixFree(singleCodes));
+
+  const std::string repeated = "XXX";
+  const std::string encoded = ods::huffmanEncode(repeated, singleCodes);
+  assert(encoded == "000");
+  assert(ods::huffmanDecode(encoded, singleTree) == repeated);
+}
+
+static void testBloque8LeftHeapValidacionMerge() {
+  ods::PQ_LeftHeap<int> a{7, 2, 9};
+  ods::PQ_LeftHeap<int> b{1, 8, 3, 11};
+
+  assert(a.isValidLeftHeap());
+  assert(b.isValidLeftHeap());
+  assert(a.size() == 3);
+  assert(b.size() == 4);
+
+  a.merge(b);
+
+  assert(a.isValidLeftHeap());
+  assert(b.isValidLeftHeap());
+  assert(a.size() == 7);
+  assert(b.size() == 0);
+  assert(b.empty());
+  assert(a.getMax() == 11);
+
+  a.insert(10);
+  assert(a.isValidLeftHeap());
+  assert(a.size() == 8);
+  assert(a.getMax() == 11);
+
+  int previous = a.delMax();
+  assert(previous == 11);
+  assert(a.isValidLeftHeap());
+
+  while (!a.empty()) {
+    const int current = a.delMax();
+    assert(previous >= current);
+    previous = current;
+    assert(a.isValidLeftHeap());
+  }
+
+  assert(a.empty());
+  assert(a.size() == 0);
+  assert(a.isValidLeftHeap());
+}
+
+static void testBloque5ValidacionHeapInterna() {
+  // MOD-A6-B5: validacion directa de arreglo max-heap.
+  const std::vector<int> validMaxHeap{90, 55, 89, 34, 17, 21,
+                                      8,  13, 4,  2,  1,  3};
+  assert(ods::complHeapIsValid(validMaxHeap, std::less<int>{}));
+
+  // MOD-A6-B5: arreglo invalido para max-heap, porque 100 domina a 1.
+  const std::vector<int> invalidMaxHeap{1, 100, 2};
+  assert(!ods::complHeapIsValid(invalidMaxHeap, std::less<int>{}));
+
+  // MOD-A6-B5: validacion con comparador inverso. Esto representa min-heap.
+  const std::vector<int> validMinHeap{1, 2, 3, 4, 5, 6};
+  assert(ods::complHeapIsValid(validMinHeap, std::greater<int>{}));
+
+  // MOD-A6-B5: repetidos no rompen el heap porque no hay dominancia estricta.
+  const std::vector<int> repeatedValues{8, 8, 8, 5, 5, 8};
+  assert(ods::complHeapIsValid(repeatedValues, std::less<int>{}));
+
+  // MOD-A6-B5: validacion despues de inserciones y eliminaciones mezcladas.
+  ods::PQ_ComplHeap<int> pq;
+
+  for (int x : {8, 3, 10, 1, 6, 14, 4, 7, 13, 14}) {
+    pq.insert(x);
+    assert(pq.isValidHeap());
+  }
+
+  assert(pq.getMax() == 14);
+
+  for (int i = 0; i < 4; ++i) {
+    pq.delMax();
+    assert(pq.isValidHeap());
+  }
+
+  pq.insert(100);
+  assert(pq.isValidHeap());
+  assert(pq.getMax() == 100);
+
+  while (!pq.empty()) {
+    pq.delMax();
+    assert(pq.isValidHeap());
+  }
+}
 static void testBloque10TreapCompleto() {
   // MOD-A6-B10: treap vacio.
   ods::Treap<int> empty;
@@ -132,6 +248,10 @@ static void testBloque10TreapCompleto() {
 
 int main() {
   // PQ_ComplHeap: secuencia completa de extracciones.
+  testBloque10TreapCompleto();
+  testBloque9HuffmanDesempateYUnSimbolo();
+  testBloque8LeftHeapValidacionMerge();
+  testBloque5ValidacionHeapInterna();
   ods::PQ_ComplHeap<int> pq;
   for (int x : {8, 3, 10, 1, 6, 14, 4, 7, 13, 14}) {
     pq.insert(x);
@@ -198,6 +318,4 @@ int main() {
   assert(treap.remove(8));
   assert(treap.isTreap());
   assert((treap.inorderKeys() == std::vector<int>{1, 4, 6, 7, 10, 14}));
-
-  testBloque10TreapCompleto();
 }

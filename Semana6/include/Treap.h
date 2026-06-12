@@ -144,6 +144,37 @@ public:
     bubbleUp(u);
     return true;
   }
+  // MOD-A6-B10: insercion instrumentada con prioridad fija.
+  // Retorna la cantidad de rotaciones hechas por bubbleUp.
+  std::size_t addWithPriorityCount(const T &x, std::uint64_t priority) {
+    Node *u = new Node(x, priority);
+
+    if (!addNode(u)) {
+      delete u;
+      return 0;
+    }
+
+    return bubbleUpCount(u);
+  }
+
+  // MOD-A6-B10: eliminacion instrumentada.
+  // Retorna la cantidad de rotaciones hechas por trickleDown.
+  std::size_t removeCount(const T &x) {
+    Node *u = findEQ(x);
+
+    if (!u) {
+      return 0;
+    }
+
+    const std::size_t rotations = trickleDownCount(u);
+    splice(u);
+    delete u;
+
+    return rotations;
+  }
+
+  // MOD-A6-B10: validacion explicita de enlaces parent.
+  bool hasValidParentLinks() const { return checkParents(root_, nullptr); }
 
   bool remove(const T &x) {
     Node *u = findEQ(x);
@@ -193,19 +224,7 @@ public:
     u->parent = w;
   }
 
-  // void bubbleUp(Node *u) {
-  //   while (u->parent && u->parent->priority > u->priority) {
-  //     if (u->isRightChild()) {
-  //       rotateLeft(u->parent);
-  //     } else {
-  //       rotateRight(u->parent);
-  //     }
-  //   }
-  //   if (!u->parent)
-  //     root_ = u;
-  // }
-  void bubbleUp(Node *u) { static_cast<void>(bubbleUpCount(u)); }
-
+  // MOD-A6-B10: version instrumentada de bubbleUp.
   std::size_t bubbleUpCount(Node *u) {
     std::size_t rotations = 0;
 
@@ -226,6 +245,9 @@ public:
     return rotations;
   }
 
+  void bubbleUp(Node *u) { static_cast<void>(bubbleUpCount(u)); }
+
+  // MOD-A6-B10: version instrumentada de trickleDown.
   std::size_t trickleDownCount(Node *u) {
     std::size_t rotations = 0;
 
@@ -251,21 +273,6 @@ public:
   }
 
   void trickleDown(Node *u) { static_cast<void>(trickleDownCount(u)); }
-  // void trickleDown(Node *u) {
-  //   while (u->left || u->right) {
-  //     if (!u->left) {
-  //       rotateLeft(u);
-  //     } else if (!u->right) {
-  //       rotateRight(u);
-  //     } else if (u->left->priority < u->right->priority) {
-  //       rotateRight(u);
-  //     } else {
-  //       rotateLeft(u);
-  //     }
-  //     if (root_ == u)
-  //       root_ = u->parent;
-  //   }
-  // }
 
   std::vector<T> inorderKeys() const {
     std::vector<T> out;
@@ -307,30 +314,6 @@ public:
   bool isHeapByPriority() const { return isHeapByPriority(root_); }
   bool isTreap() const { return isBST() && isHeapByPriority(); }
 
-  std::size_t addWithPriorityCount(const T &x, std::uint64_t priority) {
-    Node *u = new Node(x, priority);
-
-    if (!addNode(u)) {
-      delete u;
-      return 0;
-    }
-
-    return bubbleUpCount(u);
-  }
-  std::size_t removeCount(const T &x) {
-    Node *u = findEQ(x);
-
-    if (!u) {
-      return 0;
-    }
-
-    const std::size_t rotations = trickleDownCount(u);
-    splice(u);
-    delete u;
-
-    return rotations;
-  }
-  bool hasValidParentLinks() const { return checkParents(root_, nullptr); }
 
 private:
   Node *root_{nullptr};

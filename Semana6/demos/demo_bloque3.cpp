@@ -1,39 +1,72 @@
+#include <functional>
 #include <iostream>
 #include <vector>
 
-#include "Capitulo6.h"
+#include "PQ_ComplHeap_percolateUp.h"
 
 namespace {
 
-template <typename T>
-void printVector(const std::vector<T> &xs, const char *label) {
-  std::cout << label << ": [";
-  for (std::size_t i = 0; i < xs.size(); ++i) {
-    if (i != 0)
-      std::cout << ", ";
-    std::cout << xs[i];
-  }
-  std::cout << "]\n";
+template <class T>
+void printVector(const std::vector<T>& values) {
+    std::cout << "[";
+
+    for (std::size_t i = 0; i < values.size(); ++i) {
+        if (i > 0) {
+            std::cout << ", ";
+        }
+
+        std::cout << values[i];
+    }
+
+    std::cout << "]";
+}
+
+template <class T, class Compare>
+bool isValidHeap(const std::vector<T>& values, Compare comp) {
+    for (std::size_t i = 0; i < values.size(); ++i) {
+        const std::size_t left = 2 * i + 1;
+        const std::size_t right = 2 * i + 2;
+
+        if (left < values.size() && comp(values[i], values[left])) {
+            return false;
+        }
+
+        if (right < values.size() && comp(values[i], values[right])) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 } // namespace
 
 int main() {
-  std::vector<int> base{};
-  ods::PQ_ComplHeap<int> pq(base);
+    std::vector<int> heap;
+    const std::vector<int> input = {40, 10, 70, 30, 90, 20, 80, 60};
+    const std::less<int> comp;
 
-  std::cout << "PQ_ComplHeap construido con heapify de Floyd\n";
-  printVector(base, "entrada");
-  printVector(pq.data(), "heap interno");
-  std::cout << "\nBloque 3:\n";
+    std::cout << "Bloque 3 - conteo de intercambios en percolateUp\n";
+    std::cout << "Convencion: max-heap usando std::less<int>\n\n";
 
-  std::cout << "\nContando el número de intercambios para inserciones para:\n";
-  std::cout << "{ 40, 10, 70, 30, 90, 20, 80, 60 }\n";
-  for (int x : {40, 10, 70, 30, 90, 20, 80, 60}) {
-      std::size_t count = pq.insertComentado(x);
-    std::cout << "Número de intercambios:" << count << std::endl;
-    std::cout << "insert(" << x << ")\n";
-    printVector(pq.data(), "heap interno");
-    std::cout << "max actual = " << pq.getMax() << "\n\n";
-  }
+    for (const int value : input) {
+        heap.push_back(value);
+
+        const std::size_t swaps =
+            ods::complHeapPercolateUpCount(heap, heap.size() - 1, comp);
+
+        const bool valid = isValidHeap(heap, comp);
+
+        std::cout << "insertado=" << value
+                  << " | intercambios=" << swaps
+                  << " | heap=";
+
+        printVector(heap);
+
+        std::cout << " | propiedad_heap="
+                  << (valid ? "verdadero" : "falso")
+                  << "\n";
+    }
+
+    return 0;
 }

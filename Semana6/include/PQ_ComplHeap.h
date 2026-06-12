@@ -12,12 +12,13 @@
 #include "PQ_ComplHeap_heapifyFloyd.h"
 #include "PQ_ComplHeap_insert.h"
 #include "PQ_ComplHeap_macro.h"
+#include "PQ_ComplHeap_validate.h"
 
 namespace ods {
 
 template <class T, class Compare = std::less<T>>
 class PQ_ComplHeap : public PQ<T> {
- public:
+public:
   PQ_ComplHeap() = default;
   explicit PQ_ComplHeap(Compare comp) : comp_(std::move(comp)) {}
 
@@ -31,12 +32,13 @@ class PQ_ComplHeap : public PQ<T> {
     heapify();
   }
 
-  void insert(const T& e) override { complHeapInsert(data_, e, comp_); }
-  void insertMerge(const T& e) override { complHeapInsert(data_, e, comp_); }
-  std::size_t insertComentado(const T& e) override { return complHeapInsertComentado(data_, e, comp_); }
+  void insert(const T &e) override { complHeapInsert(data_, e, comp_); }
+  void insertMerge(const T &e) override { complHeapInsert(data_, e, comp_); }
+  std::size_t insertComentado(const T &e) override {
+    return complHeapInsertComentado(data_, e, comp_);
+  }
 
-  template <class InputIt>
-  void insertAll(InputIt first, InputIt last) {
+  template <class InputIt> void insertAll(InputIt first, InputIt last) {
     for (; first != last; ++first) {
       insert(*first);
     }
@@ -44,9 +46,11 @@ class PQ_ComplHeap : public PQ<T> {
 
   T delMax() override { return complHeapDelMax(data_, comp_); }
   T delMaxLeftist() override { return complHeapDelMax(data_, comp_); }
-  HeapResult<T> delMaxComentado() override { return complHeapDelMaxComentado(data_, comp_); }
+  HeapResult<T> delMaxComentado() override {
+    return complHeapDelMaxComentado(data_, comp_);
+  }
 
-  const T& getMax() const override { return complHeapGetMax(data_); }
+  const T &getMax() const override { return complHeapGetMax(data_); }
   bool empty() const noexcept override { return data_.empty(); }
   std::size_t size() const noexcept override { return data_.size(); }
 
@@ -59,28 +63,30 @@ class PQ_ComplHeap : public PQ<T> {
     heapify();
   }
 
-  const std::vector<T>& data() const noexcept { return data_; }
-  static constexpr std::size_t parent(std::size_t i) noexcept { return pqParent(i); }
-  static constexpr std::size_t left(std::size_t i) noexcept { return pqLeftChild(i); }
-  static constexpr std::size_t right(std::size_t i) noexcept { return pqRightChild(i); }
-
-  bool isHeap() const {
-    for (std::size_t i = 0; i < data_.size(); ++i) {
-      const std::size_t l = left(i);
-      const std::size_t r = right(i);
-      if (l < data_.size() && comp_(data_[i], data_[l])) {
-        return false;
-      }
-      if (r < data_.size() && comp_(data_[i], data_[r])) {
-        return false;
-      }
-    }
-    return true;
+  const std::vector<T> &data() const noexcept { return data_; }
+  static constexpr std::size_t parent(std::size_t i) noexcept {
+    return pqParent(i);
+  }
+  static constexpr std::size_t left(std::size_t i) noexcept {
+    return pqLeftChild(i);
+  }
+  static constexpr std::size_t right(std::size_t i) noexcept {
+    return pqRightChild(i);
   }
 
- private:
+  bool isValidHeap() const {
+    // MOD-A6-B5: validacion explicita de la propiedad heap.
+    return complHeapIsValid(data_, comp_);
+  }
+
+  bool isHeap() const {
+    // MOD-A6-B5: se mantiene compatibilidad con las pruebas existentes.
+    return isValidHeap();
+  }
+
+private:
   std::vector<T> data_;
   Compare comp_{};
 };
 
-}  // namespace ods
+} // namespace ods

@@ -111,7 +111,7 @@ Responde:
 
 1. ¿Qué targets de demostraciones o pruebas aparecen para Semana 6?
 
-
+2.
 ```cpp
 #include "PQ.h"
 #include "PQ_ComplHeap_macro.h"
@@ -165,135 +165,182 @@ Test project /home/victor/clases/algoritmos/CC232/Semana6/build-debug
 Total Test time (real) =   0.01 sec
 ```
 
-
 #### Bloque 2 - Modificación de utilidades de heap completo
 
-Revisa:
+1. Porque la representación del heap completo es implícita: no hay nodos enlazados, sino posiciones en un vector. Las relaciones estructurales se calculan con índices:
+```cpp
+parent(i) = (i - 1) / 2
+left(i)   = 2 * i + 1
+right(i)  = 2 * i + 2
+```
+Si estas fórmulas se repiten manualmente en muchas partes, aumentan los errores de frontera. Al moverlas a funciones pequeñas, el código queda más legible, reusable y fácil de probar.
 
-- `Semana6/include/PQ_ComplHeap_macro.h`
-- `Semana6/include/PQ_ComplHeap_percolateUp.h`
-- `Semana6/include/PQ_ComplHeap_percolateDown.h`
+2. constexpr respeta tipos, namespaces y reglas del compilador de C++. Una macro solo sustituye texto antes de compilar, por lo que puede producir errores difíciles de rastrear. Además, constexpr permite evaluación en tiempo de compilación cuando los argumentos son constantes, pero sigue funcionando como una función normal cuando los valores se conocen en ejecución.
 
-Modifica `PQ_ComplHeap_macro.h` para agregar funciones auxiliares `constexpr` adicionales, sin usar macros:
+3. En un heap completo puede ocurrir que un nodo tenga hijo izquierdo pero no hijo derecho. En ese caso, percolateDown no debe intentar leer a[right(i)]. La solución es asumir primero que el hijo dominante es el izquierdo:
 
 ```cpp
-pqHasLeftChild(i, n)
-pqHasRightChild(i, n)
-pqIsLeaf(i, n)
-pqIsInternal(i, n)
+std::size_t c = pqLeftChild(i);
 ```
 
-Luego modifica `PQ_ComplHeap_percolateDown.h` para usar esas funciones auxiliares donde corresponda.
+y solo comparar con el derecho si existe:
 
-Responde:
+```cpp
+if (pqHasRightChild(i, n)) { ... }
+```
 
-1. ¿Por qué conviene expresar `parent`, `left`, `right` y pruebas de frontera como funciones pequeñas?
-1. Porque el usar funciones pequeñas mejora la legibilidad del código.
-2. ¿Qué ventaja tiene `constexpr` frente a macros?
+4.Una posición i es hoja si pertenece al heap y no tiene hijo izquierdo:
 
-2. Porque constexpr permite el uso de tipos, tiene un ambito de ejecucion controlado y permite depuración.
+```cpp
+pqInHeap(i, n) && !pqHasLeftChild(i, n)
+```
+En un heap binario completo, si un nodo no tiene hijo izquierdo, tampoco puede tener hijo derecho. Por eso basta revisar el hijo izquierdo.
 
-3. ¿Qué caso borde aparece cuando el nodo tiene solo hijo izquierdo?
-3. Cuando un nodo tiene un solo hijo izquierdo y no un hijo derecho, el acceso al hijo derecho tiene un índice fuera del rango del arreglo.
+5.Cambió la forma de expresar las condiciones, no el algoritmo. Antes se escribía directamente:
 
-4. ¿Qué condición identifica una hoja en la representación implícita?
-4. La condició que identifica una hoja es que no tenga hijos, es decir, que el índice de su hijo izquierdo sea mayor o igual al tamaño del arreglo.
+```cpp
+while (pqInHeap(pqLeftChild(i), n))
+```
+Ahora se escribe:
 
-5. ¿Qué cambió en `percolateDown` después de usar las funciones auxiliares?
+```cpp
+while (pqIsInternal(i, n))
+```
+Esto comunica mejor la intención: "mientras el nodo sea interno, puede bajar". También se reemplaza la prueba directa del hijo derecho por pqHasRightChild(i, n).
 
-Entrega en este bloque:
+La complejidad no cambia.
 
-- Fragmento del código modificado.
-- Explicación de por qué no cambia la complejidad.
-- Evidencia de compilación.
+percolateDown sigue bajando como máximo una rama del heap. Como un heap binario completo con n elementos tiene altura O(log n), la operación sigue costando:
+
+```cpp
+O(log n)
+```
+Las nuevas funciones auxiliares ejecutan operaciones aritméticas y comparaciones constantes, por lo que cuestan:
+
+```cpp
+O(1)
+```
+Entonces el costo total sigue siendo:
+
+```cpp
+O(log n) * O(1) = O(log n)
+
+```cpp
+[100%] Built target sem6_test_internal
+...
+100% tests passed, 0 tests failed out of 2
+```
 
 #### Bloque 3 - Modificación de `percolateUp`: conteo de intercambios
 
-Revisa:
+1. Hace cero intercambios cuando el elemento insertado no tiene padre, como ocurre al insertar el primer elemento, o cuando el padre ya tiene prioridad mayor 
+o igual que el hijo.
 
-- `Semana6/include/PQ_ComplHeap_percolateUp.h`
-- `Semana6/include/PQ_ComplHeap_insert.h`
-- `Semana6/demos/demo_pq_complheap_basico.cpp`
-
-Agrega una función nueva, sin romper la función existente:
+En un max-heap con `std::less<int>`, eso ocurre cuando:
 
 ```cpp
-template<class T, class Compare>
-std::size_t complHeapPercolateUpCount(std::vector<T>& a, std::size_t i, Compare comp);
+a[parent] >= a[child]
 ```
 
-La función debe hacer lo mismo que `complHeapPercolateUp`, pero además debe retornar cuántos intercambios realizó.
+Por ejemplo, al insertar `10` después de `40`, no se intercambia porque `40` ya domina a `10`.
 
-Luego modifica o crea una demostración para insertar la secuencia:
+2. Puede hacer `O(log n)` intercambios cuando el elemento insertado tiene mayor prioridad que todos sus ancestros y debe subir desde una hoja hasta la raíz.
 
-```cpp
-{ 40, 10, 70, 30, 90, 20, 80, 60 }
+Ejemplo de la traza:
+
+```text
+insertado=90 | intercambios=2 | heap=[90, 70, 40, 10, 30]
 ```
 
-y mostrar por cada inserción:
+El `90` entra al final, sube sobre `30` y luego sobre `70`. En un heap más grande, podría subir por toda la altura del árbol.
 
-- elemento insertado,
-- cantidad de intercambios,
-- arreglo interno resultante,
-- si la propiedad heap se mantiene.
 
-Responde:
+3. La inserción coloca primero el nuevo elemento al final del arreglo. Esa posición corresponde a la siguiente hoja disponible del árbol binario completo. 
+Desde esa hoja, `percolateUp` solo puede subir por el camino hacia la raíz.
 
-1. ¿En qué casos `percolateUp` hace cero intercambios?
-2. ¿En qué casos puede hacer `O(log n)` intercambios?
-3. ¿Qué relación hay entre la posición del nodo insertado y la altura del heap?
-4. ¿Por qué el arreglo interno no necesariamente queda ordenado?
-5. ¿Qué propiedad sí queda garantizada?.
+Por eso, el número máximo de intercambios está acotado por la altura del heap:
 
-Entrega en este bloque:
+```text
+altura = O(log n)
+```
 
-- Código de la función nueva.
-- Salida de la demostración.
-- Argumento de costo.
+No puede recorrer ramas laterales ni visitar todos los nodos.
+
+
+4. Porque el heap no mantiene orden total en el arreglo. Mantiene una propiedad local entre padres e hijos.
+
+En un max-heap se garantiza que cada padre sea mayor o igual que sus hijos, pero no se garantiza que:
+
+```text
+a[0] >= a[1] >= a[2] >= a[3] ...
+```
+
+Por ejemplo, este arreglo final es heap válido:
+
+```text
+[90, 70, 80, 60, 30, 20, 40, 10]
+```
+
+pero no está ordenado de forma descendente, porque `80` aparece después de `70`, y `40` aparece después de `20`.
+
+5. Queda garantizada la **propiedad heap**:
+
+```text
+Para todo nodo i:
+a[i] tiene prioridad mayor o igual que sus hijos.
+```
+
+En max-heap con `std::less<int>`:
+
+```text
+a[i] >= a[left(i)]
+a[i] >= a[right(i)]
+```
+
+cuando esos hijos existen.
+
+Argumento de costo
+
+`complHeapPercolateUpCount` realiza las mismas operaciones estructurales que `complHeapPercolateUp`, pero agrega un contador `swaps`. 
+Ese contador solo cuesta `O(1)` por intercambio.
+
+En el peor caso, el elemento insertado sube desde una hoja hasta la raíz. La altura de un heap binario completo con `n` elementos es:
+
+```text
+O(log n)
+```
+
+Por tanto:
+
+```text
+Tiempo peor caso: O(log n)
+Tiempo mejor caso: O(1)
+Espacio adicional: O(1)
+```
+
+```text
+Bloque 3 - conteo de intercambios en percolateUp
+Convencion: max-heap usando std::less<int>
+
+insertado=40 | intercambios=0 | heap=[40] | propiedad_heap=verdadero
+insertado=10 | intercambios=0 | heap=[40, 10] | propiedad_heap=verdadero
+insertado=70 | intercambios=1 | heap=[70, 10, 40] | propiedad_heap=verdadero
+insertado=30 | intercambios=1 | heap=[70, 30, 40, 10] | propiedad_heap=verdadero
+insertado=90 | intercambios=2 | heap=[90, 70, 40, 10, 30] | propiedad_heap=verdadero
+insertado=20 | intercambios=0 | heap=[90, 70, 40, 10, 30, 20] | propiedad_heap=verdadero
+insertado=80 | intercambios=1 | heap=[90, 70, 80, 10, 30, 20, 40] | propiedad_heap=verdadero
+insertado=60 | intercambios=1 | heap=[90, 70, 80, 60, 30, 20, 40, 10] | propiedad_heap=verdadero
+```
 
 #### Bloque 4 - Modificación de `percolateDown`: elección del hijo dominante
 
-Revisa:
-
-- `Semana6/include/PQ_ComplHeap_percolateDown.h`
-- `Semana6/include/PQ_ComplHeap_delMax.h`
-- `Semana6/demos/demo_pq_complheap_basico.cpp`
-
-Agrega una función auxiliar o versión instrumentada que permita observar qué hijo se elige durante la bajada:
-
-```cpp
-template<class T, class Compare>
-std::size_t complHeapPercolateDownCount(std::vector<T>& a, std::size_t n, std::size_t i, Compare comp);
-```
-
-La función debe retornar la cantidad de intercambios realizados.
-
-Crea una demostración pequeña donde elimines repetidamente el máximo de un heap y registres:
-
-- máximo eliminado,
-- arreglo antes de reparar,
-- número de intercambios,
-- arreglo después de reparar.
-
-Responde:
-
-1. ¿Por qué después de `delMax` se mueve el último elemento a la raíz?
 1. Porque el último elemento se mueve a la raíz para llenar el espacio dejado por el máximo eliminado, y luego se baja para restaurar la propiedad de heap.
-2. ¿Por qué la reparación baja y no sube?
 2. Porque el elemento que se mueve a la raíz puede ser menor que sus hijos, por lo que necesita bajar para restaurar la propiedad de heap.
-3. ¿Cómo se decide entre hijo izquierdo e hijo derecho?
 3. Empieza eligiendo al hijo izquierdo y luego se compara el valor del hijo izquierdo con el del hijo derecho utilizando comp. Si el hijo derecho existe y es mayor que el hijo izquierdo, entonces se selecciona el hijo derecho como el candidato. Luego se continúa con el intercambio.
-4. ¿Qué pasa si el nodo actual tiene un solo hijo?
 4. Al ser un heap, tiene que tener un hijo izquierdo y no se compara con el derecho si no existe, luego se intercambia solo con el hijo izquierdo.
-5. ¿Por qué `delMax` tiene costo `O(log n)`?.
 5. Porque en el peor caso, el elemento que se mueve a la raíz puede bajar hasta la hoja más profunda del heap, en un árbol binario la altura es logn. 
 
-Entrega en este bloque:
-
-- Código modificado.
-- Salida de la demostración.
-- Trazado manual de una eliminación.
-
+```text
 Bloque 4:
 
 heap interno: [14, 12, 10, 5, 3, 7, 9, 1, 4]
@@ -342,429 +389,647 @@ heap interno: [1]
 Número de intercambios:0
 delMax() -> 1
 heap interno: []
+```
 
 #### Bloque 5 - Validación explícita de la propiedad heap
 
-Revisa:
-
-- `Semana6/include/PQ_ComplHeap.h`
-- `Semana6/pruebas_publicas/test_public_week6.cpp`
-- `Semana6/pruebas_internas/test_internal_week6.cpp`
-
-Agrega una función de validación, ya sea como método de `PQ_ComplHeap` o como función auxiliar:
-
-```cpp
-bool isValidHeap() const;
-```
-
-o, si se implementa como función libre:
-
-```cpp
-template<class T, class Compare>
-bool complHeapIsValid(const std::vector<T>& a, Compare comp);
-```
-
-Debe verificar que cada padre tenga prioridad mayor o igual que sus hijos según la convención del comparador usado en la implementación.
-
-Agrega pruebas para:
-
-1. heap vacío,
-2. heap con un elemento,
-3. heap con elementos repetidos,
-4. heap construido por inserciones,
-5. heap construido por `heapify`,
-6. heap después de varias llamadas a `delMax`.
-
-Responde:
-
 1. ¿Qué invariante verifica la función?
+
+Verifica la **propiedad heap**. Para cada posición `i`, si existen sus hijos `left(i)` y `right(i)`, el padre debe tener prioridad mayor o igual que cada 
+hijo según el comparador.
+
+Con `std::less<int>`:
+
+```text
+a[i] >= a[left(i)]
+a[i] >= a[right(i)]
+```
+
+Con `std::greater<int>`, la interpretación se invierte y se valida una estructura tipo min-heap.
+
 2. ¿Por qué basta revisar relaciones padre-hijo?
+
+Porque la propiedad heap es local. Si cada padre domina a sus hijos, entonces por transitividad también domina a los nodos que están debajo de esos hijos
+en la ruta correspondiente.
+
+No se necesita comparar la raíz con todos los nodos ni cada nodo con todos sus descendientes. El heap no exige orden total, exige dominancia local entre padre e hijos.
+
 3. ¿Por qué no es necesario comparar cada nodo con todos sus descendientes?
+
+Porque eso sería redundante y más costoso. Si se cumple:
+
+```text
+padre domina a hijo
+hijo domina a nieto
+nieto domina a bisnieto
+```
+
+entonces la dominancia se propaga por cada camino del árbol. Revisar padre-hijo en cada arista del árbol ya cubre toda la estructura.
+
+Además, un heap completo representado en arreglo tiene como máximo `n - 1` relaciones padre-hijo reales. Validar esas relaciones basta.
+
 4. ¿Cuál es el costo de validar todo el heap?
+
+El costo es:
+
+```text
+O(n)
+```
+
+La función recorre el arreglo una vez. Para cada índice calcula como máximo dos hijos y hace como máximo dos comparaciones. 
+Cada paso cuesta `O(1)`, por eso validar `n` elementos cuesta `O(n)`.
+
+El espacio adicional es:
+
+```text
+O(1)
+```
+
+porque solo usa índices auxiliares.
+
 5. ¿Por qué esta función es útil en pruebas pero no necesariamente en producción?
 
-Entrega en este bloque:
+Es útil en pruebas porque detecta errores en `insert`, `delMax`, `heapify`, `percolateUp` y `percolateDown`.Si una operación deja mal ubicada una clave, `isValidHeap()` lo detecta inmediatamente.
 
-- Código de validación.
-- Pruebas agregadas.
+Pero en producción no siempre conviene llamarla después de cada operación, porque agregaría un costo `O(n)` a operaciones que normalmente cuestan `O(log n)` o `O(1)`. Por ejemplo:
+
+```text
+insert: O(log n)
+delMax: O(log n)
+getMax: O(1)
+isValidHeap: O(n)
+```
+Entonces, en pruebas es una herramienta de verificación, en producción debe usarse solo en modo diagnóstico, depuración o validaciones excepcionales.
+
 - Evidencia de `ctest`.
+
+```text
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana6/build
+    Start 1: semana6_public
+1/2 Test #1: semana6_public ...................   Passed    0.00 sec
+    Start 2: semana6_internal
+2/2 Test #2: semana6_internal .................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+```
 
 #### Bloque 6 - Construcción de heap: inserciones sucesivas vs Floyd
 
-Revisa:
+1. Porque un heap no exige un orden total del arreglo. Solo exige una relación local entre cada padre y sus hijos.
 
-- `Semana6/include/PQ_ComplHeap_heapifyFloyd.h`
-- `Semana6/include/PQ_ComplHeap_insert.h`
-- `Semana6/demos/demo_heapify_floyd.cpp`
+En un max-heap:
 
-Modifica la demostración de `heapify` para comparar dos formas de construir un heap con la misma entrada:
-
-```cpp
-{ 4, 17, 3, 90, 55, 21, 8, 13, 34, 2, 1, 89 }
+```text
+padre >= hijo izquierdo
+padre >= hijo derecho
 ```
 
-Construcción A:
+mientras esos hijos existan.
 
-- insertar elementos uno por uno usando `insert`.
+Por eso estos dos arreglos son distintos:
 
-Construcción B:
+```text
+[90, 55, 89, 34, 17, 21, 8, 4, 13, 2, 1, 3]
+[90, 55, 89, 34, 4, 21, 8, 13, 17, 2, 1, 3]
+```
 
-- copiar el vector y aplicar `heapify` de Floyd.
+pero ambos son heaps válidos. El heap no determina una única representación para el mismo conjunto de claves.
 
-La demostración debe mostrar:
+2. Cada inserción agrega un elemento al final y puede subirlo hasta la raíz con `percolateUp`.
 
-- arreglo inicial,
-- arreglo final por inserciones,
-- arreglo final por Floyd,
-- cantidad aproximada o exacta de intercambios si agregaste contadores,
-- validación con `isValidHeap`.
+En el peor caso, una inserción cuesta:
 
-Responde:
+```text
+O(log n)
+```
 
-1. ¿Por qué ambos resultados pueden ser heaps válidos aunque sus arreglos finales no sean idénticos?
-2. ¿Por qué insertar `n` elementos puede costar `O(n log n)`?
-3. ¿Por qué Floyd puede construir el heap en `O(n)`?
-4. ¿Qué nodos procesa Floyd primero?
-5. ¿Por qué Floyd no necesita llamar a `percolateDown` desde las hojas?.
+Si se insertan `n` elementos uno por uno, el costo acumulado puede ser:
 
-Entrega en este bloque:
+```text
+O(log 1) + O(log 2) + ... + O(log n) = O(n log n)
+```
 
-- Demostración modificada.
-- Tabla comparativa.
-- Explicación de complejidad.
+Esto ocurre cuando muchos elementos nuevos tienen prioridad alta y suben varios niveles.
+
+3. Porque Floyd no trata cada elemento como una inserción independiente. Parte del arreglo completo y solo llama a `percolateDown` en nodos internos.
+
+La clave del análisis es que la mayoría de nodos están cerca de las hojas y bajan poco o nada. Hay muchos nodos con altura pequeña y pocos nodos con altura grande.
+
+La suma real de trabajo queda acotada linealmente:
+
+```text
+muchos nodos bajan 0 o 1 nivel
+pocos nodos bajan muchos niveles
+costo total = O(n)
+```
+
+Por eso Floyd es más eficiente cuando ya tenemos todos los datos desde el inicio.
+
+4. Procesa primero el último nodo interno, luego avanza hacia atrás hasta la raíz.
+
+En un vector de tamaño `n`, las hojas empiezan aproximadamente en `n / 2`. Por eso el último nodo interno está en:
+
+```cpp
+n/2 - 1
+```
+
+La implementación del repositorio usa este patrón:
+
+```cpp
+for (std::size_t i = a.size() / 2; i-- > 0;) {
+    complHeapPercolateDown(a, a.size(), i, comp);
+}
+```
+
+Ese ciclo procesa:
+
+```text
+n/2 - 1, n/2 - 2, ..., 1, 0
+```
+
+En la entrada del bloque, con `n = 12`, procesa:
+
+```text
+5, 4, 3, 2, 1, 0
+```
+
+5. Porque una hoja ya es un heap válido de tamaño 1. No tiene hijos, así que no puede violar la propiedad padre-hijo.
+
+Llamar a `percolateDown` desde una hoja no cambiaría nada. Por eso Floyd empieza desde el último nodo interno. Cuando procesa un nodo interno, sus subárboles hijos ya fueron reparados o son hojas. Entonces puede reparar el subárbol completo con una sola bajada local.
+
+6. Explicación de complejidad
+
+Construcción por inserciones
+
+Cada elemento puede subir desde una hoja hasta la raíz.
+
+```text
+Costo por inserción: O(log n)
+Número de inserciones: n
+Costo total: O(n log n)
+Espacio adicional: O(1), además del vector del heap
+```
+
+Esta estrategia es adecuada cuando los datos llegan en streaming o no se conocen todos al inicio.
+
+Construcción por Floyd
+
+Floyd trabaja desde abajo hacia arriba.
+
+```text
+Costo total: O(n)
+Espacio adicional: O(1)
+```
+
+Es preferible cuando ya se tiene el arreglo completo y se quiere convertirlo en heap de forma eficiente.
+
+```bash
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana6/build
+    Start 1: semana6_public
+1/2 Test #1: semana6_public ...................   Passed    0.00 sec
+    Start 2: semana6_internal
+2/2 Test #2: semana6_internal .................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.01 sec
+```
+
+```text
+Bloque 6 - construccion de heap
+Convencion: max-heap usando std::less<int>
+
+arreglo inicial: [4, 17, 3, 90, 55, 21, 8, 13, 34, 2, 1, 89]
+heap por inserciones: [90, 55, 89, 34, 17, 21, 8, 4, 13, 2, 1, 3]
+heap por Floyd: [90, 55, 89, 34, 4, 21, 8, 13, 17, 2, 1, 3]
+
+intercambios por inserciones: 9
+intercambios por Floyd: 7
+heap por inserciones valido: verdadero
+heap por Floyd valido: verdadero
+
+Interpretacion: ambos arreglos representan heaps validos, aunque no necesariamente tienen la misma f
+orma interna.
+```
+Tabla comparativa del Bloque 6
+
+| Criterio             |                         Inserciones sucesivas |                              Heapify de Floyd |
+| -------------------- | --------------------------------------------: | --------------------------------------------: |
+| Entrada              | `[4, 17, 3, 90, 55, 21, 8, 13, 34, 2, 1, 89]` | `[4, 17, 3, 90, 55, 21, 8, 13, 34, 2, 1, 89]` |
+| Operación usada      |                      `insert` + `percolateUp` |          `percolateDown` desde nodos internos |
+| Arreglo final        | `[90, 55, 89, 34, 17, 21, 8, 4, 13, 2, 1, 3]` | `[90, 55, 89, 34, 4, 21, 8, 13, 17, 2, 1, 3]` |
+| Intercambios medidos |                                           `9` |                                           `7` |
+| Propiedad heap       |                                        válida |                                        válida |
+| Costo peor caso      |                                  `O(n log n)` |                                        `O(n)` |
+| Cuándo conviene      |              cuando llegan elementos en línea |              cuando ya tienes todos los datos |
 
 #### Bloque 7 - Modificación de `heapSort`
 
-Revisa:
+1. Porque usa el mismo `vector` como dos zonas:
 
-- `Semana6/include/vector_heapSort.h`
-- `Semana6/demos/demo_heapsort.cpp`
-
-Agrega una versión de `heapSort` que permita elegir el sentido del resultado:
-
-```cpp
-template<class T, class Compare>
-void heapSort(std::vector<T>& a, Compare comp, bool ascending);
+```text
+[ heap activo | zona ya ordenada ]
 ```
 
-La función debe mantener la idea de heapsort in situ. No uses `std::sort`.
+Primero convierte todo el arreglo en heap. Luego intercambia la raíz con la última posición del heap activo. Esa última posición queda fija como parte de la zona ordenada. Después reduce el tamaño lógico del heap y repara desde la raíz con `percolateDown`.
 
-Prueba con:
+No necesita una estructura auxiliar de tamaño `n`. Solo usa intercambios dentro del mismo arreglo.
+
+2.
+Esta parte:
 
 ```cpp
-{ 5, 1, 5, 3, 8, 2, 8, 0 }
+for (std::size_t n = a.size(); n > 1; --n) {
+    std::swap(a[0], a[n - 1]);
+    complHeapPercolateDown(a, n - 1, 0, comp);
+}
 ```
 
-y muestra:
+Cada iteración extrae conceptualmente la raíz del heap, la coloca al final del rango activo y reduce `n`. El heap queda restringido a `[0, n - 2]`. La parte final `[n - 1, size - 1]` ya no se considera heap: es la zona ordenada.
 
-- resultado ascendente,
-- resultado descendente,
-- comportamiento con repetidos.
+3.
 
-Responde:
+Tiene dos fases:
 
-1. ¿Por qué heapsort puede ordenar in situ?
-2. ¿Qué parte del algoritmo destruye gradualmente el heap?
-3. ¿Por qué heapsort cuesta `O(n log n)`?
-4. ¿Es heapsort estable? Justifica con un ejemplo.
-5. ¿Qué diferencia hay entre usar `heapSort` y extraer todos los elementos con `delMax`?
+```text
+1. heapify de Floyd: O(n)
+2. n - 1 extracciones implícitas: cada una cuesta O(log n)
+```
 
-Entrega en este bloque:
+La segunda fase domina:
 
-- Código modificado.
-- Demostración actualizada.
-- Evidencia de repetidos.
+```text
+O(n) + O(n log n) = O(n log n)
+```
+
+Por eso heapsort tiene costo `O(n log n)` en peor caso, promedio y mejor caso asintótico.
+
+4.
+No. Heapsort **no es estable** en su forma clásica.
+
+Un algoritmo estable conserva el orden relativo de elementos con claves iguales. Por ejemplo, si entran estos elementos:
+
+```text
+(5, A), (1, X), (5, B), (3, Y)
+```
+
+y se ordena por la primera componente, una salida estable debería mantener:
+
+```text
+(5, A) antes de (5, B)
+```
+
+Pero heapsort puede producir:
+
+```text
+(1, X), (3, Y), (5, B), (5, A)
+```
+
+Los dos elementos con clave `5` cambiaron su orden relativo. Esto ocurre porque heapsort realiza intercambios de larga distancia entre la raíz y el final del rango activo.
+
+5.
+
+`heapSort` trabaja **in situ** sobre el mismo vector. No necesita construir una cola de prioridad separada ni almacenar todas las extracciones en otro arreglo.
+
+En cambio, extraer todos los elementos con `delMax` normalmente implica:
+
+```text
+1. construir una estructura PQ_ComplHeap,
+2. llamar delMax repetidamente,
+3. guardar las salidas en otro contenedor si se quiere conservar el resultado ordenado.
+```
+
+Ambos enfoques tienen costo `O(n log n)`, pero su intención es distinta:
+
+```text
+heapSort: ordenar un arreglo.
+PQ + delMax: consumir elementos por prioridad.
+```
+
+Además, `delMax` es más natural cuando la prioridad se usa dinámicamente, por ejemplo cuando se intercalan inserciones y extracciones. `heapSort` es más adecuado cuando ya se tiene todo el arreglo y se quiere dejarlo ordenado.
+
+```text
+Bloque 7 - heapSort ascendente y descendente
+
+entrada: [5, 1, 5, 3, 8, 2, 8, 0]
+salida ascendente: [0, 1, 2, 3, 5, 5, 8, 8]
+salida descendente: [8, 8, 5, 5, 3, 2, 1, 0]
+
+Evidencia de repetidos
+conteo entrada: {0 -> 1, 1 -> 1, 2 -> 1, 3 -> 1, 5 -> 2, 8 -> 2}
+conteo ascendente: {0 -> 1, 1 -> 1, 2 -> 1, 3 -> 1, 5 -> 2, 8 -> 2}
+conteo descendente: {0 -> 1, 1 -> 1, 2 -> 1, 3 -> 1, 5 -> 2, 8 -> 2}
+
+Interpretacion: los valores repetidos no se eliminan. Aparecen dos 5 y dos 8 en ambas salidas.
+```
 
 #### Bloque 8 - Heap izquierdista: validación de `merge`
 
-Revisa:
-
-- `Semana6/include/PQ_LeftHeap.h`
-- `Semana6/include/PQ_LeftHeap_merge.h`
-- `Semana6/include/PQ_LeftHeap_insert.h`
-- `Semana6/include/PQ_LeftHeap_delMax.h`
-- `Semana6/demos/demo_left_heap_merge.cpp`
-
-Agrega una función de validación para el heap izquierdista:
-
-```cpp
-bool isValidLeftHeap() const;
-```
-
-Debe verificar al menos:
-
-1. propiedad de heap,
-2. propiedad izquierdista,
-3. consistencia de tamaño,
-4. consistencia de `npl` o distancia nula, si el código la almacena.
-
-Luego modifica la demostración de `merge` para construir dos heaps, mezclarlos y validar el resultado.
-
-Responde:
-
-1. ¿Por qué `merge` es la operación central del heap izquierdista?
 1. Porque merge es la operación que permite combinar dos heaps izquierdistas manteniendo la propiedad izquierdista.
-2. ¿Cómo se implementa `insert` usando `merge`?
 2. Para insertar un nuevo elemento, se crea un nuevo heap con ese elemento como único nodo y luego se mezcla con el heap existente usando merge.
-3. ¿Cómo se implementa `delMax` usando `merge`?
 3. Para eliminar el máximo, se elimina la raíz del heap y luego se mezclan sus hijos izquierdo y derecho usando merge para formar el nuevo heap.
-4. ¿Qué propiedad adicional diferencia un heap izquierdista de un heap binario completo?
 4. La propiedad adicional es que en un heap izquierdista, el subárbol izquierdo siempre tiene una distancia nula (npl) mayor o igual que la del subárbol derecho.
-5. ¿Qué ventaja conceptual tiene un heap izquierdista frente a un heap binario completo?.
 5. Un heap izquierdista usa operaciones sobre nodos enlazados para tener costo O(logn) para fusionar heaps.
 
-Entrega en este bloque:
+6. Demostración modificada.
 
-- Código de validación.
-- Demostración modificada.
-- Trazado de una fusión pequeña.
+```text
+heap A antes del merge: [9, 7, 2]
+heap B antes del merge: [11, 8, 1, 3]
+Heap A es izquierdista: true
+Heap B es izquierdista: true
+heap A despues del merge: [11, 8, 9, 1, 3, 7, 2]
+Heap A es izquierdista: true
+B queda vacio: true
+Copia de A despues del merge: [11, 8, 9, 1, 3, 7, 2]
+A despues de insert(10): [11, 8, 10, 1, 3, 9, 7, 2]
+A despues de insertMerge(10): [11, 8, 10, 1, 3, 9, 7, 2]
+Heap A es izquierdista: true
+delMax() -> 11
+heap después de delMax(): [10, 8, 9, 1, 3, 7, 2]
+delMax() -> 10
+heap después de delMax(): [9, 8, 7, 1, 3, 2]
+delMax() -> 9
+heap después de delMax(): [8, 7, 1, 2, 3]
+delMax() -> 8
+heap después de delMax(): [7, 2, 3, 1]
+delMax() -> 7
+heap después de delMax(): [3, 1, 2]
+delMax() -> 3
+heap después de delMax(): [2, 1]
+delMax() -> 2
+heap después de delMax(): [1]
+delMax() -> 1
+heap después de delMax(): []
+```
+
+7. Trazado de una fusión pequeña
+
+Supongamos:
+
+```text
+A = [9, 4]
+B = [8, 3, 2]
+```
+
+Como es max-heap, la raíz final debe ser `9`.
+
+Paso 1:
+
+```text
+merge(9, 8)
+```
+
+`9` domina a `8`, entonces `9` queda como raíz.
+
+Paso 2:
+
+```text
+9.right = merge(9.right, 8)
+```
+
+Si `9.right` era nulo, entonces `8` queda temporalmente como hijo derecho de `9`.
+
+Paso 3:
+
+Se revisa la propiedad izquierdista:
+
+```text
+npl(left) >= npl(right)
+```
+
+Si el lado derecho tiene mayor `npl` que el izquierdo, se intercambian hijos.
+
+Resultado posible por niveles:
+
+```text
+[9, 8, 4, 3, 2]
+```
+
+El árbol no busca quedar completo como un heap binario en arreglo. Busca mantener el camino derecho corto para que futuras fusiones sean eficientes.
+
 
 #### Bloque 9 - Huffman: modificación de desempate y caso de un símbolo
 
-Revisa:
+1. Porque en cada paso debe seleccionar los **dos árboles de menor frecuencia**. Una cola de prioridad permite extraer esos mínimos eficientemente. En esta librería se reutiliza `PQ_ComplHeap` y también existe una variante con `PQ_LeftHeap`, lo cual conecta Huffman con las estructuras principales de Semana 6. 
 
-- `Semana6/include/Huffman_PQ.h`
-- `Semana6/include/Huffman_PQ_generateTree.h`
-- `Semana6/demos/demo_huffman.cpp`
+2. Se extraen dos nodos raíz del bosque actual. Al inicio esos nodos son hojas, una por símbolo. Después pueden ser nodos internos que representan subárboles ya fusionados.
 
-Modifica el código de Huffman para documentar y probar explícitamente el desempate entre símbolos de igual frecuencia.
+3. Se vuelve a insertar un nodo interno cuya frecuencia es la suma de las dos frecuencias extraídas:
 
-Usa este alfabeto:
-
-```cpp
-{ {'A', 5}, {'B', 5}, {'C', 10}, {'D', 10}, {'E', 20} }
+```text
+frecuencia_nueva = frecuencia_izquierda + frecuencia_derecha
 ```
 
-Además, agrega una prueba para el caso extremo de un solo símbolo:
+Ese nodo interno representa un árbol parcial de Huffman.
 
-```cpp
-{ {'X', 100} }
-```
+4. Porque si solo existe una hoja, el camino desde la raíz hasta esa hoja tiene longitud cero. Sin tratamiento especial, el código del símbolo sería la cadena vacía. Para que la codificación sea práctica y verificable, se asigna un código como `"0"`. El código actual ya implementa esa decisión con `prefix.empty() ? "0" : prefix`. 
 
-La implementación debe producir un código válido para el único símbolo, por ejemplo `"0"`.
+5. Significa que ningún código completo es prefijo de otro. Por ejemplo, si `A = 0`, no puede existir otro símbolo con código `01` o `011`. Esta propiedad permite decodificar de izquierda a derecha sin separadores.
 
-Responde:
+6. Si dos símbolos o subárboles tienen la misma frecuencia, cualquiera de ellos puede extraerse primero sin violar la estrategia greedy. Sin embargo, el orden elegido cambia qué nodo queda a la izquierda o a la derecha, y por eso puede cambiar los bits exactos de los códigos.
 
-1. ¿Por qué Huffman necesita una cola de prioridad?
-2. ¿Qué elementos se extraen repetidamente?
-3. ¿Qué nodo se vuelve a insertar?
-4. ¿Por qué el caso de un solo símbolo requiere cuidado especial?
-5. ¿Qué significa que el conjunto de códigos sea libre de prefijos?
-6. ¿Cómo afecta el desempate a la forma del árbol?
-7. ¿El desempate cambia necesariamente la longitud total ponderada? Justifica.
+Por ejemplo, con `A:5` y `B:5`, si `A` se toma primero, podría recibir el prefijo `0` dentro de su subárbol, si se toma primero `B`, los bits de ambos podrían invertirse. El costo puede seguir siendo el mismo, pero la tabla de códigos cambia.
 
-Entrega en este bloque:
+7. No necesariamente. El desempate puede cambiar la **forma exacta** del árbol y los bits asignados, pero si los empates son entre frecuencias iguales, normalmente no cambia el costo ponderado total. En el ejemplo propuesto, diferentes desempates válidos pueden seguir dando costo `110`, aunque produzcan códigos distintos.
 
-- Código modificado o prueba agregada.
 - Tabla símbolo, frecuencia, código, longitud.
-- Verificación de prefijo libre.
+
+| Símbolo | Frecuencia | Código | Longitud |
+| ------- | ---------: | -----: | -------: |
+| `A`     |          5 | `1100` |        4 |
+| `B`     |          5 | `1101` |        4 |
+| `C`     |         10 |  `111` |        3 |
+| `D`     |         10 |   `10` |        2 |
+| `E`     |         20 |    `0` |        1 |
+
+Verificación conceptual:
+
+* `0` no es prefijo de ningún otro código, porque todos los demás empiezan con `1`.
+* `10` no es prefijo de `1100`, `1101` ni `111`.
+* `111` no es prefijo de `1100` ni `1101`.
+* `1100` y `1101` solo difieren en el último bit.
+
+Por tanto, el conjunto es libre de prefijos.
+
+Bloque 9 - Huffman con desempate determinista
+
+Fusiones durante la construccion:
+  (A:5) + (B:5) -> 10
+  (*A:10) + (C:10) -> 20
+  (D:10) + (*A:20) -> 30
+  (E:20) + (*A:30) -> 50
+
+Tabla simbolo, frecuencia, codigo, longitud:
+  simbolo  frecuencia  codigo  longitud
+        A           5    1100         4
+        B           5    1101         4
+        C          10     111         3
+        D          10      10         2
+        E          20       0         1
+
+Prefijo libre: true
+Costo ponderado total: 110
+
+Texto original: ABCDE
+Codificado: 11001101111100
+Decodificado: ABCDE
+
+Caso de un solo simbolo:
+  X -> 0
+  texto original: XXX
+  codificado: 000
+  decodificado: XXX
+  prefijo libre: true
 
 #### Bloque 10 - Treap: modificación de código, rotaciones e invariantes
 
-Revisa:
-
-- `Semana6/include/Treap.h`
-- `Semana6/demos/demo_treap_basico.cpp`
-- `Semana6/pruebas_publicas/test_public_week6.cpp`
-- `Semana6/pruebas_internas/test_internal_week6.cpp`
-
-Este bloque es obligatorio. Su objetivo es que no uses `Treap` solo como estructura decorativa, sino que entiendas cómo combina dos invariantes simultáneos:
-
-1. propiedad de árbol binario de búsqueda sobre `key`,
-2. propiedad de heap sobre `priority`.
-
-En la implementación de Semana 6, una prioridad menor sube más cerca de la raíz. Por eso `bubbleUp` rota mientras el padre tiene prioridad mayor que el nodo insertado.
-
 ##### Parte A - Construcción determinística con prioridades fijas
 
-Crea o modifica `demo_treap_basico.cpp` para construir el treap usando `addWithPriority`, no solo `add`, con esta secuencia:
+1. Porque un Treap mantiene siempre la propiedad BST sobre las claves.
+2. Porque la raíz está determinada por la prioridad, no por el orden de inserción.
+3. Debe subir el nuevo nodo insertado.
+4. Conserva la propiedad BST.
+5. Intenta restaurar la propiedad heap por prioridad.
 
-```cpp
-{ {50, 50}, {30, 30}, {70, 70}, {20, 20}, {40, 40}, {60, 60}, {80, 80} }
+Tabla resumida:
+
+| Insertado | Prioridad | Raíz | Inorden                        | Niveles                        |
+| --------: | --------: | ---: | ------------------------------ | ------------------------------ |
+|        50 |        50 |   50 | `[50]`                         | `[50]`                         |
+|        30 |        30 |   30 | `[30, 50]`                     | `[30, 50]`                     |
+|        70 |        70 |   30 | `[30, 50, 70]`                 | `[30, 50, 70]`                 |
+|        20 |        20 |   20 | `[20, 30, 50, 70]`             | `[20, 30, 50, 70]`             |
+|        40 |        40 |   20 | `[20, 30, 40, 50, 70]`         | `[20, 30, 40, 50, 70]`         |
+|        60 |        60 |   20 | `[20, 30, 40, 50, 60, 70]`     | `[20, 30, 40, 50, 60, 70]`     |
+|        80 |        80 |   20 | `[20, 30, 40, 50, 60, 70, 80]` | `[20, 30, 40, 50, 60, 70, 80]` |
+
+Dibujo final aproximado:
+
+```text
+│                       ┌── 80|p=80
+│                   ┌── 70|p=70
+│               ┌── 60|p=60
+│           ┌── 50|p=50
+│       ┌── 40|p=40
+│   ┌── 30|p=30
+└── 20|p=20
 ```
-
-Cada par representa:
-
-```cpp
-{ clave, prioridad }
-```
-
-Después de cada inserción, imprime:
-
-- clave insertada,
-- prioridad asignada,
-- recorrido inorden,
-- recorrido por niveles,
-- raíz actual,
-- resultado de `isBST()`,
-- resultado de `isHeapByPriority()`,
-- resultado de `isTreap()`.
-
-Responde:
-
-1. ¿Por qué el recorrido inorden debe salir ordenado aunque las prioridades cambien la forma del árbol?
-2. ¿Por qué la raíz no necesariamente es la primera clave insertada?
-3. ¿Qué nodo debe subir cuando se inserta una clave con prioridad menor que la de sus ancestros?
-4. ¿Qué propiedad conserva una rotación local sobre las claves?
-5. ¿Qué propiedad intenta restaurar `bubbleUp` sobre las prioridades?.
-
-Entrega en esta parte:
-
-- demostración modificada,
-- salida de al menos cinco inserciones,
-- dibujo o `asciiArt()` del árbol final.
 
 ##### Parte B - Instrumentación de `bubbleUp`
 
-Agrega una versión instrumentada sin eliminar la función existente:
+1. Porque cada nuevo nodo tiene una prioridad menor que la prioridad de su padre. Eso viola la propiedad heap por prioridad y obliga a `bubbleUp`.
+2. Retorna cero cuando el nodo insertado queda como raíz o cuando su padre ya tiene prioridad menor o igual.
+3. En una inserción individual puede haber tantas rotaciones como altura tenga el árbol, es decir `O(h)`. En un treap con prioridades aleatorias, la altura esperada es `O(log n)`, pero no está garantizada determinísticamente.
+4. Porque solo cambia relaciones locales padre-hijo conservando los rangos de claves. En una rotación izquierda sobre `u`, el hijo derecho `w` sube, `u` pasa a la izquierda de `w`, y el subárbol intermedio conserva claves mayores que `u` y menores que `w`.
+5. Porque su balance depende de prioridades aleatorias o asignadas. Si las prioridades se comportan como una permutación aleatoria, la forma esperada es buena. Pero si las prioridades son adversarias, puede degenerar.
 
-```cpp
-template<class T, class Compare>
-std::size_t bubbleUpCount(typename Treap<T, Compare>::Node* u);
-```
+Tabla esperada:
 
-Si prefieres mantenerla como método interno de la clase, puedes llamarla:
+| Clave | Prioridad | Rotaciones | Raíz después de insertar | Niveles                 |
+| ----: | --------: | ---------: | -----------------------: | ----------------------- |
+|   100 |       100 |          0 |                      100 | `[100]`                 |
+|    90 |        90 |          1 |                       90 | `[90, 100]`             |
+|    80 |        80 |          1 |                       80 | `[80, 90, 100]`         |
+|    70 |        70 |          1 |                       70 | `[70, 80, 90, 100]`     |
+|    60 |        60 |          1 |                       60 | `[60, 70, 80, 90, 100]` |
 
-```cpp
-std::size_t bubbleUpCount(Node* u);
-```
-
-La función debe realizar el mismo proceso que `bubbleUp`, pero retornando cuántas rotaciones se hicieron.
-
-Luego agrega una forma controlada de usarla desde una inserción, por ejemplo:
-
-```cpp
-std::size_t addWithPriorityCount(const T& x, std::uint64_t priority);
-```
-
-No cambies el comportamiento público de `add` ni de `addWithPriority`.
-
-Prueba con una secuencia que fuerce varias rotaciones:
-
-```cpp
-{ {100, 100}, {90, 90}, {80, 80}, {70, 70}, {60, 60} }
-```
-
-Responde:
-
-1. ¿Por qué esta secuencia tiende a producir rotaciones repetidas?
-2. ¿Cuándo `bubbleUpCount` retorna cero?
-3. ¿Cuál es el peor caso de rotaciones durante una inserción?
-4. ¿Por qué una rotación no rompe la propiedad BST?
-5. ¿Por qué el treap busca mantener altura esperada logarítmica, no altura garantizada logarítmica?
-
-Entrega en esta parte:
-
-- código de la función instrumentada,
-- tabla con clave, prioridad, rotaciones y raíz después de insertar,
-- explicación de costo esperado.
 
 ##### Parte C - Instrumentación de `trickleDown` y eliminación
 
-Agrega una versión instrumentada sin eliminar la función existente:
+1. Porque además de mantener el orden por clave, se debe conservar la propiedad heap por prioridad. Borrar directamente un nodo con dos hijos puede dejar prioridades incorrectas.
+2. Porque en esta implementación la prioridad menor debe estar más arriba. Si el nodo a eliminar baja, debe subir el hijo que mejor respeta la propiedad heap.
+3. Se aplica rotación derecha. El hijo izquierdo sube y el nodo eliminado baja hacia la derecha.
+4. Se aplica rotación izquierda. El hijo derecho sube y el nodo eliminado baja hacia la izquierda.
+5. Deben mantenerse el orden BST, la propiedad heap por prioridad, los enlaces `parent` correctos, la raíz correcta y `size()` disminuido exactamente en uno.
 
-```cpp
-std::size_t trickleDownCount(Node* u);
+| Eliminado | Rotaciones | Inorden después            | Niveles después            | Raíz |
+| --------: | ---------: | -------------------------- | -------------------------- | ---: |
+|        50 |          1 | `[20, 30, 40, 60, 70, 80]` | `[20, 30, 40, 60, 70, 80]` |   20 |
+|        20 |          1 | `[30, 40, 60, 70, 80]`     | `[30, 40, 60, 70, 80]`     |   30 |
+|        70 |          1 | `[30, 40, 60, 80]`         | `[30, 40, 60, 80]`         |   30 |
+
+Trazado manual de eliminar `50`:
+
+Antes de eliminar, alrededor del nodo `50` se tiene:
+
+```text
+40
+  \
+   50
+     \
+      60
+        \
+         70
+           \
+            80
 ```
 
-y una eliminación controlada:
+Como `50` tiene hijo derecho y no tiene hijo izquierdo, `trickleDown(50)` aplica una rotación izquierda sobre `50`. Entonces `60` sube y `50` baja a la izquierda de `60`. Ahora `50` queda sin hijos y puede retirarse con `splice`.
 
-```cpp
-std::size_t removeCount(const T& x);
+Después:
+
+```text
+40
+  \
+   60
+     \
+      70
+        \
+         80
 ```
-
-La eliminación debe rotar el nodo hacia abajo hasta que tenga a lo más un hijo, luego aplicar la lógica equivalente a `splice`.
-
-Usa el treap construido en la Parte A y elimina:
-
-```cpp
-50, 20, 70
-```
-
-Después de cada eliminación, imprime:
-
-- clave eliminada,
-- cantidad de rotaciones,
-- recorrido inorden,
-- recorrido por niveles,
-- `isBST()`,
-- `isHeapByPriority()`,
-- `isTreap()`.
-
-Responde:
-
-1. ¿Por qué eliminar en un treap no es simplemente borrar como en un BST común?
-2. ¿Por qué `trickleDown` elige rotar con el hijo de menor prioridad?
-3. ¿Qué ocurre si el nodo tiene solo hijo izquierdo?
-4. ¿Qué ocurre si el nodo tiene solo hijo derecho?
-5. ¿Qué invariantes deben seguir siendo verdaderos después de `splice`?
-
-Entrega en esta parte:
-
-- código modificado,
-- salida de la demostración,
-- trazado manual de una eliminación donde haya al menos una rotación.
 
 ##### Parte D - Búsqueda ordenada en Treap
 
-Extiende la demostración para probar:
+1. Porque buscan sucesores por clave. La prioridad solo decide la forma vertical, no el orden semántico de las claves.
+2. `findEQ`, `findLast`, `lowerBound`, `upperBound` y el recorrido inorden.
+3. La relación padre-hijo sobre `priority`, validada por `isHeapByPriority`.
+4. Porque una cola de prioridad pura, como un heap binario, está optimizada para `getMax` y `delMax`. El Treap guarda orden por clave y prioridad estructural, no está diseñado principalmente para consumir máximos repetidamente.
+5. Cuando se necesita búsqueda ordenada, inserción, eliminación, sucesores, predecesores y balance esperado sin implementar invariantes deterministas más complejos como AVL o Red-Black.
 
-```cpp
-findEQ(40)
-findEQ(35)
-lowerBound(35)
-lowerBound(40)
-upperBound(40)
-upperBound(75)
-```
+La búsqueda ordenada depende de la propiedad BST, no de la prioridad heap. El código de `lowerBound` y `upperBound` recorre izquierda o derecha comparando claves y guardando un candidato, igual que en un BST. 
 
-Compara los resultados con lo que produciría `BinarySearchTree` usando las mismas claves.
+Con las claves `{20, 30, 40, 50, 60, 70, 80}`:
 
-Responde:
+| Operación        | Resultado esperado | Explicación            |
+| ---------------- | -----------------: | ---------------------- |
+| `findEQ(40)`     |               `40` | La clave existe        |
+| `findEQ(35)`     |             `null` | La clave no existe     |
+| `lowerBound(35)` |               `40` | Primera clave `>= 35`  |
+| `lowerBound(40)` |               `40` | La clave exacta existe |
+| `upperBound(40)` |               `50` | Primera clave `> 40`   |
+| `upperBound(75)` |               `80` | Primera clave `> 75`   |
 
-1. ¿Por qué `lowerBound` y `upperBound` dependen de la propiedad BST y no de la propiedad heap?
-2. ¿Qué parte del treap se comporta igual que un BST?
-3. ¿Qué parte del treap se comporta como heap?
-4. ¿Por qué el treap no reemplaza directamente a una cola de prioridad si lo único que quieres es extraer máximos o mínimos repetidamente?
-5. ¿En qué situación sí conviene usar una estructura tipo treap?.
+Comparación Treap vs `BinarySearchTree`:
 
-Entrega en esta parte:
-
-- tabla comparativa Treap vs `BinarySearchTree`,
-- respuestas de búsqueda,
-- explicación de qué propiedad se usó en cada operación.
+| Operación       | Treap                                  | BinarySearchTree                                       |
+| --------------- | -------------------------------------- | ------------------------------------------------------ |
+| `findEQ`        | Usa claves como BST                    | Usa claves                                             |
+| `lowerBound`    | Usa orden BST                          | Usa orden BST                                          |
+| `upperBound`    | Usa orden BST                          | Usa orden BST                                          |
+| Forma del árbol | Depende de prioridades                 | Depende del orden de inserción o del balance si existe |
+| Balance         | Esperado si prioridades son aleatorias | No garantizado en BST simple                           |
+| Inorden         | Ordenado                               | Ordenado                                               |
 
 ##### Parte E - Pruebas específicas para Treap
 
-Agrega o extiende pruebas para cubrir:
+1. Atraparía rotaciones que actualizan `left` y `right`, pero olvidan corregir `parent`. Ese bug suele aparecer después de `rotateLeft`, `rotateRight`, `trickleDown` o `splice`.
+2. Detectaría incrementos dobles al insertar, decrementos faltantes al eliminar o cambios de tamaño después de rechazar duplicados.
+3. Detectaría errores en inserción BST o rotaciones que mueven subárboles al lado incorrecto.
+4. Detectaría fallas en `bubbleUp`, errores al elegir el hijo en `trickleDown` o rotaciones incompletas que dejan un hijo con prioridad menor que su padre.
+5. Porque hacen que el árbol final sea determinístico. Así se puede afirmar la raíz, el recorrido por niveles, el número de rotaciones y el resultado de eliminaciones sin depender del generador aleatorio.
 
-1. treap vacío: `empty()`, `size()`, `isBST()`, `isHeapByPriority()`, `isTreap()`,
-2. inserción con prioridades fijas,
-3. rechazo de duplicados,
-4. inorden ordenado después de insertar,
-5. propiedad heap por prioridad después de insertar,
-6. `lowerBound` y `upperBound`,
-7. eliminación de hoja,
-8. eliminación de nodo con un hijo,
-9. eliminación de nodo con dos hijos,
-10. eliminación de raíz,
-11. conservación de enlaces `parent`, si agregas una función pública de validación,
-12. consistencia de `size()` después de operaciones mixtas,
-13. estabilidad de invariantes después de una secuencia larga de inserciones y eliminaciones.
+```text
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana6/build-debug
+    Start 1: semana6_public
+1/2 Test #1: semana6_public ...................   Passed    0.00 sec
+    Start 2: semana6_internal
+2/2 Test #2: semana6_internal .................   Passed    0.00 sec
 
-Responde:
+100% tests passed, 0 tests failed out of 2
 
-1. ¿Qué bug atraparía una prueba de enlaces `parent`?
-2. ¿Qué bug atraparía una prueba de `size()`?
-3. ¿Qué bug atraparía una prueba de inorden ordenado?
-4. ¿Qué bug atraparía una prueba de prioridad padre-hijo?
-5. ¿Por qué conviene usar prioridades fijas en pruebas unitarias?
-
-Entrega en esta parte:
-
-- pruebas agregadas,
-- resultado de `ctest --test-dir build-debug -R semana6 --output-on-failure`,
-- breve explicación de qué cubre cada prueba.
+Total Test time (real) =   0.01 sec
+```
 
 #### Bloque 11 - Comparación con Semana 5: `BinaryHeap`, `BinarySearchTree` y `Treap`
 

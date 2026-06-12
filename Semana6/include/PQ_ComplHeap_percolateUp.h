@@ -3,38 +3,48 @@
 #include <algorithm>
 #include <cstddef>
 #include <vector>
-
 #include "PQ_ComplHeap_macro.h"
 
 namespace ods {
 
 template <class T, class Compare>
-std::size_t complHeapPercolateUp(std::vector<T> &a, std::size_t i,
-                                 Compare comp) {
-  while (pqHasParent(i)) {
-    const std::size_t p = pqParent(i);
-    if (!comp(a[p], a[i])) {
-      break;
+std::size_t complHeapPercolateUp(std::vector<T>& a, std::size_t i, Compare comp) {
+    while (pqHasParent(i)) {
+        const std::size_t p = pqParent(i);
+
+        if (!comp(a[p], a[i])) {
+            break;
+        }
+
+        std::swap(a[p], a[i]);
+        i = p;
     }
-    std::swap(a[p], a[i]);
-    i = p;
-  }
-  return i;
+
+    return i;
 }
 
+// MOD-A6-B3: version instrumentada de percolateUp.
+// Realiza los mismos intercambios que complHeapPercolateUp,
+// pero retorna la cantidad de intercambios ejecutados.
 template <class T, class Compare>
-std::size_t complHeapPercolateUpCount(std::vector<T> &a, std::size_t i,
+std::size_t complHeapPercolateUpCount(std::vector<T>& a,
+                                      std::size_t i,
                                       Compare comp) {
-  std::size_t counter = 0;
-  while (pqHasParent(i)) {
-    const std::size_t p = pqParent(i);
-    if (!comp(a[p], a[i])) {
-      break;
+    std::size_t swaps = 0;
+
+    while (pqHasParent(i)) {
+        const std::size_t p = pqParent(i);
+
+        if (!comp(a[p], a[i])) {
+            break;
+        }
+
+        std::swap(a[p], a[i]);
+        i = p;
+        ++swaps;
     }
-    std::swap(a[p], a[i]);
-    i = p;
-    counter++;
-  }
-  return counter;
+
+    return swaps;
 }
+
 } // namespace ods
