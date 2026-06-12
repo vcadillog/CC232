@@ -9,6 +9,33 @@
 
 using namespace std;
 
+std::vector<int> solucionIngenua(std::vector<int> p, int K) {
+  int n = p.size();
+  bool changed = true;
+  while (changed) {
+    changed = false;
+    for (int i = 1; i < n; i++) {
+      int posA = -1;
+      int posB = -1;
+      for (int j = 0; j < n; j++) {
+        if (p[j] == i) {
+          posA = j;
+        }
+        if (p[j] == i + 1) {
+          posB = j;
+        }
+      }
+      if (posA > posB && (posA - posB) >= K) {
+        std::swap(p[posA], p[posB]);
+        // std::cout << p[posA] << " " << p[posB];
+        changed = true;
+        break;
+      }
+    }
+  }
+  return p;
+}
+
 static std::vector<int> makePermutation(int n, std::mt19937 &rng) {
   std::vector<int> p(n);
   iota(p.begin(), p.end(), 1);
@@ -40,14 +67,14 @@ int main() {
 
   int K = 3;
 
-  cout << "N" << setw(25) << "F-Wide Swap\n";
+  cout << "N" << setw(20) << "F-Wide Swap"<< setw(25)<< "Solución ingenua\n";
 
   for (int n : sizes) {
     auto p = makePermutation(n, rng);
 
     ods::FWideSwap fw;
 
-    double t_fw = 0;
+    double t_fw = 0, t_ig = 0;
 
     {
       using clock = chrono::high_resolution_clock;
@@ -60,7 +87,18 @@ int main() {
       t_fw = chrono::duration<double>(end - start).count() / 5.0;
     }
 
-    cout << n << "," << setw(20) << t_fw << "\n";
+    {
+      using clock = chrono::high_resolution_clock;
+
+      auto start = clock::now();
+      for (int i = 0; i < 5; i++) {
+        solucionIngenua(p, K);
+      }
+      auto end = clock::now();
+      t_ig = chrono::duration<double>(end - start).count() / 5.0;
+    }
+
+    cout << n << "," << setw(20) << t_fw << setw(15) << t_ig << "\n";
   }
 
   return 0;

@@ -10,6 +10,7 @@ public:
   void loadPermutation(const std::vector<int> &p);
   void swapPositions(int i, int j);
   void solve(int K);
+  void solvePrint(int K);
   std::vector<int> FWStoVector(std::vector<int> p, int K);
 };
 } // namespace ods

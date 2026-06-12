@@ -25,4 +25,11 @@ int main() {
 
   assert(fw.FWStoVector({5, 2, 7, 1, 6, 3, 4}, 3) ==
          (std::vector<int>{3, 2, 7, 1, 6, 4, 5}));
+
+  // 5,3,1,2,4 k=2
+  // 4,3,1,2,5
+  // 4,2,1,3,5
+  // 3,2,1,4,5
+  assert(fw.FWStoVector({5,3,1,2,4}, 2) ==
+         (std::vector<int>{3,2,1,4,5}));
 }

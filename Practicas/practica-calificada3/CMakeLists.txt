@@ -18,6 +18,9 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 target_include_directories(algorithms PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+add_executable(pc3_demo_instrumentado "demos/demo_instrumentado.cpp")
+target_link_libraries(pc3_demo_instrumentado PRIVATE algorithms)
+
 add_executable(pc3_demo_treap "demos/demo_treap.cpp")
 target_link_libraries(pc3_demo_treap PRIVATE algorithms)
 

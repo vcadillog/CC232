@@ -12,3 +12,4 @@
 ## 12/06/2026
 - Se agregó un benchmark para diferentes tamaños de la secuencia.
 - Se encontró que no era posible optimizar más siguiendo la misma estructura del Treap y por eso se agregó merge y split como operaciones para reconstruir el Treap de forma más eficiente y se redujo a O(nlogn) la complejidad.
+- Se implementó los retos de la práctica.

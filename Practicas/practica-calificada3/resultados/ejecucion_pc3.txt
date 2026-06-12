@@ -47,3 +47,51 @@ N             F-Wide Swap
 100,          0.00439391
 150,          0.00993857
 200,           0.0187454
+
+Después de modificar los retos:
+Salida: ./build/pc3_demo_instrumentado
+
+│   ┌── 6 [idx=7, sz=1]
+└── 2 [idx=6, sz=8]
+    └── 1 [idx=5, sz=6]
+        │   ┌── 3 [idx=4, sz=1]
+        └── 8 [idx=3, sz=5]
+            └── 7 [idx=2, sz=3]
+                └── 5 [idx=1, sz=2]
+                    └── 4 [idx=0, sz=1]
+Permutacion inicial:
+4 5 7 8 3 1 2 6 
+
+4 5 7 8 3 1 2 6 intercambio: 3 4
+3 5 7 8 4 1 2 6 intercambio: 2 3
+2 5 7 8 4 1 3 6 intercambio: 1 2
+1 5 7 8 4 2 3 6 intercambio: 4 5
+1 4 7 8 5 2 3 6 intercambio: 3 4
+1 3 7 8 5 2 4 6 intercambio: 2 3
+1 2 7 8 5 3 4 6 intercambio: 6 7
+1 2 6 8 5 3 4 7 intercambio: 7 8
+Permutacion minima:
+1
+2
+6
+7
+5
+3
+4
+8
+└── 8 [idx=7, sz=8]
+    │   ┌── 4 [idx=6, sz=3]
+    │   │   └── 3 [idx=5, sz=2]
+    │   │       └── 5 [idx=4, sz=1]
+    └── 7 [idx=3, sz=7]
+        │   ┌── 6 [idx=2, sz=1]
+        └── 2 [idx=1, sz=3]
+            └── 1 [idx=0, sz=1]
+
+Salida: ./build/benchmark
+N         F-Wide Swap       Solución ingenua
+25,         0.000156296    0.000357646
+50,          0.00113092     0.00881842
+100,          0.00447362       0.131648
+150,           0.0105227       0.528124
+200,           0.0189951        1.96152

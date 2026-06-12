@@ -25,7 +25,7 @@ int main() {
 
   std::cout << "\n\n";
 
-  fw.solve(K);
+  fw.solvePrint(K);
 
   std::cout << "Permutacion minima:\n";
 
