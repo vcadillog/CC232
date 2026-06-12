@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(Semana3 LANGUAGES CXX)
 include(CTest)
-option(BUILD_BENCHMARKS "Build benchmark targets" OFF)
+option(BUILD_BENCHMARKS "Build benchmark targets" ON)
 option(ENABLE_SANITIZERS "Enable ASan and UBSan" ON)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -33,10 +33,10 @@ target_link_libraries(edge_cases PRIVATE algorithms)
 add_test(NAME pc3_test_internal COMMAND test_internal)
 add_test(NAME pc3_edge_cases COMMAND edge_cases)
 
-# if (BUILD_BENCHMARKS)
-#     add_executable(benchmark benchmark/benchmark.cpp)
-#     target_link_libraries(benchmark PRIVATE algorithms)
-# endif()
+if (BUILD_BENCHMARKS)
+    add_executable(benchmark benchmark/benchmark.cpp)
+    target_link_libraries(benchmark PRIVATE algorithms)
+endif()
 if (ENABLE_SANITIZERS)
     message(STATUS "Sanitizers enabled")
 
