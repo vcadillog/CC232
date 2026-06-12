@@ -10,9 +10,7 @@
 4. Reemplazar recursión implícita por una estructura explícita significa que en lugar de confiar en la pila de llamadas del sistema para manejar el estado de las funciones recursivas, se utiliza una estructura de datos explícita, como una pila o una cola, para almacenar y gestionar el estado de las operaciones. Esto permite abstraer el ADT y reutilizar la lógica de pila o cola.
 5. La información mínima que debe guardarse en una pila para permitir reconstruir una solución parcial es el estado actual del problema que se está resolviendo. Esto puede incluir variables relevantes, decisiones tomadas, y cualquier información necesaria para continuar el proceso desde ese punto específico. Esta información permite que al desapilar, se pueda volver a ese estado y continuar la resolución del problema sin perder el contexto.
 
-
 #### Bloque 2 - Demostración y trazado guiado
-
 
 | Archivo                          | Salida u observable importante                                                                 | Estructura o técnica central      | Qué concepto permite defender                                                                 |
 |----------------------------------|------------------------------------------------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------------------------------|
@@ -71,15 +69,6 @@ Porque muestra el resultado, mientras que en otros solo da observables o salidas
 
 #### Bloque 4 
 
-Revisa:
-
-- `Semana4/include/BaseConversion.h`
-- `Semana4/include/Parentheses.h`
-- `Semana4/demos/demo_base_conversion.cpp`
-- `Semana4/demos/demo_paren_rpn.cpp`
-
-Responde:
-
 1. Residuo es el digito convertido en la base, pero almacenado en orden inverso en la pila, la pila al funcionar con lógica lifo nos devuelve en orden correcto lo que había sido almacenado en orden inverso y el cociente sirve para determinar la finititud del proceso.
 2. Porque el algoritmo devuelve el resultado en orden inverso y para revertirlos a un orden correcto se debe usar una lógica lifo.
 3. Usar una pila explícita permite un control directo de los elementos con push/pop y mayor espacio de memoria disponible.
@@ -88,48 +77,78 @@ Responde:
 6. Porque termina el bucle cuando el stack está vacío o el pop no retorna el par de cierre correcto.
 7. La recursiva resulta más conveniente cuando se trabaja con un solo par de apertura-cierre, mientras que la iterativa extiende esa funcionalidad de forma natural para trabajar con múltiples pares simultáneamente.
 
-Ejecuta pruebas propias con al menos cinco números y cuatro bases distintas para `toBaseRecursive` y `toBaseIterative`.
+##### Experimento 1
 
-Registra en una tabla:
-
-- Número
-- Base
-- Salida recursiva
-- Salida iterativa
-- ¿Coinciden?
-- Comentario
+| Número | Base | Salida recursiva | Salida iterativa | ¿Coinciden? | Comentario |
+|:---|:---:|:---:|:---:|:---:|---:|
+| 5 | 2 | 101 | 101 | Sí | Conversión simple a binario de un número pequeño. |
+| 15 | 2 | 1111 | 1111 | Sí | Todos los bits son 1|
+| 31 | 8 | 37 | 37 | Sí | Conversión a base 8|
+| 12345 | 8 | 30071 | 30071 | Sí | Conversión a base 8 de un número grande|
+| 255 | 16 | FF | FF | Sí | La conversión se escribe en formato hexadecimal |
+| 1024 | 16 | 400 | 400 | Sí | Potencia de 2 que produce una representación hexadecimal exacta. |
+| 100 | 3 | 10201 | 10201 | Sí | Conversión a una base inusal, 3.|
+| 999 | 7 | 2625 | 2625 | Sí | Conversión a una base inusal, 7.|
 
 ##### Experimento 2
 
-Construye una batería de al menos ocho expresiones para paréntesis, incluyendo:
+Caso: Vacia
+Expresion: ""
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+Una cadena vacía no contiene delimitadores que puedan desbalancearse.
 
-- una vacía,
-- una sin paréntesis,
-- una correctamente anidada,
-- una con desbalance,
-- una con cruce incorrecto,
-- una con varios tipos de delimitadores,
-- una larga,
-- una inventada por ti.
+Caso: Sin parentesis
+Expresion: "2+3*4-5"
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+No existen delimitadores; la expresión se considera balanceada.
 
-Para cada caso indica:
+Caso: Correctamente anidada
+Expresion: "((a+b)*(c-d))"
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+Todos los paréntesis se abren y cierran en el orden correcto.
 
-- resultado recursivo,
-- resultado iterativo,
-- si ambos coinciden,
-- qué explica el caso.
+Caso: Desbalance
+Expresion: "((a+b)"
+Iterativo balanceado: false
+Recursivo balanceado: false
+Iterativo = Recursivo: true
+Falta un paréntesis de cierre, por lo que queda un delimitador abierto pendiente.
+
+Caso: Cruce incorrecto
+Expresion: "([)]"
+Iterativo balanceado: false
+Recursivo balanceado: true
+Iterativo = Recursivo: false
+La versión iterativa detecta el error, mientras que la versión recursiva presenta un comportamiento incorrecto.
+
+Caso: Varios delimitadores
+Expresion: "{[(a+b)*c]+(d/e)}"
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+Los delimitadores `()`, `[]` y `{}` están correctamente anidados y emparejados.
+
+Caso: Larga
+Expresion: "((({[a+b]*(c+d)})-(e/f))+((g*h)-i))"
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+Verifica que ambos algoritmos funcionen correctamente con varios niveles de anidación.
+
+Caso: Inventada
+Expresion: "[({(x+y)*z}-((m-n)/p))]"
+Iterativo balanceado: true
+Recursivo balanceado: true
+Iterativo = Recursivo: true
+Caso complejo creado para probar múltiples niveles y tipos de delimitadores.
 
 #### Bloque 5 
-
-Revisa:
-
-- `Semana4/include/OperatorPriority.h`
-- `Semana4/include/ExpressionEvaluator.h`
-- `Semana4/demos/demo_paren_rpn.cpp`
-- `Semana4/pruebas_publicas/test_public_week4.cpp`
-- `Semana4/pruebas_internas/test_internal_week4.cpp`
-
-Responde:
 
 1. EvaluationResult guarda el valor final de evaluar la operación matemática y la expresión RPN.
 2. Porque los espacios no alteran el resultado de la operación matemática y sirve para estandarizar la expresión.
@@ -142,48 +161,56 @@ Responde:
 
 ##### Experimento 3
 
-Propón y ejecuta al menos seis expresiones nuevas:
+Caso: Valida sin parentesis 1
+Expresion: 3+4*5
+RPN: 3 4 5 * +
+Valor: 23
+Valida: true
+La multiplicación tiene mayor precedencia que la suma.
 
-- dos válidas sin paréntesis,
-- dos válidas con anidamiento,
-- una con menos unario,
-- una inválida.
+Caso: Valida sin parentesis 2
+Expresion: 20/5+7
+RPN: 20 5 / 7 +
+Valor: 11
+Valida: true
+La división se evalúa antes que la suma.
 
-Para cada una registra:
+Caso: Valida con anidamiento 1
+Expresion: (2+3)*(4+5)
+RPN: 2 3 + 4 5 + *
+Valor: 45
+Valida: true
+ Los paréntesis fuerzan la evaluación previa de ambas sumas.
 
-- expresión,
-- RPN esperada,
-- RPN obtenida,
-- valor esperado u error esperado,
-- valor obtenido o error observado,
-- explicación breve.
+Caso: Valida con anidamiento 2
+Expresion: ((1+2)*(3+4))-5
+RPN: 1 2 + 3 4 + * 5 -
+Valor: 16
+Valida: true
+Se valida el manejo correcto de anidamiento y precedencia.
+
+Caso: Menos unario
+Expresion: -(3+4)*2
+Valida: false
+Error: faltan operandos para el operador binario
+No soporta correctamente el menos unario y lo interpreta como operador binario.
+
+Caso: Invalida
+Expresion: (3+4*5
+Valida: false
+Error: orden de operadores invalido
+La expresión está mal formada porque falta un paréntesis de cierre.
 
 ##### Extensión opcional
 
-Extiende el evaluador con un operador adicional elegido por ti.
-
-La defensa debe incluir obligatoriamente:
-
-- qué símbolo agregaste,
-- su aridad,
-- su prioridad,
-- qué casos válidos probaste,
-- qué caso inválido probaste,
-- qué parte del código tuviste que modificar.
+- Se agregó: El operador modulo %
+- Es un operador binario.
+- Tiene la misma prioridad que la multiplicación.
+- Se modificaron las funciones isOperatorChar, calcu, isUnaryMinus y la tabla de prioridares en OperatorPriority.h
+- Caso válido probado: 7%2 == 1
+- Caso invállido: 5%, error
 
 #### Bloque 6 
-
-Revisa:
-
-- `Semana4/include/Queen.h`
-- `Semana4/include/NQueens.h`
-- `Semana4/include/Maze.h`
-- `Semana4/demos/demo_nqueens.cpp`
-- `Semana4/demos/demo_maze.cpp`
-- `Semana4/pruebas_publicas/test_public_week4.cpp`
-- `Semana4/pruebas_internas/test_internal_week4.cpp`
-
-Responde:
 
 1. Cuando dos reinas comparten fila, columna o diagonal significa que están en conflicto.
 2. La pila representa el orden por fila en el que las reinas fueron colocadas en el tablero para una solución válida.
@@ -200,48 +227,62 @@ Responde:
 
 ##### Experimento 4
 
-Ejecuta `placeQueens(n)` para al menos cuatro valores de `n`.
+| n  | Número de soluciones | Número de checks | ¿Crece rápido o lento? | Comentario                                                                     |
+| :--- | :---: | :---: | :---: | ---: |
+| 7  |                  40 |          9297 | Rápido                 | Ya se realizan miles de verificaciones para encontrar pocas soluciones.        |
+| 9  |                 352 |        243009 | Muy rápido             | Las configuraciones ya bordean los cientos de miles |
+| 11 |                2680 |        7416541 | Muy rápido             | Se exploran millones de configuraciones parciales.                             |
+| 13 |               73712 |      292182579 | Extremadamente rápido  | Se requieren cientos de millones de verificaciones para completar la búsqueda. |
 
-Registra en una tabla:
-
-- `n`
-- número de soluciones
-- número de `checks`
-- ¿crece rápido o lento?
-- comentario
-
-Luego responde:
-
-1. ¿Qué patrón observas en el crecimiento de `checks`?
-2. ¿Por qué contar verificaciones no es lo mismo que contar soluciones?
-3. ¿Dónde aparece la "poda" en este código, aunque no haya una estructura formal con ese nombre?
+1.
+- De 7 a 9 las configuraciones crecen en aproximadamente 27 veces.
+- De 9 a 11 las configuraciones crecen en aproximadamente 30 veces.
+- De 11 a 13 las configuraciones crecen en aproximadamente 39 veces.
+Se puede observar un patrón de crecimiento exponencial.
+2. El número de verificaciones solo indica la cantidad de veces que se colocaron las reinas incluso en configuraciones que no daban soluciones.
+3. La poda aparece cuando hay conflicto entre reinas se detiene la búsqueda y se hace backtracking.
 
 ##### Experimento 5
 
-Diseña al menos tres laberintos propios:
+"#####",
+"#...#",
+"#...#",
+"#...#",
+"#####"
+Caso: Camino claro
+Inicio: (1,1)
+Destino: (3,3)
+Longitud del camino: 5
+Retrocesos detectados: 0
+Interpretacion: El algoritmo encontro la ruta sin necesidad de retroceder.
 
-- uno con camino claro,
-- uno sin salida,
-- uno donde el algoritmo deba retroceder varias veces.
+"#####",
+"#.#.#",
+"#####",
+"#.#.#",
+"#####"
+Caso: Sin salida
+Inicio: (1,1)
+Destino: (3,3)
+Camino: NO EXISTE
+Retrocesos detectados: 1
+Interpretacion: No existe ruta entre inicio y destino.
 
-Para cada laberinto registra:
-
-- grilla usada,
-- coordenadas de inicio y destino,
-- longitud del camino o ausencia de camino,
-- evidencia de retroceso,
-- interpretación.
+"#########",
+"#.....#.#",
+"#####.#.#",
+"#.....#.#",
+"#.#####.#",
+"#...#...#",
+"#########"
+Caso: Con retrocesos
+Inicio: (1,1)
+Destino: (5,7)
+Camino: NO EXISTE
+Retrocesos detectados: 15
+Interpretacion: No existe ruta entre inicio y destino.
 
 #### Bloque 7 
-Revisa:
-
-- `Semana4/include/Queue.h`
-- `Semana4/include/BankSimulation.h`
-- `Semana4/demos/demo_bank.cpp`
-- `Semana4/pruebas_publicas/test_public_week4.cpp`
-- `Semana4/pruebas_internas/test_internal_week4.cpp`
-
-Responde:
 
 1. Representa una cola de Customer (clientes), almacena el tiempo que falta para atender un conjunto de clientes por ventanilla.
 2. Compara el tamaño de las colas y toma la cola más corta, si hay empate toma la cola con el menor índice.
@@ -254,28 +295,25 @@ Responde:
 
 ##### Experimento 6
 
-Ejecuta la simulación variando al menos tres parámetros:
+| nWin | servTime | seed  | totalArrivals | totalServed | Tamaño final de cada cola | Observación |
+|:---|:---:|:---:|:---:|:---:|:---:|---:|
+| 2 | 10 | 12345 | 5 | 0 | [3, 2] | Pocas ventanillas. Se forman colas rápidamente y ningún cliente termina de ser atendido durante la simulación. |
+| 3 | 10 | 12345 | 7 | 0 | [3, 2, 2] | Al agregar una ventanilla llegan más clientes, pero aún no se completa ningún servicio. |
+| 5 | 10 | 12345 | 10 | 1 | [2, 2, 2, 2, 1] | Más ventanillas distribuyen mejor la carga y permiten completar al menos una atención. |
+| 3 | 20 | 12345 | 15 | 1 | [5, 5, 4] | Una simulación más larga genera más llegadas y colas considerablemente más grandes. |
+| 3 | 10 | 54321 | 8 | 0 | [3, 3, 2] | Cambiar la semilla modifica el patrón de llegadas, aunque el comportamiento global es similar. |
+| 4 | 15 | 98765 | 13 | 0 | [4, 3, 3, 3] | Con más tiempo y cuatro ventanillas las llegadas se reparten de forma relativamente equilibrada entre las colas. |
 
-- número de ventanillas,
-- duración total,
-- semilla.
+1. El parámetro que más influye en la congestión observable es la duración de la simulación, porque hay más generación de llegadas.
+2. No cambia nada, porque se vuelve generar el mismo número pseudoaleatorio.
+3. Cambia la cantidad de clientes que llegan.
+4. La evidencia es que los clientes aparecen relativamente equilibradas entre las ventanillas.
 
-Construye una tabla con:
-
-- `nWin`
-- `servTime`
-- `seed`
-- `totalArrivals`
-- `totalServed`
-- tamaño final de cada cola
-- observación
-
-Luego responde:
-
-1. ¿Qué parámetro parece influir más en la congestión observable?
-2. ¿Qué cambia cuando repites exactamente la misma semilla?
-3. ¿Qué cambia cuando mantienes `nWin` y `servTime`, pero alteras la semilla?
-4. ¿Qué evidencia usarías para defender que la cola más corta es una política razonable, aunque no necesariamente óptima?
+Por ejemplo:
+[3,2,2]
+[2,2,2,2,1]
+[4,3,3,3]
+Ninguna cola concentra una cantidad excesiva de clientes mientras otras permanecen vacías.
 
 #### Bloque 8 
 
