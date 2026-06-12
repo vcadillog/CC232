@@ -18,41 +18,53 @@
 ### Resumen de la solución
 El problema nos da una permutación de números de 1 a N y un número K que se usa como distancia mínima de intercambio.
 
-Debe intercambiar según las condiciones:
+```text
+Sean dos índices i,j
+1<=i<j<=N
+
+Condiciones de intercambio:
+j-i>=K 
+abs(Pi-Pj)=1
+```
 
 Entrada del problema:
+```text
+N=4, K=2
+Secuencia: 4 2 3 1
+```
+La solución debe dar la menor permutación
 
-![alt text](https://assets.leetcode.com/uploads/2021/11/09/flatten11.jpg)
-Salida:
-![alt text](https://assets.leetcode.com/uploads/2021/11/09/flatten12.jpg)
+```text
+2 1 4 3
+Llega a esta respuesta a través de permutaciones:
+4 2 3 1
+4 1 3 2
+3 1 4 2
+2 1 4 2
+```
 
-
-Para eso reutilizamos el ADT de DLList e implementamos el multinivel siguiendo los siguientes criterios:
-- Creamos una función que nos ayude a identificar si el nodo es hijo, esto nos permite hacer otras operaciones como eliminación o evitar que se agreguen más de un hijo en un mismo nivel.
-- Agregamos una variable a la estructura que cuenta cuántos nodos en total hay, esto nos permite amortizar el costo de tener que contar todos nodos y se actualiza cada vez que se agrega o eliminan nodos simples o con hijos. 
-- La solución ya cuenta con centinela heredado de la clase DLList, que nos permite el trabajo con casos borde, en el que no hay nodos.
-- La función de aplanamiento (flatten) devuelve un tipo DLList, lo que asegura que el resultado sea una lista doblemente enlazada, recorre todos los elementos hasta el nodo centinela y va añadiendo los nodos, hasta encontrar un nodo con hijo, entonces llama recursivamente a flatten y contínua al nodo siguiente, así hasta llegar al sentinela y entonces retorna lo que se almaceno en la pila de ejecución hasta regresar al primer nivel.
-- Se implementó un intérprete de string que funciona como constructor de la lista multinivel como forma alternativa a la forma tradicional de agregar nodos individualmente, esto según el problema de Leetcode.
+Para resolverlo utilizamos la idea estructural del Treap, sin embargo en lugar de usar el valor para la propiedad BST, usamos los índices y la prioridad del heap es generada de forma aleatoria.
 
 ### Complejidad
 - Tiempo: O(n*logn)
 - Espacio: O(n)
 
 ### Invariante o idea clave
-El invariante de flatten es que el número total de nodos de la estructura multinivel es igual al número de nodos de la estructura aplanada.
+Preserva las invariantes del Heap, que debe mantener la prioridad y del BST modificado, que debe mantener el orden por índice.
+Además del invariante de tamaño, cada nodo tiene un subárbol de tamaño: 1+tamaño_izquierdo + tamaño_derecho
 
 ### Archivos relevantes
 - include/
-  - MultiLevelDLList.h
-  - DLList.h
+  - FWideSwap.h
+  - ImplicitTreap.h
 - src/
-  - MultiLevelDLList.cpp
-  - DLList.cpp
+  - FwideSwap.cpp
+  - ImplicitTreap.cpp
 - tests/
   - edge_cases.cpp
   - test_internal.cpp
 - demos/
-  - demo_multileveldllist.cpp
+  - demo_fwideswap.cpp
 
 ### Compilación
 ```bash
@@ -62,10 +74,8 @@ cmake --build build
 
 ### Ejecución
 ```bash
-./build/pc2_demo_create_adt
+./build/pc3_demo_fwideswap
 ./bulid/benchmark
-./bulid/test_internal
-./bulid/edge_cases
 ```
 Para las pruebas:
 
@@ -74,10 +84,7 @@ ctest --test-dir build
 ```
 
 ### Casos de prueba
-test_internal tiene pruebas que:
-1. Para casos de prueba verifica que el flatten coincida con un DLList.
-2. Prueba que para eliminar un nodo padre el flatten no muestra el padre, el hijo asociado y que su tamaño coincide con el equivalente DLList.
-3. Prueba que cuando se ingresa la información de la lista multinivel mediante la forma manual con add coincide con su representación en string.
+Los casos borde serían cuando K=0 , K=1, cuando la permutación ya está ordenada.
 
 ### Declaración de autoría
 Declaro que entiendo el código entregado, que puedo explicarlo, compilarlo, ejecutarlo y modificarlo sin ayuda externa durante la grabación.
