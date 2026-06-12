@@ -1,8 +1,9 @@
 ## Actividad 5 - CC232
 
 ### Estudiante
-
 - Nombre: Victor Hugo Cadillo Gutierrez
+- Código: 20255514D
+- Fecha: 06/12/2026
 
 ### Bloque 1 - Núcleo conceptual
 
@@ -37,16 +38,14 @@
 ### Bloque 2 - Navegación, altura, profundidad y tamaño
 
 1.
-- hasLeft: busca si el hijo izquierdo existe si el puntero no es nulo.
-- hasRight: busca si el hijo derecho existe si el puntero no es nulo.
-- isRoot: busca si el nodo es la raíz del árbol, si su puntero parent es nulo.
-- isLeaf: busca si el nodo es una hoja, no tiene hijos izquierdo ni derecho, sus punteros apuntan al nulo.
-- isLeftChild: busca si es un hijo izquierdo, si el puntero no es nulo y el puntero del padre apunta a este nodo como hijo izquierdo.
-- isRightChild: busca si es un hijo derecho, si el puntero no es nulo y el puntero del padre apunta a este nodo como hijo derecho.
+- hasLeft: retorna true si tiene hijo izquierdo, sino falso.
+- hasRight: retorna true si tiene hijo derecho, sino falso.
+- isRoot: busca si el nodo es la raíz del árbol, es decir el puntero parent es nulo.
+- isLeaf: busca si el nodo es una hoja, no tiene hijos izquierdo ni derecho, sus punteros de hijos apuntan al nulo.
+- isLeftChild: busca si es un hijo izquierdo, si el puntero al padre no es nulo  y el puntero del hijo izquierdo del padre apunta a este nodo.
+- isRightChild: busca si es un hijo derecho, si el puntero al padre no es nulo  y el puntero del hijo derecho del padre apunta a este nodo.
 
-2. Explica el caso en que `succ()` baja al subárbol derecho y luego busca el nodo más a la izquierda.
-
-2. El método succ() se utiliza para encontrar el sucesor de un nodo en un árbol binario. El sucesor de un nodo es el nodo que sigue inmediatamente después de él en un recorrido. 
+2. succ baja por la derecha si el nodo es un hijo derecho.
 
 3. El método succ() sube al ancestro del nodo actual mientras el nodo actual sea un hijo derecho de su padre. 
 
@@ -56,22 +55,29 @@
 
 5. Dibuja un árbol de al menos 7 nodos y marca el sucesor y predecesor inorden de tres nodos distintos.
 
+```text
                      H o
                    /       \
                F  o     G   o
                 /   \     /   \
                 o   o     o   o
                 A   B     C   D
+```
 
-- El sucesor de F es A, el predecesor de F es H.
-- El sucesor de G es H, el predecesor de G es C.
-- El sucesor de B es F, el predecesor de B es F.
+- El sucesor de F es B, el predecesor de F es A.
+- El sucesor de G es D, el predecesor de G es C.
+- El sucesor de B es H, el predecesor de B es F.
 
-6. Explica qué calcula `depth(u)` y por qué puede implementarse subiendo por `parent`.
-7. Explica qué calcula `height(u)` y por qué suele implementarse bajando recursivamente por los hijos.
-8. Explica qué calcula `subtreeSize(u)`.
+6. depth calcula la profundidad del árbol y sube por parent porque va actualizando el puntero del nodo con el puntero al padre hasta llegar a la raíz.
+7. Calcula la altura del árbol de forma recursiva y va bajando por el subárbol que tenga mayor altura.
+8. Calcula la cantidad de nodos que tiene un subárbol va bajando por la izquierda y derecha hasta llegar a las hojas.
 9. Demuestra que para todo nodo `u` se cumple `depth(u) + height(u) <= height(T)`.
+9. 
+- height(T) calcula la altura del árbol, es decir la distancia hasta el nodo más lejano.
+- height(u) + depth(u) = height(T) si y solo sí el nodo está en el camino al nodo más lejano.
+
 10. Indica la condición necesaria y suficiente para que se alcance la igualdad anterior.
+Si y solo sí el nodo está en el camino al nodo más lejano desde la raíz.
 
 ### Bloque 3 - Recorridos y trazado guiado
 
@@ -167,6 +173,8 @@ Se puede corroborar que la salida inorder es correcta.
 3. find es un alias de lowerBound, lowerBound busca el primer valor que sea mayor o igual, upperBound busca el valor estrictamente mayor y findEQ busca el valor exacto en el árbol.
 4. findEQ puede fallar en encontrar el valor porque es una igualdad, mientras que lowerBound es una condición menos estricta y solo requiere un valor mayor o igual, no estrictamente igual, tiene un rango de búsqueda más grande.
 5.
+
+```text
 │       ┌── 12
 │   ┌── 10
 │   │   └── 8
@@ -176,6 +184,8 @@ Se puede corroborar que la salida inorder es correcta.
     │   │   └── 4
     └── 3
         └── 1
+```
+
 6. 
 - inorden: 1 3 4 5 6 7 8 10 12
 - preorder: 7 3 1 5 4 6 10 8 12
@@ -223,12 +233,13 @@ Responde:
 1. Puede almacenarse en un arreglo mientras se mantega la relación implícita entre los elementos a través de sus índices.
 2. Demuestra las fórmulas:
 
-   ```cpp
+   ```text
    left(i) = 2*i + 1
    right(i) = 2*i + 2
    parent(i) = (i - 1) / 2
    ```
 2. El ordenamiento sigue un ordenamiento por niveles:
+```text
 Nivel 0: 0
 Nivel 1: 1, 2
 Nivel 2: 3, 4, 5, 6
@@ -244,6 +255,7 @@ Reemplazando: 2*(i-j+1) - 1 + 2*j = 2*i + 1
 Hijo derecho: (2^(k+1) - 1) + 2*j + 1 = 2*i + 2
 Sea p el índice del padre, entonces i = 2*p + 1
 p = (i-1)/2
+```
 
 3. La propiedad min-heap es que un nodo tiene un valor menor que los valores que tienen sus hijos.
 4. Porque el menor elemento siempre se ubica en la raíz.
@@ -265,25 +277,26 @@ Que converge a 2n, entonces O(n) = n.
 
 ### Bloque 9 - Cierre comparativo
 
-Responde esta pregunta final:
-
-¿Qué cambia cuando pasamos de estudiar listas, pilas y colas a diseñar árboles binarios, heaps y árboles binarios de búsqueda?
-
-La respuesta debe incluir obligatoriamente:
-
-- Una afirmación sobre representación enlazada con nodos y punteros.
-- Una afirmación sobre representación implícita en arreglo.
-- Una afirmación sobre la diferencia entre propiedad estructural y propiedad de orden.
-- Una afirmación sobre recorridos y por qué son una forma de convertir un árbol en una secuencia.
-- Una afirmación sobre mantenimiento de alturas y enlaces `parent`.
-- Una afirmación sobre BST, búsqueda ordenada y recorrido inorden.
-- Una afirmación sobre heap, prioridad y costo de `add`, `remove` y `heapify`.
-- Una afirmación sobre qué evidencia usarías para defender correctitud: pruebas, demos, invariantes, trazados y complejidad.
+Las representaciones enlazadas permiten recorrer de manera flexible a través de punteros los padres a hijos, a diferencia de los arreglos que solo es en secuencia.
+Los heaps binarios pueden representar un árblo implícitamente gracias a la correlación entre los índices de un arreglo.
+Los árboles binarios define que la forma del árbol, un nodo puede tener hasta dos hijos, mientras que un BST añade que sus elementos deben estar ordenador ascendentemente inorder, es decir agrega condiciones de dónde deben ir colocados los nodos.
+Porque un recorrido puede representarse como una secuencia lineal y trabajarse como lista.
+La altura se puede calcular de forma recursiva llendo de un nodo hacia la hoja más lejana o subiendo hasta llegar a la raíz.
+Un BST tiene propiedad de orden entre un padre y sus hijos, lo que deriva a que estén ordenados de forma ascendente en su recorrido inorder, para buscar puedes tomar recorridos hacia la izquierda o derecha según la relación entre el nodo y el valor a buscar.
+Un heap representa prioridades, ya sea de máximo o mínimos, add tiene un costo O(logn), remove O(logn) y heapify floyd O(n).
+La correctitud depende de propiedades formales como los invariantes y las pruebas, demos permiten validar y visualizar casos concretos, pero por sí no lo garantizan y la complejidad se analiza la implementación.
 
 
 ### Autoevaluación breve
 
 - Qué puedo defender con seguridad:
+Puedo defender con seguridad la diferencia entre BST, heap y árbol binario en términos de propiedad de orden vs propiedad estructural, así como los recorridos (inorden, preorden, postorden) y su relación con la representación secuencial del árbol. También puedo explicar correctamente el funcionamiento de succ() y pred() en términos de subárbol derecho/izquierdo y subida por parent.
+
 - Qué todavía confundo:
+Todavía no queda completamente claro en la justificación formal de algunas propiedades globales, como la demostración completa de desigualdades tipo depth(u) + height(u) ≤ height(T).
+
 - Qué evidencia usaría en una sustentación:
+Usaría principalmente los demos (heapify, bst inorder, huffman, treap) junto con trazados paso a paso del árbol antes y después de operaciones (rotaciones, inserciones, eliminaciones). También apoyaría con invariantes (propiedad BST, propiedad heap, consistencia de parent pointers), y análisis de complejidad para justificar cada estructura.
+
 - Qué parte del código me parece más importante para revisar otra vez:
+La parte más importante para revisar nuevamente es la implementación de navegación (succ, pred) y las operaciones estructurales que modifican enlaces (rotateLeft, rotateRight, attachAsLC, attachAsRC, remove, secede). 
