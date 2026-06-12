@@ -1,0 +1,49 @@
+Compilación
+
+cmake -S . -B build
+cmake --build build
+
+
+Ejecución
+
+./build/pc3_demo_fwideswap
+./bulid/benchmark
+
+Salida: ./build/pc3_demo_fwideswap
+
+│   ┌── 6 [idx=7, sz=1]
+└── 2 [idx=6, sz=8]
+    └── 1 [idx=5, sz=6]
+        │   ┌── 3 [idx=4, sz=1]
+        └── 8 [idx=3, sz=5]
+            └── 7 [idx=2, sz=3]
+                └── 5 [idx=1, sz=2]
+                    └── 4 [idx=0, sz=1]
+Permutacion inicial:
+4 5 7 8 3 1 2 6 
+
+Permutacion minima:
+1
+2
+6
+7
+5
+3
+4
+8
+└── 8 [idx=7, sz=8]
+    │   ┌── 4 [idx=6, sz=3]
+    │   │   └── 3 [idx=5, sz=2]
+    │   │       └── 5 [idx=4, sz=1]
+    └── 7 [idx=3, sz=7]
+        │   ┌── 6 [idx=2, sz=1]
+        └── 2 [idx=1, sz=3]
+            └── 1 [idx=0, sz=1]
+
+Salida: ./bulid/benchmark
+N             F-Wide Swap
+25,         0.000171054
+50,          0.00111304
+100,          0.00439391
+150,          0.00993857
+200,           0.0187454

@@ -1,0 +1,7 @@
+Test:
+ctest --test-dir build
+
+Salida:
+    Start 1: pc3_test_internal
+1/2 Test #1: pc3_test_internal ................   Passed    0.00 sec
+ 
