@@ -27,11 +27,11 @@ target_link_libraries(pc3_demo_fwideswap PRIVATE algorithms)
 # add_executable(test_internal "tests/test_internal.cpp")
 # target_link_libraries(test_internal PRIVATE algorithms)
 #
-# add_executable(edge_cases "tests/edge_cases.cpp")
-# target_link_libraries(edge_cases PRIVATE algorithms)
+add_executable(edge_cases "tests/edge_cases.cpp")
+target_link_libraries(edge_cases PRIVATE algorithms)
 
 # add_test(NAME pc2_test_internal COMMAND test_internal)
-# add_test(NAME pc2_edge_cases COMMAND edge_cases)
+add_test(NAME pc3_edge_cases COMMAND edge_cases)
 
 # if (BUILD_BENCHMARKS)
 #     add_executable(benchmark benchmark/benchmark.cpp)
