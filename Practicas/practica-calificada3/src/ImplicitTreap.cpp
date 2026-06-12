@@ -87,7 +87,6 @@ template <class T> void ImplicitTreap<T>::rotateRight(Node *u) {
   update(w);
 }
 
-
 template <class T> void ImplicitTreap<T>::bubbleUp(Node *u) {
   while (u->parent && u->priority < u->parent->priority) {
     if (u == u->parent->left) {
@@ -118,7 +117,6 @@ template <class T> void ImplicitTreap<T>::trickleDown(Node *u) {
   }
 }
 
-
 template <class T> void ImplicitTreap<T>::splice(Node *u) {
   Node *s = u->left ? u->left : u->right;
 
@@ -139,7 +137,6 @@ template <class T> void ImplicitTreap<T>::splice(Node *u) {
 
   updateUp(p);
 }
-
 
 template <class T>
 typename ImplicitTreap<T>::Node *ImplicitTreap<T>::getNodeAt(int pos) const {
@@ -164,7 +161,6 @@ typename ImplicitTreap<T>::Node *ImplicitTreap<T>::getNodeAt(int pos) const {
   return nullptr;
 }
 
-
 template <class T> int ImplicitTreap<T>::size() const { return size(root_); }
 
 template <class T> bool ImplicitTreap<T>::empty() const {
@@ -176,58 +172,35 @@ template <class T> void ImplicitTreap<T>::pushBack(const T &value) {
 }
 
 template <class T> void ImplicitTreap<T>::insertAt(int pos, const T &value) {
-  if (pos < 0 || pos > size()) {
+  if (pos < 0 || pos > size())
     throw std::out_of_range("insertAt");
-  }
+
+  Node *L = nullptr;
+  Node *R = nullptr;
+
+  split(root_, pos, L, R);
 
   Node *node = new Node(value, rng_());
 
-  if (!root_) {
-    root_ = node;
-    return;
-  }
+  node->left = node->right = node->parent = nullptr;
+  node->_size = 1;
 
-  Node *u = root_;
-
-  while (true) {
-    u->_size++;
-
-    int leftSize = size(u->left);
-
-    if (pos <= leftSize) {
-      if (u->left) {
-        u = u->left;
-      } else {
-        u->left = node;
-        node->parent = u;
-        break;
-      }
-    } else {
-      pos -= leftSize + 1;
-
-      if (u->right) {
-        u = u->right;
-      } else {
-        u->right = node;
-        node->parent = u;
-        break;
-      }
-    }
-  }
-
-  bubbleUp(node);
+  root_ = merge(merge(L, node), R);
 }
-
 template <class T> void ImplicitTreap<T>::eraseAt(int pos) {
-  Node *u = getNodeAt(pos);
-
-  if (!u) {
+  if (pos < 0 || pos >= size())
     throw std::out_of_range("eraseAt");
-  }
 
-  trickleDown(u);
+  Node *L = nullptr;
+  Node *M = nullptr;
+  Node *R = nullptr;
 
-  splice(u);
+  split(root_, pos, L, R);
+  split(R, 1, M, R);
+
+  delete M;
+
+  root_ = merge(L, R);
 }
 
 template <class T> T ImplicitTreap<T>::getAt(int pos) const {
@@ -250,7 +223,6 @@ template <class T> void ImplicitTreap<T>::setAt(int pos, const T &value) {
   u->value = value;
 }
 
-
 template <class T>
 void ImplicitTreap<T>::inorder(Node *u, std::vector<T> &out) {
   if (!u)
@@ -270,7 +242,6 @@ template <class T> std::vector<T> ImplicitTreap<T>::toVector() const {
 
   return out;
 }
-
 
 template <class T> void ImplicitTreap<T>::destroy(Node *u) {
   if (!u)
@@ -341,7 +312,52 @@ template <class T> std::string ImplicitTreap<T>::asciiArt() const {
 
   return oss.str();
 }
+template <class T>
+void ImplicitTreap<T>::split(Node *t, int k, Node *&l, Node *&r) {
+  if (!t) {
+    l = r = nullptr;
+    return;
+  }
 
+  int leftSize = size(t->left);
+
+  if (k <= leftSize) {
+    split(t->left, k, l, t->left);
+    if (t->left)
+      t->left->parent = t;
+    r = t;
+  } else {
+    split(t->right, k - leftSize - 1, t->right, r);
+    if (t->right)
+      t->right->parent = t;
+    l = t;
+  }
+
+  update(t);
+}
+
+template <class T>
+typename ImplicitTreap<T>::Node *
+ImplicitTreap<T>::merge(typename ImplicitTreap<T>::Node *l,
+                        typename ImplicitTreap<T>::Node *r) {
+
+  if (!l || !r)
+    return l ? l : r;
+
+  if (l->priority < r->priority) {
+    l->right = merge(l->right, r);
+    if (l->right)
+      l->right->parent = l;
+    update(l);
+    return l;
+  } else {
+    r->left = merge(l, r->left);
+    if (r->left)
+      r->left->parent = r;
+    update(r);
+    return r;
+  }
+}
 
 template <class T>
 std::ostream &operator<<(std::ostream &out, const ImplicitTreap<T> &t) {
@@ -349,7 +365,6 @@ std::ostream &operator<<(std::ostream &out, const ImplicitTreap<T> &t) {
 
   return out;
 }
-
 
 template class ImplicitTreap<int>;
 

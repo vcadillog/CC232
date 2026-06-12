@@ -1,0 +1,302 @@
+## Actividad 5 - CC232
+
+### Estudiante
+- Nombre: Victor Hugo Cadillo Gutierrez
+- Código: 20255514D
+- Fecha: 06/12/2026
+
+### Bloque 1 - Núcleo conceptual
+
+1. Un árbol binario enlazado es una estructura de datos donde cada nodo contiene un dato y punteros a su hijo izquierdo, hijo derecho y padre. En cambio, un árbol binario almacenado implícitamente en un arreglo utiliza un arreglo para representar la estructura del árbol de forma implícita con los índices.
+
+2. En BinNode se guarda la información de punteros al:
+ - Nodo padre: permite navegar hacia arriba en el árbol.
+ - Hijo izquierdo: permite navegar hacia el árbol izquierdo.
+ - Hijo derecho: permite navegar hacia el árbol derecho.
+ - la altura del nodo: permite conocer la distancia máxima desde el nodo hasta la hoja más lejana.
+
+3. El puntero parent implementa operaciones succ() para desplazarse hacia abajo y pred() para desplazarse hacia arriba el árbol.
+
+4. BinTree es una implementación de árbol binario, mientras que BinNode representa cada nodo individual dentro del árbol. BinTree usa BinNode para construir la estructura del árbol y gestionar las operaciones sobre él, como inserciones, eliminaciones y recorridos.
+
+5. BinaryTree agrega funcionalidades:
+- depth
+- height
+- subtreeSize
+- firsNode, lastNode, nextNode, prevNode, begin, end: para navegación.
+
+6. Un árbol binario se convierte en un BinarySearchTree (BST) si cumple con la propiedad de orden: Compare = std::less<T>> el valor de los nodos en el subárbol izquierdo son menores que el valor del nodo padre, y los valores de los nodos en el subárbol derecho son mayores que el valor del nodo padre.
+
+7. Un arreglo se convierte en un BinaryHeap mínimo si cumple con la propiedad de prioridad: Compare = std::less<T>> el valor de cada nodo es menor o igual que el valor de sus hijos, lo que garantiza que el elemento mínimo esté siempre en la raíz del heap.
+
+8. La propiedad de orden de un BST compara el hijo izquierdo que sea menor y el hijo derecho sea mayor que el padre. Mientras que la propiedad de prioridad de un heap es estricta entre el padre e hijos, es mayor o menor que ambos hijos.
+
+9. Un recorrido inorden de un BST produce una secuencia ordenada porque visita primero el hijo izquierdo porque contiene el valor menor, luego el padre, y luego el hijo derecho que tiene los mayores.
+
+10. Un heap no permite recorrer los elementos en orden porque los hijos con respecto a un padre no están ordenados, solo cumplen la propiedad del mínimo (o máximo, según el tipo de heap). No hay un orden específico entre los hijos, por lo que no se puede garantizar que al recorrer el heap se obtenga una secuencia ordenada sin destruir la estructura o copiar los elementos a otra estructura que permita el ordenamiento.
+
+### Bloque 2 - Navegación, altura, profundidad y tamaño
+
+1.
+- hasLeft: retorna true si tiene hijo izquierdo, sino falso.
+- hasRight: retorna true si tiene hijo derecho, sino falso.
+- isRoot: busca si el nodo es la raíz del árbol, es decir el puntero parent es nulo.
+- isLeaf: busca si el nodo es una hoja, no tiene hijos izquierdo ni derecho, sus punteros de hijos apuntan al nulo.
+- isLeftChild: busca si es un hijo izquierdo, si el puntero al padre no es nulo  y el puntero del hijo izquierdo del padre apunta a este nodo.
+- isRightChild: busca si es un hijo derecho, si el puntero al padre no es nulo  y el puntero del hijo derecho del padre apunta a este nodo.
+
+2. succ baja por la derecha si el nodo es un hijo derecho.
+
+3. El método succ() sube al ancestro del nodo actual mientras el nodo actual sea un hijo derecho de su padre. 
+
+4. Explica simétricamente cómo debe funcionar `pred()`.
+
+4. El método pred() se utiliza para encontrar el predecesor de un nodo en un árbol si tiene un hijo izquierdo y si no tiene busca por la derecha. 
+
+5. Dibuja un árbol de al menos 7 nodos y marca el sucesor y predecesor inorden de tres nodos distintos.
+
+```text
+                     H o
+                   /       \
+               F  o     G   o
+                /   \     /   \
+                o   o     o   o
+                A   B     C   D
+```
+
+- El sucesor de F es B, el predecesor de F es A.
+- El sucesor de G es D, el predecesor de G es C.
+- El sucesor de B es H, el predecesor de B es F.
+
+6. depth calcula la profundidad del árbol y sube por parent porque va actualizando el puntero del nodo con el puntero al padre hasta llegar a la raíz.
+7. Calcula la altura del árbol de forma recursiva y va bajando por el subárbol que tenga mayor altura.
+8. Calcula la cantidad de nodos que tiene un subárbol va bajando por la izquierda y derecha hasta llegar a las hojas.
+9. Demuestra que para todo nodo `u` se cumple `depth(u) + height(u) <= height(T)`.
+9. 
+- height(T) calcula la altura del árbol, es decir la distancia hasta el nodo más lejano.
+- height(u) + depth(u) = height(T) si y solo sí el nodo está en el camino al nodo más lejano.
+
+10. Indica la condición necesaria y suficiente para que se alcance la igualdad anterior.
+Si y solo sí el nodo está en el camino al nodo más lejano desde la raíz.
+
+### Bloque 3 - Recorridos y trazado guiado
+
+1. En preorden primero visita el nodo padre, luego el hijo izquierdo y finalmente el hijo derecho.
+2. Inorder visita primero el hijo izquierdo, luego el nodo y finalmente el hijo derecho.
+3. En postorden visita primero el hijo izquierdo, luego el hijo derecho y finalmente el nodo.
+4. Cuando se visita por niveles empieza desde la raíz y luego visita los nodos de cada nivel de izquierda a derecha antes de pasar al siguiente nivel.
+5. Los recorridos recursivos tienen tiempo O(n) porque cada nodo del árbol se visita exactamente una vez. 
+6. Porque también visitan cada nodo exactamente una vez, pero utilizan estructuras auxiliares como pilas o colas para gestionar el recorrido.
+7. En un árbol balanceado, la memoria auxiliar de un recorrido recursivo es O(log n) porque cada nodo se divide hasta en dos subárboles, lo que genera una profundidad logarítmica.
+8. En un árbol degenerado, la memoria auxiliar de un recorrido recursivo es O(n) porque cada nodo tiene solo un hijo.
+9. Usar una pila explícita permite controlar manualmente el orden de los nodos a visitar y evita desbordamiento de pila en árboles muy profundos, ya que una pila de llamadas tiene un tamaño limitado por el compilador.
+10. En un árbol completo, cada nivel tiene el doble de nodos que el nivel anterior, lo que hace que la cola pueda crecer exponencialmente a medida que se avanza por los niveles. En cambio, en un árbol degenerado, cada nivel tiene solo un nodo.
+
+### Bloque 4 - Demos
+
+| Archivo | Salida u observable importante | Idea estructural | Argumento de costo, espacio o diseño |
+|:---|:---:|:---:|---:|
+| sem5_demo_binary_tree | Recorridos preorden, inorden, postorden, por niveles  | Árbol binario general con punteros left, right y parent; recorridos con pila explícita o cola | Costo O(n) tiempo por recorrido; espacio O(h) en recorridos con pila (h = altura) o O(n) en recorrido por niveles|
+| sem5_demo_bst | findEQ, lowerBound, upperBound, remove, rotateLeft, construcción balanceada | Árbol BST | Búsqueda O(h) en tiempo; rotación O(1); balanceo cuesta O(n) |
+| sem5_demo_heap | Heapify, add, remove, extracción ordenada produce secuencia ascendente | Min Heap parent = (i-1)/2, left = 2*i+1, right = 2*i+2 | Heapify O(n); add y remove O(log n); espacio O(n)|
+| sem5_demo_capitulo5_panorama | Salida integrada: Min heap , BST, recorrido STL | Integración de todas las estructuras: heap, BST , recorridos |  Recorrido sobre BST es inorden y cuesta O(n)|
+
+1. Se realizan diferentes tipos de recorridos usando métodos iterativos y recursivos, la coincidencia entr estrategias podría dar un orden esperado, pero requiere de pruebas adicionales.
+2. El recorrido inorder da el camino para todo el árbol y luego para el elemento 5 se revisa la coincidencia del sucesor y predecesor respeta el orden inorder.
+3. La construcción del árbol permite una visualización gráfica a través de una sobrecarga del operador <<.
+4. En el demo bst.inorder nos permite observar el BST inorder.
+```cpp
+BST inorden: 1 3 4 5 6 7 8 10 12
+```
+Se puede corroborar que la salida inorder es correcta. 
+5. findEQ se distingue mejor al ser una condición exacta de búsqueda, los otros dan el mismo valor al trabajar con desigualdades.
+6. En el demo se puede observar que el mínimo queda en la raíz, cuando está como primer elemento en el arreglo y eso se visualiza después de hacer add y remove, el observable es heap.data.
+7. BinaryHeap de la librería ods nos permite distinguir la diferencia entre crear un heap desde un vector e insertar nuevos nodos.
+8. Un árbol organiza nodos, un heap los ordena por mínimos o máximos y un BST los organiza para que según su posición relativa al nodo padre cumplan una relación de desigualdad.
+
+### Bloque 5 - Pruebas e invariantes
+
+1. Para BST se valida las operaciones add, inorder, findEQ, find, lowerBound, upperBound, minNode, isBST, contains, checkParentLinks.
+2. add valida que no se ingresen duplicados.
+3. Se verifica que independientemente del método utilizado el orden sea el mismo.
+4. Espera que exista el elemento con clave 8 y que el dato del nodo sea 8.
+5. De lowerBound se espera el elemento mayor o igual a x (9); para el caso debe ser 10 y upperBound el menor elemento estrictamente mayor a x (8); también 10 para el caso.
+6. Se valida que la estructura cumpla con las condiciones de un árbol BST.
+7. Se valida que el elemento ya no está en el árbol, que los enlaces a los parents sigan siendo válidas y que el bst debe seguir cumpliendo el recorrido inorder.
+8. Que los punteros de los hijos sigan apuntando al padre.
+9. valida isHeap, remove.
+10. Demuestra que las extracciones deben salir ordenadamente de menor a mayor.
+11.
+- Para attachAsRC se valida que se inserta un nodo, que el tamaño del árbol crece en uno y que el nodo insertado queda vacío.
+- Para secede se verifica que los tamaños del árbol original disminuye y el subárbol tiene un tamaño del complemento y que las relaciones de los padres se mantiene.
+- Para removeSubtree elimina un subárbol desde la raíz y que el árbol queda vacío.
+12. Top valida que el elemento mínimo ha sido llevado a la raíz después de hacer add e implícitamente bubbleUp, luego que al remover un elemento se quitó la raíz y que después de realizar esas operaciones se sigue preservando la propiedad del heap.
+13. Demuestra que los casos probados son correctos.
+14. No demuestra que el código sea correcto para todos los casos.
+15. Porque al ser ideas conceptuales del algoritmo estas deben mantenerse para cualquier caso.
+
+
+### Bloque 6 - Lectura cercana de código
+
+1. Que la raíz no tenga parent, que un nodo solo tenga un padre y que puede tener hasta un hijo izquierdo y derecho y el hijo solo puede ser izquierdo o derecho. 
+2. Porque la invariante exige que solo tenga un hijo izquierdo o derecho, sino deja de ser un árbol binario.
+3. size recorre de forma recursiva, cuenta el nodo actual y los subárboles izquierdo y derecho hasta llegar a las hojas.
+4. 
+- leftmost va recorriendo desde el nodo actual por la izquierda hasta llegar a una hoja.
+- rightmost va recorriendo desde el nodo actual por la derecha hasta llegar a una hoja.
+5. succ va recorriendo según dos casos: 
+ - Si tiene hijo derecho, va por el hijo derecho y luego va recorriendo por el hijo izquierdo hasta llegar a una hoja.
+ - Si no tiene hijo derecho y a la vez es hijo derecho va recorriendo en bucle por los padres mientras sean hijos derechos y devuelve el padre del último padre derecho.   
+6. pred va recorriendo de forma similar a succ:
+ - Si tiene hijo izquierdo, va por el hijo izquierdo y luego va recorriendo por el hijo derecho hasta llegar a una hoja.
+ - Si no tiene hijo izquierdo y a la vez es hijo izquierdo va recorriendo en bucle por los padres mientras sean hijos izquierdos y devuelve el padre del último padre izquierdo.   
+7. root_ almacena la información de la raíz del árbol y se actualiza cada vez que se inserta un nodo como raíz, pero a la vez deshace todo el árbol. size_ almacena la cantidad de nodos del árbol, empieza en 1 cuando se crea la raíz y se va actualizando cada vez que se insertan hijos.
+8. Retorna la altura del súbarbol formado desde el nodo, elige la mayor altura formada por los subárboles formados por su hijo izquierdo o derecho y le agrega 1, la altura adicional del nodo actual, esto se actualiza en las inserciones.
+9. Esto actualiza la altura del subárbol formado por los padres del nodo, ya que llama a updateHeight y va actualizando el nodo actual a su nodo padre hasta llegar a la raíz.
+10. attachAsLC lo que hace es primero verificar que los punteros sean válidos y que no tenga hijo izquierdo, luego hace que el puntero del hijo izquierdo apunte a la raíz del subárbol y a la vez que la raíz del subárbol apunte al padre, luego actualiza la altura y deja al subárbol vacío. Lo mismo para attachAsRC, pero en lugar de trabajar por la izquierda lo hace por la derecha.
+11. Si se toma un nodo lo que hace removeSubtree es desconectar el nodo del árbol y destruir sus elementos, mientras secede lo que hace es desconectar el nodo del árbol y formar con el subárbol un nuevo árbol y lo retorna, es decir no lo destruye.
+12. Porque si el objetivo es crear un nuevo árbol desde el subárbol si fuesen destruidos primero tendrían que haber sido copiados para luego restaurase, lo que complica la implementación, ya que es mucho más simple solo desconectarlo.
+13. Porque el objetivo es eliminar el subárbol para eso tiene que desconectarlo y liberar los punteros de todos los hijos.
+14. Verifica que los punteros de los hijos hacia los padres apunten correctamente.
+15. 
+- firstNode devuelve el puntero nulo si es la raíz y sino devuelve el nodo más a la izquierda.
+- lastNode devuelve el puntero nulo si es la raíz y sino devuelve el nodo más a la derecha.
+- nextNode devuelve el puntero nulo si es nulo y sino devuelve el sucesor del nodo según succ.
+- prevNode devuelve el puntero nulo si es nulo y sino devuelve el predecesor del nodo según pred.
+16. Porque succ está diseñado para dar el siguiente sucesor inorder y un iterador dará un recorrido de los elementos inorder.
+17. asciiArt nos da una representación visual del árbol lo que hace más comprensible como los punteros están conectados.
+
+### Bloque 7 - BST
+
+1. La propiedad BST es que para cada nodo en un árbol se debe cumplir que el hijo izquierdo almacena un valor menor que el padre y el hijo derecho un valor mayor que su padre.
+2. Porque el recorrido inorder en un BST coincide con la propiedad, ya que primero recorre el subárbol izquierdo, luego el nodo y luego el subárbol derecho; es decir va de menor a mayor.
+3. find es un alias de lowerBound, lowerBound busca el primer valor que sea mayor o igual, upperBound busca el valor estrictamente mayor y findEQ busca el valor exacto en el árbol.
+4. findEQ puede fallar en encontrar el valor porque es una igualdad, mientras que lowerBound es una condición menos estricta y solo requiere un valor mayor o igual, no estrictamente igual, tiene un rango de búsqueda más grande.
+5.
+
+```text
+│       ┌── 12
+│   ┌── 10
+│   │   └── 8
+└── 7
+    │       ┌── 6
+    │   ┌── 5
+    │   │   └── 4
+    └── 3
+        └── 1
+```
+
+6. 
+- inorden: 1 3 4 5 6 7 8 10 12
+- preorder: 7 3 1 5 4 6 10 8 12
+- postorder: 1 4 6 5 3 8 12 10 7
+- por niveles: 7 3 10 1 5 8 12 4 6
+
+7. 
+lowerbound(9)
+- 9 > 7 candidato = nullptr
+- 9 < 10 candidato = 10
+- 9 > 8 candidato = 10 , fin
+upperbound(8)
+- 8 > 7 candidato = nullptr
+- 8 < 10 candidato = 10
+- 8 == 8 candidato = 10 , fin
+
+8.
+- Caso nodo es hoja: Descnecta y elimina el nodo, actualiza la altura.
+- Caso nodo con un hijo: El hijo se conecta al padre del padre se actualiza la altura, se desconeta y elimina el nodo.
+- Caso nodo con dos hijos: Se busca el sucesor inorder del nodo y se conecta al padre del nodo, se actualiza la altura, se desconecta y elimina el nodo.
+
+9. Lo que hace splice es elegir como se conecta el padre del nodo al hijo y luego actualiza la altura.
+10. Se debe seguir cumpliendo la propiedad BST, es decir la relación de un padre con sus hijos izquierdo y derecho.
+11. Porque al eliminar el nodo debe seguir cumpliendo la propiedad BST lo que deriva a conservar el orden inorder.
+12. Reorganiza los punteros mueve el hijo derecho hacia arriba y reubica el subárbol izquierdo de ese hijo como derecho del nodo original.
+13. Reorganiza los punteros mueve el hijo izquierdo hacia arriba y reubica el subárbol derecho de ese hijo como izquierdo del nodo original.
+14. Demuestra que una rotación local preserva la propiedad BST.
+14. Rotarlo no altera el orden relativo de los nodos, solo cambia la estructura de enlaces manteniendo intacto el recorrido inorden.
+```cpp
+u->right = w->left;
+w->left = u;
+...
+w->parent = u->parent;
+u->parent = w;
+```
+No altera la relación de orden.
+
+15. Al ser una lista ordenada construye un BST balanceado a través de los medios, tener un árbol balanceado mejora el costo de operaciones en el árbol, ya que el recorrido de un nodo a la hoja es mínima en promedio comparado a un árbol desbalanceado.
+16. Un árbol balanceado tiene costo de búsqueda O(logn) mientras que un BST degenerado es el peor caso posible y tiene que recorrer todos los elementos y es de costo O(n). 
+
+### Bloque 8 - Heap
+
+Responde:
+
+1. Puede almacenarse en un arreglo mientras se mantega la relación implícita entre los elementos a través de sus índices.
+2. Demuestra las fórmulas:
+
+   ```text
+   left(i) = 2*i + 1
+   right(i) = 2*i + 2
+   parent(i) = (i - 1) / 2
+   ```
+2. El ordenamiento sigue un ordenamiento por niveles:
+```text
+Nivel 0: 0
+Nivel 1: 1, 2
+Nivel 2: 3, 4, 5, 6
+Nivel 3: 7, 8, 9, 10, ...
+Porque es binario, entonces cada nivel va duplicando la cantidad de elementos del nivel anterior.
+Un nivel k va a tener 2^k elementos.
+un elemento i tiene posición relativa en el nivel k igual a j.
+Entonces en el nivel k+1 sus hijos tienen posición relativa 2*j y 2*j + 1
+j = i - (2^k -1)
+2^k = i - j + 1
+Hijo izquierdo: (2^(k+1) - 1) + 2*j
+Reemplazando: 2*(i-j+1) - 1 + 2*j = 2*i + 1
+Hijo derecho: (2^(k+1) - 1) + 2*j + 1 = 2*i + 2
+Sea p el índice del padre, entonces i = 2*p + 1
+p = (i-1)/2
+```
+
+3. La propiedad min-heap es que un nodo tiene un valor menor que los valores que tienen sus hijos.
+4. Porque el menor elemento siempre se ubica en la raíz.
+5. El nodo insertado al final podría no cumplir la condición del heap, por lo que va subiendo intercambiandose con el padre hasta cumplir que este sea menor que el padre o la raíz.
+6. La raíz eliminada podría dejar un nodo como raíz a alguno que no sea el mínimo, por lo que tiene que ir comparándose con su hijo izquierdo si su hijo es menor lo toma como candidato a intercambiar, sino verifica al derecho lo intercambia, si ya es el menor termina el algortimo sin intercambiarse.
+7. remove() mueve el último elemento a la raíz porque, al eliminar la raíz, debe mantenerse la estructura de árbol binario completo del heap. Sin embargo, ese elemento puede violar la propiedad de heap en la raíz, por lo que se aplica trickleDown(0) para hacerlo descender hasta la posición donde se restaure la propiedad de heap.
+8. Verifica que los elementos del arreglo cumpla con la propiedad que el padre sea menor que sus hijos.
+9. Al insertar con add se suben los elementos con bubbleUp, mientras heapify lo convierte en heap bajando con trickleDown.
+10. Porque cada bubbleUp cuesta O(logn) y recorrer todos los n elementos es O(nlogn).
+11. Porque trickleDown no ejecuta para todos los nodos, sino que los nodos están cerca de sus hojas.
+Digamos tiene altura h (2^h ~ n/2 )y si está en el nivel más bajo, tiene costo 0.
+Si está en el anterior al más bajo n/4 * 1 = n/4
+Si está en el segundo anterior al más bajo n/8 * 2 = n/4
+Y así se crea una serie en función de n = n*(1/2+2/8+3/16+4/32+...)
+Que converge a 2n, entonces O(n) = n.
+
+12. Tras remove(): 1 3 2 7 5 8 10, sale ordenada porque después de cada remove se extrae la raíz y se restaura el heap y se extrae el mínimo que da salida en secuencia creciente.
+13. Un heap es mejor para consulta mínimos, pero no guarda relación de orden entre sus nodos, solo una condición de mínimo, mientras que un BST para consultas ordenadas, ya que almacena sus nodos inorder de forma creciente.
+
+### Bloque 9 - Cierre comparativo
+
+Las representaciones enlazadas permiten recorrer de manera flexible a través de punteros los padres a hijos, a diferencia de los arreglos que solo es en secuencia.
+Los heaps binarios pueden representar un árblo implícitamente gracias a la correlación entre los índices de un arreglo.
+Los árboles binarios define que la forma del árbol, un nodo puede tener hasta dos hijos, mientras que un BST añade que sus elementos deben estar ordenador ascendentemente inorder, es decir agrega condiciones de dónde deben ir colocados los nodos.
+Porque un recorrido puede representarse como una secuencia lineal y trabajarse como lista.
+La altura se puede calcular de forma recursiva llendo de un nodo hacia la hoja más lejana o subiendo hasta llegar a la raíz.
+Un BST tiene propiedad de orden entre un padre y sus hijos, lo que deriva a que estén ordenados de forma ascendente en su recorrido inorder, para buscar puedes tomar recorridos hacia la izquierda o derecha según la relación entre el nodo y el valor a buscar.
+Un heap representa prioridades, ya sea de máximo o mínimos, add tiene un costo O(logn), remove O(logn) y heapify floyd O(n).
+La correctitud depende de propiedades formales como los invariantes y las pruebas, demos permiten validar y visualizar casos concretos, pero por sí no lo garantizan y la complejidad se analiza la implementación.
+
+
+### Autoevaluación breve
+
+- Qué puedo defender con seguridad:
+Puedo defender con seguridad la diferencia entre BST, heap y árbol binario en términos de propiedad de orden vs propiedad estructural, así como los recorridos (inorden, preorden, postorden) y su relación con la representación secuencial del árbol. También puedo explicar correctamente el funcionamiento de succ() y pred() en términos de subárbol derecho/izquierdo y subida por parent.
+
+- Qué todavía confundo:
+Todavía no queda completamente claro en la justificación formal de algunas propiedades globales, como la demostración completa de desigualdades tipo depth(u) + height(u) ≤ height(T).
+
+- Qué evidencia usaría en una sustentación:
+Usaría principalmente los demos (heapify, bst inorder, huffman, treap) junto con trazados paso a paso del árbol antes y después de operaciones (rotaciones, inserciones, eliminaciones). También apoyaría con invariantes (propiedad BST, propiedad heap, consistencia de parent pointers), y análisis de complejidad para justificar cada estructura.
+
+- Qué parte del código me parece más importante para revisar otra vez:
+La parte más importante para revisar nuevamente es la implementación de navegación (succ, pred) y las operaciones estructurales que modifican enlaces (rotateLeft, rotateRight, attachAsLC, attachAsRC, remove, secede). 

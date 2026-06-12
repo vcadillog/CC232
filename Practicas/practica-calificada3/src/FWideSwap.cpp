@@ -1,8 +1,5 @@
 #include "FWideSwap.h"
 
-#include <cmath>
-#include <vector>
-
 namespace ods {
 
 void FWideSwap::loadPermutation(const std::vector<int> &p) {
@@ -10,58 +7,57 @@ void FWideSwap::loadPermutation(const std::vector<int> &p) {
     pushBack(x);
   }
 }
+
 void FWideSwap::swapPositions(int i, int j) {
-  if (i == j) {
+  if (i == j)
     return;
-  }
+
   int vi = getAt(i);
   int vj = getAt(j);
+
   if (i > j) {
     std::swap(i, j);
     std::swap(vi, vj);
   }
+
   eraseAt(j);
   eraseAt(i);
-
   insertAt(i, vj);
   insertAt(j, vi);
 }
+
 void FWideSwap::solve(int K) {
   int n = size();
 
   std::vector<int> pos(n + 2, 0);
-
   {
     auto p = toVector();
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
       pos[p[i]] = i;
-    }
   }
 
-  bool changed = true;
-  while (changed) {
-    changed = false;
+  int a = 1;
+  while (a < n) {
+    int posA = pos[a];
+    int posB = pos[a + 1];
 
-    for (int a = 1; a < n; a++) {
-      int posA = pos[a];
-      int posB = pos[a + 1];
-      if (posA > posB && (posA - posB) >= K) {
-        swapPositions(posA, posB);
-
-        pos[a] = posB;
-        pos[a + 1] = posA;
-
-        changed = true;
-        break;
-      }
+    if (posA > posB && (posA - posB) >= K) {
+      swapPositions(posA, posB);
+      pos[a] = posB;
+      pos[a + 1] = posA;
+      if (a > 1)
+        a--;
+    } else {
+      a++;
     }
   }
 }
 
 std::vector<int> FWideSwap::FWStoVector(std::vector<int> p, int K) {
-    clear();
-    loadPermutation(p);
-    solve(K);
-    return toVector();
+  clear();
+  loadPermutation(p);
+  solve(K);
+  return toVector();
 }
+
 } // namespace ods

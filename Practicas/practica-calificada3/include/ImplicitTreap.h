@@ -27,7 +27,6 @@ protected:
 
   std::mt19937_64 rng_;
 
-protected:
   static int size(Node *u);
 
   static void update(Node *u);
@@ -72,6 +71,8 @@ public:
   void insertAt(int pos, const T &value);
 
   void eraseAt(int pos);
+  void split(Node *t, int k, Node *&l, Node *&r);
+  Node *merge(Node *l, Node *r);
 
   T getAt(int pos) const;
 
