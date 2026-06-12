@@ -60,7 +60,6 @@ void FWideSwap::solve(int K) {
 
 std::vector<int> FWideSwap::FWStoVector(std::vector<int> p, int K) {
     clear();
-    std::cout << "after clear size=" << size() << '\n';
     loadPermutation(p);
     solve(K);
     return toVector();
