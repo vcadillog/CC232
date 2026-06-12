@@ -244,11 +244,14 @@ Se puede observar un patrón de crecimiento exponencial.
 
 ##### Experimento 5
 
+```cpp
 "#####",
 "#...#",
 "#...#",
 "#...#",
 "#####"
+```
+
 Caso: Camino claro
 Inicio: (1,1)
 Destino: (3,3)
@@ -256,11 +259,14 @@ Longitud del camino: 5
 Retrocesos detectados: 0
 Interpretacion: El algoritmo encontro la ruta sin necesidad de retroceder.
 
+```cpp
 "#####",
 "#.#.#",
 "#####",
 "#.#.#",
 "#####"
+```
+
 Caso: Sin salida
 Inicio: (1,1)
 Destino: (3,3)
@@ -268,6 +274,7 @@ Camino: NO EXISTE
 Retrocesos detectados: 1
 Interpretacion: No existe ruta entre inicio y destino.
 
+```cpp
 "#########",
 "#.....#.#",
 "#####.#.#",
@@ -275,6 +282,8 @@ Interpretacion: No existe ruta entre inicio y destino.
 "#.#####.#",
 "#...#...#",
 "#########"
+```
+
 Caso: Con retrocesos
 Inicio: (1,1)
 Destino: (5,7)
