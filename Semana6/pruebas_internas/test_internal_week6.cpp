@@ -6,6 +6,158 @@
 #include "Capitulo5.h"
 #include "Capitulo6.h"
 
+static void testBloque12() {
+  ods::PQ_ComplHeap<int> pq;
+
+  {
+    for (int x : {7, 3, 10, 1, 5, 8, 2}) {
+      pq.insert(x);
+      assert(pq.isHeap());
+    }
+  }
+  {
+    while (!pq.empty()) {
+      pq.delMax();
+      assert(pq.isHeap());
+    }
+  }
+
+  {
+    pq.clear();
+    for (int x : {1, 2, 3, 4, 5}) {
+      pq.insert(x);
+    }
+    const auto sz = pq.size();
+    const int mx = pq.getMax();
+
+    assert(mx == 5);
+    assert(pq.size() == sz);
+  }
+  {
+
+    pq.clear();
+    for (int x : {1, 2, 3, 4, 5}) {
+      pq.insert(x);
+    }
+
+    const auto sz = pq.size();
+    pq.delMax();
+    assert(pq.size() == sz - 1);
+  }
+
+  {
+    pq.clear();
+    std::vector<int> data{7, 3, 10, 1, 5, 8, 2};
+
+    ods::PQ_ComplHeap<int> pq(data);
+
+    assert(pq.isHeap());
+  }
+  {
+    std::vector<int> data{7, 3, 10, 1, 5, 8, 2};
+
+    ods::heapSort(data);
+
+    assert((data == std::vector<int>{1, 2, 3, 5, 7, 8, 10}));
+  }
+  {
+    ods::PQ_LeftHeap<int> h1;
+    ods::PQ_LeftHeap<int> h2;
+
+    for (int x : {10, 7, 3})
+      h1.insert(x);
+    for (int x : {9, 8, 1})
+      h2.insert(x);
+
+    h1.merge(h2);
+
+    assert(h1.isLeftistHeap());
+  }
+  {
+    ods::PQ_LeftHeap<int> h;
+
+    for (int x : {7, 3, 10, 1, 5, 8}) {
+      h.insert(x);
+      assert(h.isLeftistHeap());
+    }
+  }
+  {
+    ods::PQ_LeftHeap<int> h;
+
+    for (int x : {7, 3, 10, 1, 5, 8}) {
+      h.insert(x);
+    }
+
+    while (!h.empty()) {
+      h.delMax();
+      assert(h.isLeftistHeap());
+    }
+  }
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{
+        {'M', 1}, {'I', 4}, {'S', 4}, {'P', 2}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+
+    for (char c : {'M', 'I', 'S', 'P'}) {
+      assert(codes.find(c) != codes.end());
+      assert(!codes.at(c).empty());
+    }
+  }
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{
+        {'M', 1}, {'I', 4}, {'S', 4}, {'P', 2}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+    const auto tree = ods::huffmanGenerateTree(alphabet);
+
+    const std::string text = "MISSISSIPPI";
+
+    const std::string encoded = ods::huffmanEncode(text, codes);
+    const std::string decoded = ods::huffmanDecode(encoded, tree);
+
+    assert(decoded == text);
+  }
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{{'A', 100}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+
+    assert(codes.size() == 1);
+    assert(codes.find('A') != codes.end());
+    assert(!codes.at('A').empty()); // o que sea "0" o "1"
+  }
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+
+    assert(t.isBST());
+  }
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+    assert(t.isHeapByPriority());
+  }
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+    t.remove(5);
+    t.remove(10);
+    assert(t.isBST());
+    assert(t.isHeapByPriority());
+    assert(t.isTreap());
+  }
+}
+
 static void testBloque9HuffmanDesempateYUnSimbolo() {
   const std::vector<ods::HuffmanSymbol> alphabet{
       {'A', 5}, {'B', 5}, {'C', 10}, {'D', 10}, {'E', 20}};
@@ -248,6 +400,7 @@ static void testBloque10TreapCompleto() {
 
 int main() {
   // PQ_ComplHeap: secuencia completa de extracciones.
+  testBloque12();
   testBloque10TreapCompleto();
   testBloque9HuffmanDesempateYUnSimbolo();
   testBloque8LeftHeapValidacionMerge();

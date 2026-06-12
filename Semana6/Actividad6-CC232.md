@@ -1033,77 +1033,231 @@ Total Test time (real) =   0.01 sec
 
 #### Bloque 11 - Comparación con Semana 5: `BinaryHeap`, `BinarySearchTree` y `Treap`
 
-Revisa:
+1. Un heap solo mantiene una relación de mayor o menor entre un padre y sus hijos, mientras que un BST tiene una relación diferente para cada hijo de tal forma que en general da un recorrido inorder.
+2. Porque un heap mantiene sus elementos inorder, pero un heap no podría ya que aplica la misma relación a cada uno de sus hijos, mientras un BST aplica una relación opuesta a con respecto a la relación padre/hijo del lado derecho contra el lado izquierdo.
+3. Agrega las operaciones:
+insert(x)
+getMax()
+delMax()
+4. Un Treap combina propiedad BST sobre las claves y propiedad Heap sobre las prioridades.
+5. Usaría un max heap y extraería la raíz.
+6. Un BST, ya que estas operaciones dependen del orden de las claves.
+7. Un treap, ya que balancea sus elementos de forma similar a un BST aleatorio y genera árboles balanceados con una probabilidad a diferencia de un BST que depende del orden de ingreso de los valores.
+```text
+=== Evidencia observada ===
 
-- `Semana5/include/BinaryHeap.h`
-- `Semana5/include/BinarySearchTree.h`
-- `Semana6/include/PQ_ComplHeap.h`
-- `Semana6/include/Treap.h`
-- `Semana6/demos/demo_compare_with_semana5.cpp`
-- `Semana6/demos/demo_treap_basico.cpp`
+PQ_ComplHeap::getMax() = 14
+BinaryHeap::top() = 1
+BST inorder = 1 3 4 6 7 8 10 13 14
+Treap inorder = 1 3 4 6 7 8 10 13 14
 
-Modifica `demo_compare_with_semana5.cpp` para construir una comparación observable entre:
+Treap:
+└── 14|p=3806825280191135750
+    │           ┌── 13|p=16350857208115036169
+    │       ┌── 10|p=7841030099754090499
+    │       │   └── 8|p=11465005912272011265
+    │   ┌── 7|p=6540889082592755720
+    └── 6|p=4427274669953122309
+        │   ┌── 4|p=8091819015644119047
+        └── 3|p=7514292258938093570
+            └── 1|p=15317392959115231236
 
-1. `BinaryHeap` de Semana 5,
-2. `PQ_ComplHeap` de Semana 6,
-3. `BinarySearchTree` de Semana 5,
-4. `Treap` de Semana 6.
 
-La demostración debe mostrar una tabla con columnas:
+=== Tabla comparativa ===
 
-- estructura,
-- operación principal,
-- propiedad mantenida,
-- operación eficiente,
-- operación que no conviene,
-- evidencia producida por la demostración.
-
-Responde:
-
-1. ¿Qué diferencia hay entre un heap de prioridad y un árbol de búsqueda?
-2. ¿Por qué un BST permite recorrido ordenado y un heap no?
-3. ¿Qué agrega `PQ_ComplHeap` frente a un `BinaryHeap` educativo?
-4. ¿Qué combina un `Treap`?
-5. ¿Qué estructura usarías para extraer máximos repetidamente?
-6. ¿Qué estructura usarías para responder `lowerBound` o `upperBound`?
-7. ¿Qué estructura usarías si quieres búsqueda ordenada con balanceo probabilístico?.
-
-Entrega en este bloque:
-
-- Demostración modificada.
-- Tabla de comparación.
-- Respuesta breve de selección de estructura.
+Estructura          Operacion principal   Propiedad                Operacion eficiente      No conviene                   Evidencia
+------------------------------------------------------------------------------------------------------------------------------------------------------
+BinaryHeap          top()                 Min-Heap                 obtener minimo           busqueda arbitraria           top() = 1
+PQ_ComplHeap        getMax()              Max-Heap                 obtener maximo           recorrido ordenado            getMax() = 14
+BinarySearchTree    find(x)               BST                      buscar claves            extraer maximos repetidos     inorder ordenado
+Treap               find(x)               BST + Heap por prioridad buscar e insertar balanceadorecorrido por prioridad       inorder ordenado y prioridades visibles
+```
 
 #### Bloque 12 - Pruebas obligatorias después de modificar código
 
-Debes agregar o extender pruebas en:
-
-- `Semana6/pruebas_publicas/test_public_week6.cpp`
-- `Semana6/pruebas_internas/test_internal_week6.cpp`
-
-Incluye al menos las siguientes pruebas:
-
-1. `PQ_ComplHeap` conserva la propiedad heap después de cada inserción.
-2. `PQ_ComplHeap` conserva la propiedad heap después de cada eliminación.
-3. `getMax` no cambia el tamaño.
-4. `delMax` sí cambia el tamaño.
-5. `heapifyFloyd` produce un heap válido.
-6. `heapSort` ordena con repetidos.
-7. `PQ_LeftHeap` conserva su propiedad después de `merge`.
-8. `PQ_LeftHeap` conserva su propiedad después de `insert`.
-9. `PQ_LeftHeap` conserva su propiedad después de `delMax`.
-10. Huffman produce códigos para todos los símbolos con frecuencia positiva.
-11. Huffman produce códigos libres de prefijos.
-12. Huffman maneja correctamente el caso de un solo símbolo.
-13. `Treap` conserva propiedad BST después de insertar.
-14. `Treap` conserva propiedad de heap por prioridad después de insertar.
-15. `Treap` conserva ambas propiedades después de eliminar.
-
-Entrega en este bloque:
-
 - Lista de pruebas agregadas.
+
+```cpp
+static void testBloque12() {
+  ods::PQ_ComplHeap<int> pq;
+
+  {
+    for (int x : {7, 3, 10, 1, 5, 8, 2}) {
+      pq.insert(x);
+      assert(pq.isHeap());
+    }
+  }
+  //Inserción que no reordena correctamente el árbol
+  {
+    while (!pq.empty()) {
+      pq.delMax();
+      assert(pq.isHeap());
+    }
+  }
+  //Rotaciones mal aplicadas
+  {
+    pq.clear();
+    for (int x : {1, 2, 3, 4, 5}) {
+      pq.insert(x);
+    }
+    const auto sz = pq.size();
+    const int mx = pq.getMax();
+
+    assert(mx == 5);
+    assert(pq.size() == sz);
+  }
+  //Lectura que elimina elementos del heap 
+  {
+
+    pq.clear();
+    for (int x : {1, 2, 3, 4, 5}) {
+      pq.insert(x);
+    }
+
+    const auto sz = pq.size();
+    pq.delMax();
+    assert(pq.size() == sz - 1);
+  }
+  //Inconsistencia en mantenimiento de tamaño
+  {
+    pq.clear();
+    std::vector<int> data{7, 3, 10, 1, 5, 8, 2};
+
+    ods::PQ_ComplHeap<int> pq(data);
+
+    assert(pq.isHeap());
+  }
+  //Heap inicial inválido
+  {
+    std::vector<int> data{7, 3, 10, 1, 5, 8, 2};
+
+    ods::heapSort(data);
+
+    assert((data == std::vector<int>{1, 2, 3, 5, 7, 8, 10}));
+  }
+  //Algoritmo de ordenamiento incorrecto
+  {
+    ods::PQ_LeftHeap<int> h1;
+    ods::PQ_LeftHeap<int> h2;
+
+    for (int x : {10, 7, 3})
+      h1.insert(x);
+    for (int x : {9, 8, 1})
+      h2.insert(x);
+
+    h1.merge(h2);
+
+    assert(h1.isLeftistHeap());
+  }
+  //Merge incorrecto en leftist heap
+  {
+    ods::PQ_LeftHeap<int> h;
+
+    for (int x : {7, 3, 10, 1, 5, 8}) {
+      h.insert(x);
+      assert(h.isLeftistHeap());
+    }
+  }
+  //Inserción que altera la propiedad leftist
+  {
+    ods::PQ_LeftHeap<int> h;
+
+    for (int x : {7, 3, 10, 1, 5, 8}) {
+      h.insert(x);
+    }
+
+    while (!h.empty()) {
+      h.delMax();
+      assert(h.isLeftistHeap());
+    }
+  }
+  //Leftist heap corrupto tras extracciones
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{
+        {'M', 1}, {'I', 4}, {'S', 4}, {'P', 2}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+
+    for (char c : {'M', 'I', 'S', 'P'}) {
+      assert(codes.find(c) != codes.end());
+      assert(!codes.at(c).empty());
+    }
+  }
+  //Códigos incompletos
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{
+        {'M', 1}, {'I', 4}, {'S', 4}, {'P', 2}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+    const auto tree = ods::huffmanGenerateTree(alphabet);
+
+    const std::string text = "MISSISSIPPI";
+
+    const std::string encoded = ods::huffmanEncode(text, codes);
+    const std::string decoded = ods::huffmanDecode(encoded, tree);
+
+    assert(decoded == text);
+  }
+  //Inconsistencia para codificar-decodificar
+  {
+    const std::vector<ods::HuffmanSymbol> alphabet{{'A', 100}};
+
+    const auto codes = ods::huffmanGenerateCodes(alphabet);
+
+    assert(codes.size() == 1);
+    assert(codes.find('A') != codes.end());
+    assert(!codes.at('A').empty()); // o que sea "0" o "1"
+  }
+  //Caso borde no implementado
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+
+    assert(t.isBST());
+  }
+  //Violación de propiedad BST
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+    assert(t.isHeapByPriority());
+  }
+  //Violación de propiedad Heap
+  {
+    ods::Treap<int> t;
+
+    for (int x : {7, 3, 10, 1, 5, 8, 12}) {
+      t.add(x);
+    }
+    t.remove(5);
+    t.remove(10);
+    assert(t.isBST());
+    assert(t.isHeapByPriority());
+    assert(t.isTreap());
+  }
+  //Violación de propiedad Heap y Treap simultáneamente
+}
+```
+
 - Resultado completo de `ctest --output-on-failure`.
-- Explicación de qué bug atraparía cada prueba.
+
+```text
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana6/build
+    Start 1: semana6_public
+1/2 Test #1: semana6_public ...................   Passed    0.00 sec
+    Start 2: semana6_internal
+2/2 Test #2: semana6_internal .................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.01 sec
+```
+
 
 #### Bloque 13 - Defensa escrita de modificaciones
 
