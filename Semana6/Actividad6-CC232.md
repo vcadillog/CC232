@@ -1261,90 +1261,14 @@ Total Test time (real) =   0.01 sec
 
 #### Bloque 13 - Defensa escrita de modificaciones
 
-Responde en no más de 900 palabras:
-
-¿Qué aprendiste al modificar código de prioridad, heaps, Huffman y Treap que no se aprende solo leyendo o ejecutando demostraciones?
-
-Tu respuesta debe incluir obligatoriamente:
-
-- Una afirmación sobre la interfaz `PQ`.
-- Una afirmación sobre la representación implícita del heap binario completo.
-- Una afirmación sobre `percolateUp`.
-- Una afirmación sobre `percolateDown`.
-- Una afirmación sobre `heapify` de Floyd.
-- Una afirmación sobre `heapSort`.
-- Una afirmación sobre `merge` en heap izquierdista.
-- Una afirmación sobre Huffman.
-- Una afirmación sobre `Treap`, rotaciones, prioridades y búsqueda ordenada.
-- Una afirmación sobre comparación con `BinaryHeap` y `BinarySearchTree`.
-- Una afirmación sobre pruebas, invariantes y casos borde.
-
-
-#### Formato sugerido de entrega
-
-```markdown
-## Actividad 6 - CC232
-
-### Estudiante
-- Nombre:
-- Código:
-- Fecha:
-
-### Resumen de modificaciones
-| Bloque | Archivo modificado | Cambio realizado | Evidencia |
-|---|---|---|---|
-
-### Bloque 1 - Diagnóstico inicial
-[Comandos, resultados y explicación]
-
-### Bloque 2 - Utilidades de heap completo
-[Código, explicación y evidencia]
-
-### Bloque 3 - Conteo en percolateUp
-[Código, salida y análisis]
-
-### Bloque 4 - Conteo en percolateDown
-[Código, salida y análisis]
-
-### Bloque 5 - Validación de propiedad heap
-[Código, pruebas y explicación]
-
-### Bloque 6 - Inserciones sucesivas vs Floyd
-[Demostración, tabla y complejidad]
-
-### Bloque 7 - heapSort
-[Código, pruebas y discusión de estabilidad]
-
-### Bloque 8 - Heap izquierdista
-[Código, validación y trazado]
-
-### Bloque 9 - Huffman
-[Código, tabla de códigos y prefijo libre]
-
-### Bloque 10 - Treap
-[Rotaciones, inserción, eliminación, búsquedas y pruebas]
-
-### Bloque 11 - Comparación con Semana 5
-[Tabla y selección de estructura]
-
-### Bloque 12 - Pruebas
-[Lista de pruebas, salida de ctest y explicación]
-
-### Bloque 13 - Defensa escrita
-[Respuesta final]
-```
-
-#### Criterio general de evaluación
-
-Se espera evidencia de trabajo directo sobre el código. La actividad será evaluada principalmente por:
-
-1. Claridad de las modificaciones.
-2. Conservación de la interfaz pública cuando corresponda.
-3. Uso correcto de invariantes.
-4. Pruebas con casos borde.
-5. Comparación razonada entre estructuras.
-6. Explicación de costos.
-7. Capacidad de sustentar oralmente los cambios.
-8. Calidad de los ejercicios adicionales de codificación: modularidad, pruebas, casos borde y respeto de invariantes.
-
-Pasar las pruebas no es suficiente. Debes poder explicar por qué tus cambios preservan la propiedad de heap, la propiedad izquierdista, la validez del árbol de Huffman, la propiedad BST del `Treap` y la diferencia entre estructuras para prioridad y estructuras para búsqueda ordenada.
+Al modificar la interfaz PQ, se debe tener en cuenta que el elemento máximo esté en la raíz.
+La representación implícita del heap binario no existe como nodos, sino como un arreglo donde las relaciones estructurales se deducen con índices.
+percolateUp maneja inserciones a través de una reparación local hacia arriba. 
+percolateDown maneja de forma similar a percolateDown, solo que ahora debe considerarse cuál de los hijos deben ser elegidos en el camino de restauración del heap.
+heapify de Floyd muestra que construir desde abajo es más eficiente que insertar uno por uno esto gracias a su cercanía hacia las hojas. 
+heapSort revela que un algoritmo puede ser correcto sin ser estable. heapSort no necesita de una cola de prioridad auxiliar, trabaja sobre sí mismo
+El merge en heap izquierdista nos permite combinar dos árboles manteniendo la propiedad izquierdista y que puede modificar la forma en que manejar las inserciones o eliminaciones como operaciones derivadas del merge.
+Huffman demuestra que una estructura de datos puede ser óptima globalmente sin ser única. El desempate cambia la forma del árbol, pero no necesariamente el costo total. 
+El Treap combina dos invariantes BST por clave y heap por prioridad. Las rotaciones son el mecanismo por el cual restaura las propiedades BST y Heap después de modificar el árbol.
+Comparando BinaryHeap y BinarySearchTree, el heap optimiza acceso global al máximo/mínimo, mientras que el BST optimiza consultas ordenadas. El Treap aparece como un híbrido que permite usar ambas características simultáneamente, al contener la propiedad BST permite las búsquedas ordenadas.
+Finalmente las pruebas son importantes para validar casos específicos y casos borde para capturar comportamientos no definidos, pero no son suficientes, ya que no es posible crear una prueba para todos los casos y para eso es que se necesitan invariantes que preservan el comportamiento de una manera formal del algortimo.
