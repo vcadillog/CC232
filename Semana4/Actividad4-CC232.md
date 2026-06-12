@@ -1,7 +1,9 @@
 ## Actividad 4-CC232
 
 ### Estudiante
-- Cadillo Gutierrez, Victor Hugo 20255514D
+- Nombre: Victor Hugo Cadillo Gutierrez
+- Código: 20255514D
+- Fecha: 06/12/2026
 
 #### Bloque 1 
 1. El acceso LIFO se refiere a una estructura de datos donde el último elemento agregado es el primero en ser removido. Mientras que el acceso FIFO se refiere a una estructura de datos donde el primer elemento agregado es el primero en ser removido. LIFO se basa en el orden inverso de llegada, mientras que FIFO se basa en el orden de llegada.
@@ -244,13 +246,12 @@ Se puede observar un patrón de crecimiento exponencial.
 
 ##### Experimento 5
 
-```cpp
+```text
 "#####",
 "#...#",
 "#...#",
 "#...#",
 "#####"
-```
 
 Caso: Camino claro
 Inicio: (1,1)
@@ -259,13 +260,11 @@ Longitud del camino: 5
 Retrocesos detectados: 0
 Interpretacion: El algoritmo encontro la ruta sin necesidad de retroceder.
 
-```cpp
 "#####",
 "#.#.#",
 "#####",
 "#.#.#",
 "#####"
-```
 
 Caso: Sin salida
 Inicio: (1,1)
@@ -274,7 +273,6 @@ Camino: NO EXISTE
 Retrocesos detectados: 1
 Interpretacion: No existe ruta entre inicio y destino.
 
-```cpp
 "#########",
 "#.....#.#",
 "#####.#.#",
@@ -282,7 +280,6 @@ Interpretacion: No existe ruta entre inicio y destino.
 "#.#####.#",
 "#...#...#",
 "#########"
-```
 
 Caso: Con retrocesos
 Inicio: (1,1)
@@ -290,6 +287,7 @@ Destino: (5,7)
 Camino: NO EXISTE
 Retrocesos detectados: 15
 Interpretacion: No existe ruta entre inicio y destino.
+```
 
 #### Bloque 7 
 
@@ -332,3 +330,15 @@ Ninguna cola concentra una cantidad excesiva de clientes mientras otras permanec
 - En las simulaciones las colas modelan procesos de espera. 
 - Una correctitud teórica se valida con pruebas sobre salidas esperadas.
 - Un problema de conversión de base solo requiere de un uso de pilas, mientras que paréntesis agrega anidamiento y uso de una pila explícita para manejar diferentes pares, el problema de las N-Reinas extiende el uso de pilas con el uso de backtracking mientras que el laberinto requiere una implementación más detallada de la pila para recordar los caminos recorridos y un banco requiere el uso de colas, un orden muy diferente a las operaciones LIFO usadas para resolver los problemas anteriores.
+
+#### Autoevaluación breve
+- Qué puedo defender con seguridad:
+Puedo explicar con claridad la diferencia entre LIFO y FIFO y cómo se implementan en Stack y Queue, incluyendo casos típicos como conversión de bases, evaluación de expresiones en RPN y simulaciones de colas. También puedo justificar el uso de pilas en backtracking (N-Queens y maze) y cómo el estado se reconstruye mediante push/pop. Además, puedo defender cómo la precedencia de operadores se resuelve con pilas y por qué RPN evita ambigüedades.
+- Qué todavía confundo:
+Todavía puedo confundir detalles entre recursión e implementación iterativa con pila explícita en ciertos casos. También puede ser confuso el análisis de errores en expresiones mal formadas en RPN. 
+- Qué experimento me dio mejor evidencia:
+El experimento de RPN es el más fuerte, porque muestra claramente entrada, transformación a RPN y luego el resultado numérico validado. También el experimento de N-Queens es muy sólido porque evidencia el crecimiento del backtracking de forma cuantitativa.
+- Qué evidencia usaría en una sustentación:
+Usaría principalmente tres tipos de evidencia:
+Tabla de N-Queens para justificar backtracking y complejidad exponencial.
+Ejemplo del banco para demostrar FIFO en un sistema dinámico real.
