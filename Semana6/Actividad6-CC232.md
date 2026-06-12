@@ -1,115 +1,26 @@
 ### Actividad 6 - CC232 
 
-- Duración: 3 horas de clase.
-- Modalidad: Trabajo individual.
-- Entrega: Un archivo llamado `Actividad6-CC232.md` y los archivos modificados solicitados.
-
-#### Objetivo
-
-Consolidar lo trabajado en la Semana 6 a partir de lectura cercana, modificación controlada de código, ejecución de demostraciones, ampliación de pruebas y defensa escrita breve.
-
-La meta principal no es solo ejecutar la librería, sino **intervenir el código** para demostrar comprensión real de:
-
-1. La interfaz abstracta de cola de prioridad: `PQ`.
-2. La implementación con heap binario completo: `PQ_ComplHeap`.
-3. Las operaciones `getMax`, `insert`, `delMax`, `percolateUp`, `percolateDown` y `heapify` de Floyd.
-4. El ordenamiento `heapSort`.
-5. El heap izquierdista: `PQ_LeftHeap` y su operación central `merge`.
-6. La codificación Huffman como aplicación de colas de prioridad.
-7. La comparación con estructuras de la Semana 5: `BinaryHeap`, `BinarySearchTree` y apoyo conceptual de `BinaryTree`.
-8. La relación entre prioridad, búsqueda ordenada y estructuras híbridas como `Treap`.
-
-El énfasis de esta actividad está en **modificar, justificar, probar y defender** cambios pequeños pero técnicamente significativos.
-
-#### Material de trabajo
-
-##### Código de la semana
-
-Revisa como mínimo:
-
-- `Semana6/README.md`
-- `Semana6/lecturas/Notas.md`
-- `Semana6/include/PQ.h`
-- `Semana6/include/PQ_ComplHeap.h`
-- `Semana6/include/PQ_ComplHeap_macro.h`
-- `Semana6/include/PQ_ComplHeap_getMax.h`
-- `Semana6/include/PQ_ComplHeap_insert.h`
-- `Semana6/include/PQ_ComplHeap_delMax.h`
-- `Semana6/include/PQ_ComplHeap_percolateUp.h`
-- `Semana6/include/PQ_ComplHeap_percolateDown.h`
-- `Semana6/include/PQ_ComplHeap_heapifyFloyd.h`
-- `Semana6/include/vector_heapSort.h`
-- `Semana6/include/PQ_LeftHeap.h`
-- `Semana6/include/PQ_LeftHeap_merge.h`
-- `Semana6/include/PQ_LeftHeap_insert.h`
-- `Semana6/include/PQ_LeftHeap_delMax.h`
-- `Semana6/include/Huffman_PQ.h`
-- `Semana6/include/Huffman_PQ_generateTree.h`
-- `Semana6/include/MeldableHeap.h`
-- `Semana6/include/Treap.h`
-- `Semana6/include/Capitulo6.h`
-- `Semana6/include/Capitulo10.h`
-
-##### Código reutilizado de Semana 5
-
-Revisa también:
-
-- `Semana5/include/BinaryTree.h`
-- `Semana5/include/BinaryHeap.h`
-- `Semana5/include/BinarySearchTree.h`
-- `Semana5/include/Capitulo5.h`
-
-##### Demostraciones y pruebas
-
-Revisa y ejecuta:
-
-- `Semana6/demos/demo_pq_complheap_basico.cpp`
-- `Semana6/demos/demo_heapify_floyd.cpp`
-- `Semana6/demos/demo_heapsort.cpp`
-- `Semana6/demos/demo_left_heap_merge.cpp`
-- `Semana6/demos/demo_huffman.cpp`
-- `Semana6/demos/demo_compare_with_semana5.cpp`
-- `Semana6/demos/demo_bst_rotations.cpp`
-- `Semana6/demos/demo_treap_basico.cpp`
-- `Semana6/demos/demo_capitulo6_panorama.cpp`
-- `Semana6/pruebas_publicas/test_public_week6.cpp`
-- `Semana6/pruebas_internas/test_internal_week6.cpp`
-- `Semana6/CMakeLists.txt`
-
-#### Reglas de modificación
-
-1. No reemplaces las estructuras principales por `std::priority_queue`, `std::set`, `std::map` o funciones estándar que oculten el algoritmo central.
-2. Toda modificación debe mantener el estilo de la librería: headers simples, C++17, nombres claros y sin macros innecesarias.
-3. Cada cambio debe compilar.
-4. Cada cambio debe tener al menos una evidencia: demostraciones, prueba pública, prueba interna o salida documentada.
-5. En los archivos modificados, marca tus cambios con comentarios breves de este estilo:
-
-```cpp
-// MOD-A6-B3: validacion de propiedad heap
-```
-
-6. No basta con decir "funciona". Debes explicar qué invariante se preserva, qué caso borde se cubre y qué costo tiene la operación modificada.
+### Estudiante
+- Nombre: Victor Hugo Cadillo Gutierrez
+- Código: 20255514D
+- Fecha: 06/12/2026
 
 #### Bloque 1 - Diagnóstico inicial de la Semana 6
 
-Revisa:
-
-- `Semana6/README.md`
-- `Semana6/CMakeLists.txt`
-- `Semana6/include/Capitulo6.h`
-- `Semana6/include/Capitulo10.h`
-
-Ejecuta desde la raíz de la librería o desde el entorno de compilación que uses:
-
-```bash
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
+1. Los targets que aparecen
+```text
+sem6_demo_bst_rotations         
+sem6_demo_capitulo6_panorama    
+sem6_demo_compare_with_semana5  
+sem6_demo_heapify_floyd
+sem6_demo_heapsort
+sem6_demo_huffman
+sem6_demo_left_heap_merge
+sem6_demo_pq_complheap_basico
+sem6_demo_treap_basico
+sem6_test_internal
+sem6_test_public
 ```
-
-Responde:
-
-1. ¿Qué targets de demostraciones o pruebas aparecen para Semana 6?
 
 2.
 ```cpp
@@ -131,39 +42,29 @@ Responde:
 #include "Treap.h"
 ```
 
-3. En Capítulo10.h es una abstracción que reutiliza Capitulo6.h y crea un alias
-
+3. En Capítulo10.h es abstracción que reutiliza Capitulo6.h y crea un alias
 4. Se utilizan árboles y/o heap en los archivos PQ_*.h, Huffman.h y Treap.
-
 5. Se usa la estructura heap para prioridad.
-
 6. Se utilizan BST para busqueda ordenada.
-
 7. Treap mezcla busqueda ordenada con prioridad.
+8. 
 
-8. ¿Qué evidencia inicial obtuviste al ejecutar las pruebas sin modificar nada?.
+| Comando ejecutado                            | Resultado                                                 | Error   | Interpretación                                                                                               |
+| -------------------------------------------- | --------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------ |
+| `cmake --build build`                        | Compilación exitosa (targets generados correctamente)     | Ninguno | El proyecto compila sin errores, todos los módulos (PQ, Huffman, Treap, etc.) están integrados correctamente |
+| `ctest --test-dir build --output-on-failure` | 100% tests passed (sem6_public, sem6_internal)            | Ninguno | Todas las pruebas automáticas base y privadas pasan, indicando corrección funcional global                   |
+| `sem6_demo_bst_rotations`                    | Rotaciones left/right correctas, inorder se mantiene true | Ninguno | Las rotaciones preservan la propiedad BST (invariante estructural correcta)                                  |
+| `sem6_demo_capitulo6_panorama`               | Lista de estructuras (PQ, heap, Huffman, Treap, etc.)     | Ninguno | Evidencia de arquitectura modular: Semana 6 conecta heaps, colas de prioridad y árboles                      |
+| `sem6_demo_compare_with_semana5`             | PQ max=14, BinaryHeap top=1, BST inorder ordenado         | Ninguno | Diferencia conceptual entre heap (prioridad) y BST (orden) correctamente ilustrada                           |
+| `sem6_demo_heapify_floyd`                    | Heap válido: raíz 17, propiedad heap restaurada           | Ninguno | Floyd reordena en O(n) y garantiza propiedad heap sin inserciones individuales                               |
+| `sem6_demo_heapsort`                         | Arreglo ordenado ascendente                               | Ninguno | Heapsort funciona correctamente usando heap implícito y extracción iterativa                                 |
+| `sem6_demo_huffman`                          | Codificación/decodificación correcta, prefijo libre true  | Ninguno | Huffman genera códigos óptimos y decodificación consistente con árbol                                        |
+| `sem6_demo_left_heap_merge`                  | Merge correcto, estructura leftist válida                 | Ninguno | Merge preserva propiedad leftist heap y respeta eficiencia O(log n)                                          |
+| `sem6_demo_pq_complheap_basico`              | Insert, delMax y heapify correctos                        | Ninguno | PQ_ComplHeap mantiene invariantes de heap en todas las operaciones                                           |
+| `sem6_demo_treap_basico`                     | BST + heap por prioridad válido, inorder correcto         | Ninguno | Treap mantiene doble invariante (BST + heap), rotaciones correctas                                           |
+| `sem6_test_public`                           | Tests públicos pasan                                      | Ninguno | Implementación cumple especificación visible                                                                 |
+| `sem6_test_internal`                         | Tests internos pasan                                      | Ninguno | Implementación robusta frente a casos ocultos y borde                                                        |
 
-Entrega en este bloque:
-
-- Una tabla con: comando ejecutado, resultado, error si hubo, interpretación.
-- Una lista de los archivos que planeas modificar.
-
-```cpp
-cmake --build build-debug 
-[100%] Built target sem6_test_internal
-
-ctest --test-dir build-debug -R semana6 --output-on-failure
-Internal ctest changing into directory: /home/victor/clases/algoritmos/CC232/Semana6/build-debug
-Test project /home/victor/clases/algoritmos/CC232/Semana6/build-debug
-    Start 1: semana6_public
-1/2 Test #1: semana6_public ...................   Passed    0.00 sec
-    Start 2: semana6_internal
-2/2 Test #2: semana6_internal .................   Passed    0.00 sec
-
-100% tests passed, 0 tests failed out of 2
-
-Total Test time (real) =   0.01 sec
-```
 
 #### Bloque 2 - Modificación de utilidades de heap completo
 
