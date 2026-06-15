@@ -181,6 +181,26 @@ Revisa:
 
 Ejecuta las demostraciones de rotaciones y construye una tabla con estas columnas:
 
+insert(30) -> root=30, height=0
+insert(20) -> root=30, height=1
+insert(10) -> root=20, height=1
+insert(25) -> root=20, height=2
+insert(28) -> root=20, height=2
+insert(27) -> root=25, height=2
+inorder: 10 20 25 27 28 30 
+level: 25 20 28 10 27 30 
+AVLTreeCompact(size=6, height=2)
+isAVL = true
+
+| Caso | Secuencia insertada    | Nodo desbalanceado | Rotación aplicada                    | Inorder antes     | Inorder después   | Altura final |
+| ---- | ---------------------- | ------------------ | ------------------------------------ | ----------------- | ----------------- | ------------ |
+| LL   | 30, 20, 10             | 30                 | Rotación simple derecha              | 10 20 30          | 10 20 30          | 1            |
+| LR   | 10,20,25,28,30         | 30                 | Rotación doble izquierda y derecha   | 10 20 25 28 30    | 10 20 25 28 30    | 1            |
+| LL   | 10,20,25,28,30         | 30                 | Rotación simple derecha              | 10 20 25 28 30    | 10 20 25 28 30    | 1            |
+| RL   | 10,20,25,27,28,30      | 28                 | Rotación doble derecha e izquierda   | 10 20 25 27 28 30 | 10 20 25 27 28 30 | 1            |
+| RR   | 10,20,25,27,28,30      | 20                 | Rotación simple a la izquierda       | 10 20 25 27 28 30 | 10 20 25 27 28 30 | 1            |
+
+
 * Caso
 * Secuencia insertada
 * Nodo desbalanceado
@@ -196,13 +216,101 @@ Incluye los cuatro casos:
 3. LR
 4. RL
 
+```text
+insert(30)
+30
+
+insert(20)
+ 30
+/
+20
+
+insert(10)   
+   30
+   /
+  20
+ /
+10
+LL en 30
+
+Aplicando rotación derecha
+   20
+  /  \
+10   30
+
+insert(25)
+   20
+  /  \
+10   30
+     /
+    25
+
+insert(28)
+   20
+  /  \
+10   30
+     /
+    25
+      \
+      28
+LR en 30
+Aplicando rotación izquierda 25
+   20
+  /  \
+10   30
+     /
+    28 
+   /
+  25
+LL en 30
+Aplicando rotación derecha 30
+   20
+  /  \
+10   28
+     / \
+    25  30
+
+
+insert(27)
+      20
+     /  \
+   10    28
+         / \
+       25  30
+         \
+         27
+
+RL en 28
+Rotación derecha
+   20
+  /  \
+10    25
+        \
+         28
+        /  \ 
+       27   30
+RR en 20
+
+Rotación izquierda en 20
+          25
+         /  \
+       20    28
+      /     /  \
+    10     27  30
+```
+
 Responde:
 
 1. ¿Qué diferencia hay entre una rotación simple y una rotación doble?
+Una rotación simple mueve un nodo una sola vez para restaurar el balance y doble combina dos rotaciones consecutivas.
 2. ¿Por qué LL y RR se corrigen con una sola rotación?
+Porque el desbalance está alineado en una sola dirección.
 3. ¿Por qué LR y RL requieren dos pasos?
+Porque el desbalance está en ambas direcciones, izquierda y derecha, primero se convierte a LL o RR y luego se rebalancea en una sola rotación.
 4. ¿Qué parte del árbol cambia y qué parte permanece igual?
+Solo cambia el subárbol cuya raíz es el nodo desbalanceado.
 5. ¿Por qué el inorder debe ser el mismo antes y después de reestructurar?.
+Porque un AVL cumple la condición BST sin importar si el árbol está balanceado o no, el recorrido inorder es siempre el mismo en orden ascendente.
 
 Entrega en este bloque:
 
