@@ -91,7 +91,7 @@ int main() {
     std::cout << "Palabra: " << p.palabra << " Codigo: " << p.codigo << " Cantidad: " << p.cantidad << "\n";
   }
   for (int i = 0; i < hashes.size(); ++i) {
-    std::cout << "Token " << i << tokens[i] << " : " << hashes[i] << "\n";
+    std::cout << "Token " << i <<  " " <<tokens[i] << " : " << hashes[i] << "\n";
   }
   std::vector<PalabraOrdenada> sortedTokens =
       convertStringToUniqueCodeSortedAlphabet(tokens);
