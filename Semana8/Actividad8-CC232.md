@@ -200,15 +200,13 @@ Construye una tabla con estas columnas:
 
 Responde:
 
-1. ¿Qué diferencia hay entre el arreglo principal y los buckets?
 1. El arreglo principal es una lista de posiciones y los buckets son una lista de los elementos insertados en la posición que genero la función hashing.
-2. ¿Por qué chaining puede almacenar más elementos que la cantidad de posiciones del arreglo principal?
 2. Porque en chaining cada posición del arreglo principal no almacena un único elemento, sino una lista de elementos.
-3. ¿Qué significa que un bucket crezca demasiado?
-4. ¿Por qué `longestBucket()` es una métrica importante?
-5. ¿En qué caso la búsqueda en chaining deja de parecerse a `O(1)` esperado?
-6. ¿Qué costo tiene recorrer un bucket de longitud `k`?
-7. ¿Qué parte del costo depende de la función hash y qué parte depende de la distribución de claves?.
+3. Significa que muchas claves diferentes han sido asignadas al mismo bucket, lo que puede indicar una mala distribución de la función hash o un factor de carga alto, y puede afectar el rendimiento de las operaciones de búsqueda e inserción.
+4. Porque nos indica que tan bien balanceado están los buckets, si tiene un valor pequeño tomará poco tiempo en recorrer un bucket porque distribuye mejor los elementos y si es grande tomará más tiempo.
+5. Cuando el bucket se hace muy grande comparado al tamaño del diccionario, en el peor caso todos los n elementos terminan en un bucket.
+6. Recorrer un bucket de longitud tiene un costo O(k) en el peor caso.
+7. La función hash determina como se distribuyen las claves y la distribución de los buckets determina el tamaño de cada bucket. Una buena función hash distribuye las claves de manera uniforme.
 
 Entrega en este bloque:
 
