@@ -169,12 +169,6 @@ Ejecuta:
 ```bash
 ./build-debug/Semana8/sem8_demo_chained
 ```
-Salida:
-ChainedHashTable
-size=6 capacity=17 load=0.352941 longestBucket=2
-contains(26)=1 contains(99)=0
-insertions=6, successfulSearches=1, failedSearches=1, removals=0, collisions=4, totalProbes=14, maxP
-robeLength=3, averageProbeLength=1.75, rehashes=1, tombstones=0
 
 Construye una tabla con estas columnas:
 
@@ -187,26 +181,15 @@ Construye una tabla con estas columnas:
 * `loadFactor()`
 * `longestBucket()`
 
-| Operación   | Clave | Bucket calculado | Tamaño bucket antes | Tamaño bucket después | Colisión observada |  loadFactor() | longestBucket() |
-| ----------- | ----: | ---------------: | ------------------: | --------------------: | ------------------ | ------------: | --------------: |
-| add         |    10 |        2 (mod 8) |                   0 |                     1 | No                 |   1/8 = 0.125 |               1 |
-| add         |    18 |        2 (mod 8) |                   1 |                     2 | Sí                 |    2/8 = 0.25 |               2 |
-| add         |    26 |        2 (mod 8) |                   2 |                     3 | Sí                 |   3/8 = 0.375 |               3 |
-| add         |    34 |        5 (mod 8) |                   0 |                     1 | No                 |    4/8 = 0.50 |               3 |
-| add         |    42 |        5 (mod 8) |                   1 |                     2 | Sí                 |   5/8 = 0.625 |               3 |
-| rehash 8→17 |     — |                — |                   — |                     — | —                  | 5/17 ≈ 0.2941 |               1 |
-| add         |    50 |       8 (mod 17) |                   1 |                     2 | Sí                 | 6/17 ≈ 0.3529 |               2 |
-
-
 Responde:
 
-1. El arreglo principal es una lista de posiciones y los buckets son una lista de los elementos insertados en la posición que genero la función hashing.
-2. Porque en chaining cada posición del arreglo principal no almacena un único elemento, sino una lista de elementos.
-3. Significa que muchas claves diferentes han sido asignadas al mismo bucket, lo que puede indicar una mala distribución de la función hash o un factor de carga alto, y puede afectar el rendimiento de las operaciones de búsqueda e inserción.
-4. Porque nos indica que tan bien balanceado están los buckets, si tiene un valor pequeño tomará poco tiempo en recorrer un bucket porque distribuye mejor los elementos y si es grande tomará más tiempo.
-5. Cuando el bucket se hace muy grande comparado al tamaño del diccionario, en el peor caso todos los n elementos terminan en un bucket.
-6. Recorrer un bucket de longitud tiene un costo O(k) en el peor caso.
-7. La función hash determina como se distribuyen las claves y la distribución de los buckets determina el tamaño de cada bucket. Una buena función hash distribuye las claves de manera uniforme.
+1. ¿Qué diferencia hay entre el arreglo principal y los buckets?
+2. ¿Por qué chaining puede almacenar más elementos que la cantidad de posiciones del arreglo principal?
+3. ¿Qué significa que un bucket crezca demasiado?
+4. ¿Por qué `longestBucket()` es una métrica importante?
+5. ¿En qué caso la búsqueda en chaining deja de parecerse a `O(1)` esperado?
+6. ¿Qué costo tiene recorrer un bucket de longitud `k`?
+7. ¿Qué parte del costo depende de la función hash y qué parte depende de la distribución de claves?.
 
 Entrega en este bloque:
 
@@ -271,17 +254,6 @@ Ejecuta:
 ./build-debug/Semana8/sem8_demo_tombstones
 ```
 
-./build-debug/Semana8/sem8_demo_linear
-
-LinearHashTable
-size=5 capacity=8 activeLoad=0.625 occupiedLoad=0.625 tombstones=0
-insertions=6, successfulSearches=1, failedSearches=6, removals=1, collisions=1, totalProbes=17, maxP
-robeLength=4, averageProbeLength=1.21429, rehashes=0, tombstones=0
-
-./build-debug/Semana8/sem8_demo_tombstones
-Linear tombstones=4 activeLoad=0.125 occupiedLoad=0.1875
-HashtableOA tombstones=4 activeLoad=0.216216 occupiedLoad=0.324324
-
 Construye una tabla con estas columnas:
 
 * Operación
@@ -295,27 +267,15 @@ Construye una tabla con estas columnas:
 * `occupiedFactor()`
 * `tombstoneCount()`
 
-| Operación | Clave | Posición hash inicial | Secuencia de sondeo | Estado final de la celda      | size | occupied | loadFactor() | occupiedFactor() | tombstoneCount() |
-| --------- | ----: | --------------------: | ------------------- | ----------------------------- | ---: | -------: | -----------: | ---------------: | ---------------: |
-| add       |     7 |                     7 | [7]                 | 7 → 7                         |    1 |        1 |        0.125 |            0.125 |                0 |
-| add       |    15 |                     5 | [5]                 | 15 → 5                        |    2 |        2 |         0.25 |             0.25 |                0 |
-| add       |    23 |                     6 | [6]                 | 23 → 6                        |    3 |        3 |        0.375 |            0.375 |                0 |
-| add       |    31 |                     2 | [2]                 | 31 → 2                        |    4 |        4 |          0.5 |              0.5 |                0 |
-| add       |    39 |                     4 | [4]                 | 39 → 4                        |    5 |        5 |        0.625 |            0.625 |                0 |
-| remove    |    23 |                     6 | [6]                 | tombstone en 6                |    4 |        5 |          0.5 |            0.625 |                1 |
-| add       |    47 |                     6 | [6]                 | 47 → reutiliza tombstone en 6 |    5 |        5 |        0.625 |            0.625 |                0 |
-
-
 Responde:
 
 1. ¿Qué representan los estados `Empty`, `Filled` y `Deleted`?
-1. Cuando se elimina un dato con remove se marca el estado como Deleted, los estados Empty y Filled son útiles a la hora de insertar, ya que si es Empty no hay colisión e inserta en la clave, pero si hay Filled considera una colisión y avanza en el run hasta encontrar un espacio vacío.
 2. ¿Por qué `Deleted` no puede tratarse igual que `Empty`?
 3. ¿Qué diferencia hay entre `size` y `occupied`?
 4. ¿Por qué `loadFactor()` y `occupiedFactor()` pueden divergir después de muchas eliminaciones?
 5. ¿Qué problema aparece si se acumulan demasiados tombstones?
 6. ¿Cuándo debe hacerse rehashing por carga ocupada aunque haya pocos elementos activos?
-7. ¿Qué costo tiene una búsqueda fallida cuando hay clustering?
+7. ¿Qué costo tiene una búsqueda fallida cuando hay clustering?.
 
 Entrega en este bloque:
 
@@ -347,8 +307,7 @@ Responde:
 4. ¿Qué debe devolver `get(k)` si la clave existe?
 5. ¿Qué debe ocurrir con `remove(k)` si la clave no existe?
 6. ¿Qué política usa la implementación cuando se intenta insertar una clave repetida?
-7. ¿Por qué una interfaz `put`, `get`, `remove` permite separar el uso del diccionario de su implementación interna?
-8. ¿Cómo se relaciona esta parte con el ADT diccionario de Deng?
+7. ¿Por qué una interfaz `put`, `get`, `remove` permite separar el uso del diccionario de su implementación interna?.
 
 Entrega en este bloque:
 
