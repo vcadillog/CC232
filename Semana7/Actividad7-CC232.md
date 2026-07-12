@@ -1,5 +1,9 @@
 ### Actividad 7 - CC232
 
+#### Estudiante
+
+- Nombre:
+
 #### Datos generales
 
 Duración: 3 horas de clase.
@@ -29,24 +33,24 @@ Revisa como mínimo:
 
 * `Semana7/README.md`
 * `Semana7/lecturas/Notas.md`
-* `Semana7/-/Entry.h`
-* `Semana7/-/BinNode.h`
-* `Semana7/-/BinTree.h`
-* `Semana7/-/BST.h`
-* `Semana7/-/AVL.h`
-* `Semana7/-/BinaryTree.h`
-* `Semana7/-/BinarySearchTree.h`
-* `Semana7/-/RedBlackTree.h`
-* `Semana7/-/AVLTreeCompact.h`
-* `Semana7/-/RedBlackTreeLLRB.h`
-* `Semana7/-/Capitulo7.h`
+* `Semana7/include/Entry.h`
+* `Semana7/include/BinNode.h`
+* `Semana7/include/BinTree.h`
+* `Semana7/include/BST.h`
+* `Semana7/include/AVL.h`
+* `Semana7/include/BinaryTree.h`
+* `Semana7/include/BinarySearchTree.h`
+* `Semana7/include/RedBlackTree.h`
+* `Semana7/include/AVLTreeCompact.h`
+* `Semana7/include/RedBlackTreeLLRB.h`
+* `Semana7/include/Capitulo7.h`
 
 #### Código reutilizado conceptualmente
 
 Revisa también:
 
-* `Semana5/-/BinarySearchTree.h`
-* `Semana6/-/Treap.h`
+* `Semana5/include/BinarySearchTree.h`
+* `Semana6/include/Treap.h`
 * `Semana6/demos/demo_bst_rotations.cpp`
 * `Semana6/demos/demo_treap_basico.cpp`
 
@@ -84,7 +88,7 @@ Revisa:
 
 * `Semana7/README.md`
 * `Semana7/CMakeLists.txt`
-* `Semana7/-/Capitulo7.h`
+* `Semana7/include/Capitulo7.h`
 
 Ejecuta desde la raíz de la librería:
 
@@ -169,8 +173,8 @@ Archivos revisados primero:
 
 Revisa:
 
-* `Semana7/-/BST.h`
-* `Semana7/-/BinarySearchTree.h`
+* `Semana7/include/BST.h`
+* `Semana7/include/BinarySearchTree.h`
 * `Semana7/demos/demo_compare_with_semana5.cpp`
 * `Semana7/demos/demo_bst_deng_vs_avl.cpp`
 
@@ -224,18 +228,18 @@ Responde:
 
 Revisa:
 
-* `Semana7/-/AVL.h`
-* `Semana7/-/BST.h`
-* `Semana7/-/BinNode.h`
+* `Semana7/include/AVL.h`
+* `Semana7/include/BST.h`
+* `Semana7/include/BinNode.h`
 * `Semana7/demos/demo_avl_deng_core.cpp`
 
 Responde:
 
 1. ¿Qué significa que un nodo esté balanceado en un AVL?
-   |bf| = |height(izq) − height(der)| ≤ 1.
+   |bf| = |altura(izq) − altura(der)| ≤ 1.
 
 2. ¿Cómo se calcula el factor de balance?
-   bf = height(left) − height(right).
+   bf = altura(izq) − altura(der).
 
 3. ¿Qué información de altura debe mantenerse después de insertar o eliminar?
    La altura de cada nodo desde el punto de inserción/eliminación hasta la raíz.
@@ -260,7 +264,7 @@ Responde:
 
 Entrega en este bloque:
 
-* Invariante AVL: para todo nodo, |height(left) − height(right)| ≤ 1; esto garantiza altura O(log n).
+* Invariante AVL: para todo nodo, |altura(izq) − altura(der)| ≤ 1; esto garantiza altura O(log n).
 * Trazado de inserción con rotación: insertar 10, 20, 30 en AVL -> 10 raíz, 20 hijo derecho, 30 hijo derecho de 20 -> 10 queda con bf = −2 -> rotación izquierda en 10 -> 20 es nueva raíz con hijos 10 (izq) y 30 (der), altura = 1.
 * Evidencia de salida de `demo_avl_deng_core.cpp`:
   ```
@@ -275,9 +279,9 @@ Entrega en este bloque:
 
 Revisa:
 
-* `Semana7/-/AVLTreeCompact.h`
+* `Semana7/include/AVLTreeCompact.h`
 * `Semana7/demos/demo_avl_compact_rotations.cpp`
-* `Semana7/-/AVL.h`
+* `Semana7/include/AVL.h`
 
 Ejecuta las demostraciones de rotaciones y construye una tabla con estas columnas:
 
@@ -418,10 +422,11 @@ Porque un AVL cumple la condición BST sin importar si el árbol está balancead
 
 Revisa:
 
-* `Semana7/-/RedBlackTree.h`
-* `Semana7/-/BinarySearchTree.h`
-* `Semana7/-/BinaryTree.h`
+* `Semana7/include/RedBlackTree.h`
+* `Semana7/include/BinarySearchTree.h`
+* `Semana7/include/BinaryTree.h`
 * `Semana7/demos/demo_redblack_morin.cpp`
+
 
 Responde:
 
@@ -510,7 +515,7 @@ Entrega en este bloque:
 
 Revisa:
 
-* `Semana6/-/Treap.h`
+* `Semana6/include/Treap.h`
 * `Semana7/demos/demo_compare_avl_vs_redblack.cpp`
 * `Semana7/demos/demo_compare_with_semana5.cpp`
 * `Semana7/demos/demo_capitulo7_panorama.cpp`
@@ -531,21 +536,37 @@ Incluye:
 3. AVL
 4. Red-Black Tree
 
+| Estructura | Propiedad de orden | Propiedad adicional | Operación de reparación | Altura | Caso de uso |
+|---|---|---|---|---|---|
+| BST común | BST (izq < nodo < der) | Ninguna | No aplica | O(n) peor caso | Educativo, base conceptual |
+| Treap | BST | Prioridad heap (max-heap) | Rotaciones por prioridad | O(log n) esperado | Balance probabilístico, datos dinámicos |
+| AVL | BST | abs(bf) ≤ 1 | Rotaciones simple/doble según factor de balance | O(log n) garantizado | Búsquedas frecuentes, balance fuerte |
+| Red-Black Tree | BST | Colores rojo/negro, misma altura negra | Rotaciones + recoloreo | O(log n) | Muchas inserciones/eliminaciones |
+
 Responde:
 
 1. ¿Qué tienen en común BST, Treap, AVL y Red-Black Tree?
+   Todos son BST: mantienen la propiedad de orden inorder y usan rotaciones para reestructurar (solo treap, red-black tree y AVL).
+
 2. ¿Qué diferencia hay entre prioridad en Treap, altura en AVL y color en Red-Black Tree?
+   - Treap: prioridad aleatoria (heap) guía las rotaciones.
+   - AVL: balance por altura (|bf| ≤ 1) guía las rotaciones.
+   - Red-Black: colores y altura negra constante guían rotaciones/recoloreo.
+
 3. ¿Por qué Treap depende de prioridades?
+   Porque la prioridad determina si un nodo debe subir (rotar) para mantener la propiedad heap, independientemente del orden de inserción.
+
 4. ¿Por qué AVL suele ser más estricto en altura?
+   Porque exige |bf| ≤ 1 para todo nodo, forzando altura muy cercana a log₂n, mientras Red-Black permite hasta el doble (2·log₂n).
+
 5. ¿Por qué Red-Black Tree puede ser preferible cuando hay muchas inserciones y eliminaciones?
+   Porque requiere menos rotaciones en promedio (solo O(1) rotaciones por inserción/eliminación), mientras AVL puede requerir O(log n) rotaciones tras una eliminación.
+
 6. ¿Qué estructura elegirías para defender búsqueda ordenada con balance fuerte?
-7. ¿Qué estructura elegirías para explicar balance probabilístico?.
+   AVL, porque garantiza la menor altura posible (O(log n) estricto) y las búsquedas son más rápidas.
 
-Entrega en este bloque:
-
-* Tabla comparativa.
-* Respuesta breve de decisión técnica.
-* Conexión explícita con Semana 5 y Semana 6.
+7. ¿Qué estructura elegirías para explicar balance probabilístico?
+   Treap, porque su balance depende de prioridades aleatorias y no de invariantes rígidos.
 
 #### Bloque 7 - Pruebas, invariantes y defensa oral
 
@@ -557,21 +578,65 @@ Revisa:
 Responde:
 
 1. ¿Qué operaciones valida la prueba pública para AVL?
+1. Inserta secuencias (30,20,10) y (40,20,60,10,30,50,70,25), verifica inorder, isAVLValid, height, y remove con AVL y AVLTreeCompact.
+
 2. ¿Qué operaciones valida la prueba pública para Red-Black Tree?
+2. Inserta (7,3,18,10,22,8,11,26), verifica verifyRB() (que sea Red-Black Tree), add duplicado (false), remove, con RedBlackTree1 y RedBlackTreeLLRB (isRedBlackTree, inorder).
+
 3. ¿Qué casos adicionales cubre la prueba interna?
+3.
+   - Prueba BST (insert/remove)
+   - BinarySearchTree1 (lowerBound/upperBound)
+   - test de stress de 250 inserciones aleatorias + 120 eliminaciones con 4 estructuras simultáneas contra un std::set, validando invariantes tras cada operación.
+
 4. ¿Qué significa que una prueba valide el inorder?
+4. Que verifica la propiedad BST: el recorrido inorder debe producir una secuencia ordenada ascendente, idéntica a la de un std::set ordenado con los mismos elementos.
+
 5. ¿Qué significa que una prueba valide alturas o factores de balance?
+5. Que verifica el invariante AVL: |altura(izq) − altura(der)| ≤ 1 para todo nodo, garantizando altura O(log n).
+
 6. ¿Qué significa que una prueba valide colores?
+6. Que verifica las 5 invariantes Red-Black: raíz negra, hojas negras, sin rojos consecutivos, misma altura negra en todos los caminos.
+
 7. ¿Qué no demuestra pasar solo las pruebas públicas?
+7. No demuestra robustez ante datos aleatorios, eliminaciones masivas, casos borde (árbol vacío, un solo nodo), ni la correctitud de otro caso existente. 
+
 8. ¿Qué evidencia usarías en una sustentación: demostración, prueba, trazado o argumento de complejidad?
+8. Usaría todas
+   - demostración (ejecución del código)
+   - prueba (test que pasa)
+   - trazado (seguimiento paso a paso de una operación) 
+   - argumento de complejidad (análisis O(log n)).
+
 9. ¿Qué invariante revisarías primero si falla AVL?
-10. ¿Qué invariante revisarías primero si falla Red-Black Tree?.
+9. El factor de balance (|bf| ≤ 1) y la actualización correcta de alturas tras rotaciones.
+
+10. ¿Qué invariante revisarías primero si falla Red-Black Tree?
+10.  La regla de no arista roja y la altura negra constante, que son las que más probablemente se pueden violar tras inserciones/eliminaciones.
 
 Entrega en este bloque:
 
-* Tabla de pruebas revisadas.
-* Lista de invariantes que defenderías.
-* Evidencia de ejecución de `ctest`.
+* Tabla de pruebas revisadas:
+
+| Prueba | Archivo | Estructuras validadas | Operaciones |
+|---|---|---|---|
+| Pública | `test_public_week7.cpp` | AVL, RedBlackTree1, AVLTreeCompact, RedBlackTreeLLRB | insert, remove, inorder, isAVLValid, verifyRB, isRedBlackTree, altura |
+| Interna | `test_internal_week7.cpp` | BST, BinarySearchTree1, AVL, RedBlackTree1, AVLTreeCompact, RedBlackTreeLLRB | insert, remove, contains, lowerBound, upperBound, inorder, isBSTValid, isAVLValid, verifyRB, isRedBlackTree + test aleatorio (250 inserciones, 120 eliminaciones) |
+
+* Lista de invariantes que defenderías:
+  1. BST: inorder ordenado (izquierda < nodo < derecha).
+  2. AVL: |bf| ≤ 1 en todo nodo.
+  3. Red-Black: raíz negra, sin arista roja, misma altura negra.
+
+* Evidencia de ejecución de `ctest`:
+  ```
+  Test project /home/victor/clases/algoritmos/CC232-pc1/Semana7/build-debug
+      Start 1: semana7_public
+  1/2 Test #1: semana7_public ...................   Passed    0.00 sec
+      Start 2: semana7_internal
+  2/2 Test #2: semana7_internal .................   Passed    0.01 sec
+  100% tests passed, 0 tests failed out of 2
+  ```
 
 #### Bloque 8 - Ejercicios de codificación
 
