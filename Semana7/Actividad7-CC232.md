@@ -822,6 +822,30 @@ Entrega:
 * Tabla comparativa.
 * Interpretación.
 
+[victor@victor-archdesktop:~/clases/algoritmos/CC232-pc1/Semana7]$ ./build-debug/sem7_demo_compare_bst_avl_height
+Caso: claves ordenadas
+Altura BST: 9
+Altura AVL: 3
+
+Caso: claves mezcladas
+Altura BST: 3
+Altura AVL: 3
+
+Tabla comparativa
+Caso            BST     AVL
+Ordenadas       9       3
+Mezcladas       3       3
+
+Interpretacion
+1. ¿Qué ocurre con el BST cuando las claves llegan ordenadas?
+1. BST con claves ordenadas: degenera a lista enlazada (altura O(n)).
+2. ¿Qué ocurre con AVL ante la misma entrada?
+2. AVL con la misma entrada: rota para mantenerse balanceado (altura O(log n)).
+3. ¿Por qué ambas estructuras conservan el mismo inorder?
+3. Ambas conservan el inorder identico porque la propiedad BST es invariante bajo rotaciones.
+4. ¿Por qué la altura es la evidencia central en esta comparación?.
+4. La altura es evidencia central porque determina el costo de busqueda: O(altura).
+
 #### Ejercicio 5 - Validador básico Red-Black Tree
 
 Crea una demostración:

@@ -23,6 +23,7 @@ cc232_add_sem7_target(sem7_demo_compare_avl_vs_redblack "demos/demo_compare_avl_
 cc232_add_sem7_target(sem7_demo_compare_with_semana5 "demos/demo_compare_with_semana5.cpp")
 cc232_add_sem7_target(sem7_demo_capitulo7_panorama "demos/demo_capitulo7_panorama.cpp")
 cc232_add_sem7_target(sem7_demo_validate_avl_balance "demos/demo_validate_avl_balance.cpp")
+cc232_add_sem7_target(sem7_demo_compare_bst_avl_height "demos/demo_compare_bst_avl_height.cpp")
 cc232_add_sem7_target(sem7_test_public "pruebas_publicas/test_public_week7.cpp")
 cc232_add_sem7_target(sem7_test_internal "pruebas_internas/test_internal_week7.cpp")
 add_test(NAME semana7_public COMMAND sem7_test_public)
