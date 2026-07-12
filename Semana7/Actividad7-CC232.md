@@ -766,7 +766,18 @@ Entrega:
 
 * Código fuente.
 * Evidencia de ejecución.
+
+[victor@victor-archdesktop:~/clases/algoritmos/CC232-pc1/Semana7]$ ./build-debug/sem7_demo_validate_avl_balance
+Altura árbol vacío: -1
+Validacion AVL despues de inserciones
+Estado: balanceado
+Altura calculada: 3
+Altura de hoja 10: 0
+
 * Explicación de la diferencia entre altura almacenada y altura calculada.
+                                                                                            
+- Altura almacenada (node->height): valor en cada nodo, actualizado por updateHeight() tras inserciones/rotaciones. Acceso O(1), pero puede quedar desactualizado si la estructura se modifica sin llamar a updateHeightAbove().                                     
+- Altura calculada (computeHeight(node)): recorre recursivamente todo el subárbol. Siempre refleja la altura real (O(n) por nodo), pero es más costosa, porque recorre el árbol según demanda.
 
 #### Ejercicio 4 - Comparación experimental BST vs AVL
 
