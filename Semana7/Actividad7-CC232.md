@@ -827,60 +827,6 @@ Total Test time (real) =   0.00 sec
 Si el AVL no rebalancea en inserción ordenada, height() retornaría 9 en vez de ≤ 4 y isAVLValid() fallaría. Si el Red-Black Tree pierde sus invariantes (raíz roja, rojo-rojo, altura negra inconsistente), isRedBlackTree() retornaría false. Si la búsqueda falla tras inserciones válidas, contains() lanzaría el assert.           
 
 
-#### Ejercicio 7 - Mini benchmark de búsqueda
-
-Crea una demostración:
-
-```bash
-Semana7/demos/demo_search_benchmark_week7.cpp
-```
-
-Inserta `n` claves en:
-
-1. BST común
-2. AVL
-3. Red-Black Tree
-
-Usa al menos:
-
-```cpp
-n = 1000
-n = 5000
-n = 10000
-```
-
-Mide búsquedas exitosas y fallidas.
-
-Reglas:
-
-* Usa `std::chrono`.
-* No imprimas cada búsqueda individual.
-* Imprime tiempo total por estructura.
-* Usa las mismas claves para todas las estructuras.
-* Separa el caso ordenado del caso aleatorio.
-
-Salida sugerida:
-
-```text
-n = 10000
-Caso ordenado
-BST search time: ...
-AVL search time: ...
-RedBlack search time: ...
-
-Caso aleatorio
-BST search time: ...
-AVL search time: ...
-RedBlack search time: ...
-```
-
-Entrega:
-
-* Código fuente.
-* Tabla de resultados.
-* Interpretación.
-* Conclusión sobre altura y costo de búsqueda.
-
 #### Ejercicio 8 - Integración al CMake
 
 Agrega tus demostraciones al `CMakeLists.txt` de Semana 7.
@@ -896,9 +842,56 @@ ctest --test-dir build-debug -R semana7 --output-on-failure
 Entrega:
 
 * Fragmento modificado de `CMakeLists.txt`.
+```txt
+cc232_add_sem7_target(sem7_demo_validate_avl_balance "demos/demo_validate_avl_balance.cpp")
+cc232_add_sem7_target(sem7_demo_compare_bst_avl_height "demos/demo_compare_bst_avl_height.cpp")
+cc232_add_sem7_target(sem7_test_public "pruebas_publicas/test_public_week7.cpp")
+cc232_add_sem7_target(sem7_test_internal "pruebas_internas/test_internal_week7.cpp")
+cc232_add_sem7_target(sem7_test_public_extra "pruebas_publicas/test_public_week7_extra.cpp")
+add_test(NAME semana7_public COMMAND sem7_test_public)
+add_test(NAME semana7_public_extra COMMAND sem7_test_public_extra)
+```
+
 * Evidencia de compilación.
+
+[victor@victor-archdesktop:~/clases/algoritmos/CC232-pc1/Semana7]$ cmake -S . -B build-debug -DCMAKE
+_BUILD_TYPE=Debug
+cmake --build build-debug
+ctest --test-dir build-debug -R semana7 --output-on-failure
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/victor/clases/algoritmos/CC232-pc1/Semana7/build-debug
+[  7%] Built target sem7_demo_avl_deng_core
+[ 15%] Built target sem7_demo_avl_compact_rotations
+[ 23%] Built target sem7_demo_bst_deng_vs_avl
+[ 30%] Built target sem7_demo_redblack_morin
+[ 38%] Built target sem7_demo_redblack_llrb
+[ 46%] Built target sem7_demo_compare_avl_vs_redblack
+[ 53%] Built target sem7_demo_compare_with_semana5
+[ 61%] Built target sem7_demo_capitulo7_panorama
+[ 69%] Built target sem7_demo_validate_avl_balance
+[ 76%] Built target sem7_demo_compare_bst_avl_height
+[ 84%] Built target sem7_test_public
+[ 92%] Built target sem7_test_internal
+[100%] Built target sem7_test_public_extra
+
 * Evidencia de pruebas.
+
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana7/build-debug
+    Start 1: semana7_public
+1/3 Test #1: semana7_public ...................   Passed    0.00 sec
+    Start 2: semana7_public_extra
+2/3 Test #2: semana7_public_extra .............   Passed    0.00 sec
+    Start 3: semana7_internal
+3/3 Test #3: semana7_internal .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.01 sec
+
 * Explicación de por qué una demostración no necesariamente es una prueba automatizada.
+
+Una demostración (demo_*.cpp) imprime resultados visibles para un observador humano y requiere inspección manual para determinar si son correctos. Una prueba automatizada (test_*.cpp) usa assert() que verifica condiciones por programa: pasa o falla sin intervención manual.                                                                                        
 
 #### Entrega mínima de codificación
 
