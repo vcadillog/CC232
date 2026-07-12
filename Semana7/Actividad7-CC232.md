@@ -893,33 +893,17 @@ Total Test time (real) =   0.01 sec
 
 Una demostración (demo_*.cpp) imprime resultados visibles para un observador humano y requiere inspección manual para determinar si son correctos. Una prueba automatizada (test_*.cpp) usa assert() que verifica condiciones por programa: pasa o falla sin intervención manual.                                                                                        
 
-#### Entrega mínima de codificación
-
-Para considerar completo este bloque, debes entregar como mínimo:
-
-1. Dos demostraciones nuevas.
-2. Una prueba pública adicional.
-3. Una tabla de resultados.
-4. Una explicación de invariantes.
-5. Evidencia de compilación.
-6. Evidencia de ejecución.
-7. Evidencia de `ctest`.
-
 #### Pregunta final del bloque
-
-Después de implementar los ejercicios, responde:
 
 ¿Por qué en estructuras balanceadas no basta con probar que el inorder está ordenado?
 
-Tu respuesta debe mencionar:
-
-* Propiedad BST.
-* Altura.
-* Rotaciones.
-* Invariante AVL.
-* Invariante Red-Black.
-* Diferencia entre correctitud funcional y correctitud estructural.
-
+Porque el inorder ordenado solo verifica la propiedad BST (correctitud funcional: los datos están en orden no decreciente), pero no garantiza la correctitud estructural: que las invariantes de balance se mantengan.
+                                                                                            
+- Altura: un árbol puede tener inorder correcto pero altura O(n) si falló el rebalanceo. La prueba de inorder no detecta esto.
+- Rotaciones: si las rotaciones no se ejecutan o se hacen mal, el árbol sigue siendo un BST válido (inorder intacto) pero pierde el balance. El inorder no cambia porque las rotaciones preservan el recorrido inorder.
+- Invariante AVL (|bf| ≤ 1): un AVL con inorder correcto podría tener nodos con factor de balance 2 sin que el inorder lo refleje.
+- Invariante Red-Black (raíz negra, sin rojo-rojo, misma altura negra): un Red-Black puede violar estas reglas y aun así producir inorder correcto.                                     
+                                                                                            
 #### Bloque 9 - Cierre comparativo
 
 Responde esta pregunta final:
@@ -937,50 +921,16 @@ La respuesta debe incluir obligatoriamente:
 * Una afirmación sobre cómo esta semana continúa Semana 5 y Semana 6.
 * Una afirmación sobre qué evidencia usarías para defender correctitud: pruebas, demostraciones, invariantes, trazados y complejidad.
 
-#### Formato sugerido de entrega
-
-```markdown
-### Actividad 7 - CC232
-
-#### Estudiante
-
-- Nombre:
-
-#### Bloque 1 - Diagnóstico inicial
-
-[Tabla de comandos, resultados e interpretación]
-
-#### Bloque 2 - BST como punto de partida
-
-[Respuestas, dibujo y complejidad]
-
-#### Bloque 3 - AVL
-
-[Invariantes, trazado y evidencia]
-
-#### Bloque 4 - Rotaciones AVL
-
-[Tabla LL, RR, LR, RL y dibujos]
-
-#### Bloque 5 - Red-Black Tree
-
-[Invariantes, recoloreo, rotaciones y evidencia]
-
-#### Bloque 6 - Comparación
-
-[Tabla BST, Treap, AVL y Red-Black Tree]
-
-#### Bloque 7 - Pruebas e invariantes
-
-[Tabla de pruebas y defensa]
-
-#### Bloque 8 - Ejercicios de codificación
-
-[Código, evidencias, pruebas e interpretación]
-
-#### Bloque 9 - Cierre comparativo
-
-[Respuesta final]
+Al pasar de BST común a estructuras balanceadas:                                               
+                                                                                            
+1. Degeneración lineal: un BST común puede degenerar a lista enlazada (altura O(n)) cuando las claves llegan ordenadas, mientras que AVL y Red-Black Tree garantizan altura O(log n) en todos los casos.                                                                         
+2. Rotaciones: AVL y Red-Black Tree usan rotaciones para reestructurarse tras inserciones/eliminaciones. Las rotaciones preservan el inorder, por lo que la propiedad BST se mantiene invariante.                                                                        
+3. Balance por altura (AVL): AVL exige |bf| ≤ 1 en todo nodo, forzando la altura más cercana posible a log2(n). Es balance estricto: mínima altura, búsquedas óptimas, pero más rotaciones por operación de actualización.
+4. Balance por colores (Red-Black): Red-Black Tree usa colores rojo/negro y la regla de misma altura negra en todos los caminos. Permite alturas de hasta 2·log2(n), lo que lo hace flexible: menos rotaciones por actualización de datos.
+5. Estricto vs flexible: AVL es mejor cuando predominan las búsquedas (balance fuerte, altura mínima). Red-Black es mejor cuando hay muchas inserciones/eliminaciones (menos rotaciones, balance más relajado).                                                          
+6. Costos: BST tiene búsqueda O(n) en el peor caso; AVL y Red-Black garantizan búsqueda O(log n). AVL prioriza búsqueda rápida, Red-Black prioriza inserción/eliminación eficiente.
+7. Conexión con semana 5 y 6: La semana 5 implementó el BST base (BinarySearchTree.h). Semana 6 introdujo Treap, heap y huffman . Semana 7 añade AVL y Red-Black Tree sobre el mismo BST, agregando invariantes deterministas (altura y color) que garantizan balance en el peor caso.
+8. Evidencia de correctitud: no basta con demostraciones visuales. Se requieren pruebas automatizadas (assert) que verifiquen invariantes (isAVLValid(), verifyRB()), trazados de altura por operación, análisis de complejidad asintótica, y validación estructural. Las demos ilustran; las pruebas contractuales verifican.
 
 #### Autoevaluación breve
 
@@ -988,10 +938,17 @@ La respuesta debe incluir obligatoriamente:
 - Qué todavía confundo:
 - Qué evidencia usaría en una sustentación:
 - Qué parte del código debo revisar otra vez:
-```
 
-#### Criterio general de trabajo
+- Qué puedo defender con seguridad:                                                              
+La diferencia entre BST, AVL y Red-Black Tree (propiedades, invariantes, rotaciones). Sé implementar validadores de balance AVL y Red-Black, comparar alturas experimentalmente. También sé integrar demos y tests en CMake y ejecutar ctest.
+                                                                                        
+- Qué todavía confundo:                                                                          
+Los casos exactos de rotaciones dobles LR/RL en AVL (cuándo se aplica cada una sin trazarlo paso a paso) y las eliminaciones en Red-Black Tree.
 
-Se espera lectura real de los archivos, respuestas breves pero justificadas, tablas con evidencia observable, trazados manuales y conexión explícita entre código, correctitud, costo, representación e invariantes.
+- Qué evidencia usaría en una sustentación:                                                      
+1. Tabla comparativa de alturas (BST vs AVL vs Red-Black con datos ordenados/aleatorios).      
+2. Trazado manual de inserciones con rotaciones y cambios de color.                            
+3. Resultado de ctest (pruebas automatizadas que verifican invariantes).                       
 
-No basta con ejecutar el programa: debes poder explicar qué propiedad mantiene cada estructura, qué rotación se aplica, qué color o altura se actualiza, qué caso borde aparece y por qué la operación conserva búsqueda ordenada eficiente.
+- Qué parte del código debo revisar otra vez:                                                    
+Las implementaciones de remove() en AVL y Red-Black Tree (especialmente removeFixup y moveRedLeft/moveRedRight), y la lógica de connect34 en AVL.
