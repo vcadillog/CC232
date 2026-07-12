@@ -3,6 +3,8 @@
 #### Estudiante
 
 - Nombre: Victor Hugo Cadillo Gutierrez
+- Código: 20255514D
+- Fecha: 07/12/2026
 
 #### Bloque 1 - Diagnóstico inicial de la Semana 7
 
