@@ -2,85 +2,7 @@
 
 #### Estudiante
 
-- Nombre:
-
-#### Datos generales
-
-Duración: 3 horas de clase.
-
-Modalidad: Trabajo individual.
-
-Entrega: Un archivo llamado `Actividad7-CC232.md`.
-
-#### Objetivo
-
-Consolidar lo trabajado en la Semana 7 a partir de lectura de código, ejecución de demostraciones, revisión de pruebas, trazado manual y defensa escrita breve.
-
-La meta es entender cómo un árbol binario de búsqueda puede evitar la degeneración lineal mediante invariantes adicionales:
-
-1. AVL mantiene balance por altura.
-2. Red-Black Tree mantiene balance por colores.
-3. Ambas estructuras usan rotaciones para conservar el orden inorder del BST.
-4. La Semana 7 continúa las ideas de Semana 5 y Semana 6: BST, rotaciones, búsqueda ordenada, prioridad como propiedad adicional y estructuras que mantienen eficiencia mediante invariantes.
-
-El énfasis de esta actividad está en explicar no solo qué operación se ejecuta, sino qué invariante se mantiene, qué rotación aparece, qué evidencia produce el código y qué costo tiene cada operación.
-
-#### Material de trabajo
-
-#### Código de la semana
-
-Revisa como mínimo:
-
-* `Semana7/README.md`
-* `Semana7/lecturas/Notas.md`
-* `Semana7/include/Entry.h`
-* `Semana7/include/BinNode.h`
-* `Semana7/include/BinTree.h`
-* `Semana7/include/BST.h`
-* `Semana7/include/AVL.h`
-* `Semana7/include/BinaryTree.h`
-* `Semana7/include/BinarySearchTree.h`
-* `Semana7/include/RedBlackTree.h`
-* `Semana7/include/AVLTreeCompact.h`
-* `Semana7/include/RedBlackTreeLLRB.h`
-* `Semana7/include/Capitulo7.h`
-
-#### Código reutilizado conceptualmente
-
-Revisa también:
-
-* `Semana5/include/BinarySearchTree.h`
-* `Semana6/include/Treap.h`
-* `Semana6/demos/demo_bst_rotations.cpp`
-* `Semana6/demos/demo_treap_basico.cpp`
-
-#### Demostraciones y pruebas
-
-Revisa y ejecuta:
-
-* `Semana7/demos/demo_avl_deng_core.cpp`
-* `Semana7/demos/demo_avl_compact_rotations.cpp`
-* `Semana7/demos/demo_bst_deng_vs_avl.cpp`
-* `Semana7/demos/demo_redblack_morin.cpp`
-* `Semana7/demos/demo_redblack_llrb.cpp`
-* `Semana7/demos/demo_compare_avl_vs_redblack.cpp`
-* `Semana7/demos/demo_compare_with_semana5.cpp`
-* `Semana7/demos/demo_capitulo7_panorama.cpp`
-* `Semana7/pruebas_publicas/test_public_week7.cpp`
-* `Semana7/pruebas_internas/test_internal_week7.cpp`
-
-#### Reglas de trabajo
-
-1. No reemplaces AVL o Red-Black Tree por `std::set`, `std::map` u otra estructura estándar que oculte el algoritmo.
-2. No cambies la interfaz principal de la librería salvo que una pregunta lo pida explícitamente.
-3. Toda explicación debe mencionar invariante, operación, evidencia y costo.
-4. Si modificas una demostración o agregas una prueba, marca el cambio con un comentario breve.
-
-```cpp
-// MOD-A7-B4: caso de comparacion de altura
-```
-
-5. No basta con ejecutar el programa. Debes poder explicar por qué la estructura sigue siendo un BST y por qué su altura se mantiene controlada.
+- Nombre: Victor Hugo Cadillo Gutierrez
 
 #### Bloque 1 - Diagnóstico inicial de la Semana 7
 
@@ -171,15 +93,6 @@ Archivos revisados primero:
 
 #### Bloque 2 - BST como punto de partida
 
-Revisa:
-
-* `Semana7/include/BST.h`
-* `Semana7/include/BinarySearchTree.h`
-* `Semana7/demos/demo_compare_with_semana5.cpp`
-* `Semana7/demos/demo_bst_deng_vs_avl.cpp`
-
-Responde:
-
 1. Define formalmente la propiedad BST.
    Para todo nodo `x`, todos los elementos del subárbol izquierdo son menores que `x->data` y todos los del subárbol derecho son mayores.
 
@@ -226,15 +139,6 @@ Responde:
 
 #### Bloque 3 - AVL: balance por altura
 
-Revisa:
-
-* `Semana7/include/AVL.h`
-* `Semana7/include/BST.h`
-* `Semana7/include/BinNode.h`
-* `Semana7/demos/demo_avl_deng_core.cpp`
-
-Responde:
-
 1. ¿Qué significa que un nodo esté balanceado en un AVL?
    |bf| = |altura(izq) − altura(der)| ≤ 1.
 
@@ -276,12 +180,6 @@ Entrega en este bloque:
   ```
 
 #### Bloque 4 - Rotaciones AVL: casos LL, RR, LR y RL
-
-Revisa:
-
-* `Semana7/include/AVLTreeCompact.h`
-* `Semana7/demos/demo_avl_compact_rotations.cpp`
-* `Semana7/include/AVL.h`
 
 Ejecuta las demostraciones de rotaciones y construye una tabla con estas columnas:
 
@@ -403,32 +301,25 @@ Rotación izquierda en 20
     10     27  30
 ```
 
-Responde:
 
 1. ¿Qué diferencia hay entre una rotación simple y una rotación doble?
-Una rotación simple mueve un nodo una sola vez para restaurar el balance y doble combina dos rotaciones consecutivas.
-2. ¿Por qué LL y RR se corrigen con una sola rotación?
-Porque el desbalance está alineado en una sola dirección.
-3. ¿Por qué LR y RL requieren dos pasos?
-Porque el desbalance está en ambas direcciones, izquierda y derecha, primero se convierte a LL o RR y luego se rebalancea en una sola rotación.
-4. ¿Qué parte del árbol cambia y qué parte permanece igual?
-Solo cambia el subárbol cuya raíz es el nodo desbalanceado.
-5. ¿Por qué el inorder debe ser el mismo antes y después de reestructurar?.
-Porque un AVL cumple la condición BST sin importar si el árbol está balanceado o no, el recorrido inorder es siempre el mismo en orden ascendente.
+1. Una rotación simple mueve un nodo una sola vez para restaurar el balance y doble combina dos rotaciones consecutivas.
 
-* Argumento de preservación del orden BST: en una rotación derecha, el subárbol izquierdo del nodo desbalanceado pasa a ser la nueva raíz local; su hijo derecho (que era mayor que él pero menor que el nodo original) se recoloca como hijo izquierdo del nodo original. En una rotación izquierda ocurre el análogo simétrico. En todos los casos, la relación inorder (izquierda < nodo < derecha) se mantiene porque los subárboles completos se reubican sin mezclar sus rangos de clave.
+2. ¿Por qué LL y RR se corrigen con una sola rotación?
+2. Porque el desbalance está alineado en una sola dirección.
+
+3. ¿Por qué LR y RL requieren dos pasos?
+3. Porque el desbalance está en ambas direcciones, izquierda y derecha, primero se convierte a LL o RR y luego se rebalancea en una sola rotación.
+
+4. ¿Qué parte del árbol cambia y qué parte permanece igual?
+4. Solo cambia el subárbol cuya raíz es el nodo desbalanceado.
+
+5. ¿Por qué el inorder debe ser el mismo antes y después de reestructurar?.
+5. Porque un AVL cumple la condición BST sin importar si el árbol está balanceado o no, el recorrido inorder es siempre el mismo en orden ascendente.
+
 
 #### Bloque 5 - Red-Black Tree: balance por colores
 
-Revisa:
-
-* `Semana7/include/RedBlackTree.h`
-* `Semana7/include/BinarySearchTree.h`
-* `Semana7/include/BinaryTree.h`
-* `Semana7/demos/demo_redblack_morin.cpp`
-
-
-Responde:
 
 1. ¿Qué propiedad BST mantiene Red-Black Tree?
 1. El Red-Black Tree mantiene las propiedades del BST de orden por clave.
@@ -513,29 +404,6 @@ Entrega en este bloque:
 
 #### Bloque 6 - Comparación: BST, Treap, AVL y Red-Black Tree
 
-Revisa:
-
-* `Semana6/include/Treap.h`
-* `Semana7/demos/demo_compare_avl_vs_redblack.cpp`
-* `Semana7/demos/demo_compare_with_semana5.cpp`
-* `Semana7/demos/demo_capitulo7_panorama.cpp`
-
-Construye una tabla con estas columnas:
-
-* Estructura
-* Propiedad de orden
-* Propiedad adicional
-* Operación de reparación
-* Altura esperada o garantizada
-* Caso donde conviene usarla
-
-Incluye:
-
-1. BST común
-2. Treap
-3. AVL
-4. Red-Black Tree
-
 | Estructura | Propiedad de orden | Propiedad adicional | Operación de reparación | Altura | Caso de uso |
 |---|---|---|---|---|---|
 | BST común | BST (izq < nodo < der) | Ninguna | No aplica | O(n) peor caso | Educativo, base conceptual |
@@ -546,36 +414,30 @@ Incluye:
 Responde:
 
 1. ¿Qué tienen en común BST, Treap, AVL y Red-Black Tree?
-   Todos son BST: mantienen la propiedad de orden inorder y usan rotaciones para reestructurar (solo treap, red-black tree y AVL).
+1. Todos son BST: mantienen la propiedad de orden inorder y usan rotaciones para reestructurar (solo treap, red-black tree y AVL).
 
 2. ¿Qué diferencia hay entre prioridad en Treap, altura en AVL y color en Red-Black Tree?
+2.
    - Treap: prioridad aleatoria (heap) guía las rotaciones.
    - AVL: balance por altura (|bf| ≤ 1) guía las rotaciones.
    - Red-Black: colores y altura negra constante guían rotaciones/recoloreo.
 
 3. ¿Por qué Treap depende de prioridades?
-   Porque la prioridad determina si un nodo debe subir (rotar) para mantener la propiedad heap, independientemente del orden de inserción.
+3. Porque la prioridad determina si un nodo debe subir (rotar) para mantener la propiedad heap, independientemente del orden de inserción.
 
 4. ¿Por qué AVL suele ser más estricto en altura?
-   Porque exige |bf| ≤ 1 para todo nodo, forzando altura muy cercana a log₂n, mientras Red-Black permite hasta el doble (2·log₂n).
+4. Porque exige |bf| ≤ 1 para todo nodo, forzando altura muy cercana a log₂n, mientras Red-Black permite hasta el doble (2·log₂n).
 
 5. ¿Por qué Red-Black Tree puede ser preferible cuando hay muchas inserciones y eliminaciones?
-   Porque requiere menos rotaciones en promedio (solo O(1) rotaciones por inserción/eliminación), mientras AVL puede requerir O(log n) rotaciones tras una eliminación.
+5. Porque requiere menos rotaciones en promedio (solo O(1) rotaciones por inserción/eliminación), mientras AVL puede requerir O(log n) rotaciones tras una eliminación.
 
 6. ¿Qué estructura elegirías para defender búsqueda ordenada con balance fuerte?
-   AVL, porque garantiza la menor altura posible (O(log n) estricto) y las búsquedas son más rápidas.
+6. AVL, porque garantiza la menor altura posible (O(log n) estricto) y las búsquedas son más rápidas.
 
 7. ¿Qué estructura elegirías para explicar balance probabilístico?
-   Treap, porque su balance depende de prioridades aleatorias y no de invariantes rígidos.
+7. Treap, porque su balance depende de prioridades aleatorias y no de invariantes rígidos.
 
 #### Bloque 7 - Pruebas, invariantes y defensa oral
-
-Revisa:
-
-* `Semana7/pruebas_publicas/test_public_week7.cpp`
-* `Semana7/pruebas_internas/test_internal_week7.cpp`
-
-Responde:
 
 1. ¿Qué operaciones valida la prueba pública para AVL?
 1. Inserta secuencias (30,20,10) y (40,20,60,10,30,50,70,25), verifica inorder, isAVLValid, height, y remove con AVL y AVLTreeCompact.
@@ -639,8 +501,6 @@ Entrega en este bloque:
   ```
 
 #### Bloque 8 - Ejercicios de codificación
-
-En este bloque debes modificar o extender la Semana 7 sin romper la interfaz principal de la librería. El objetivo es comprobar que entiendes los invariantes de AVL y Red-Black Tree no solo de forma teórica, sino también mediante código, pruebas y evidencia de ejecución.
 
 #### Ejercicio 3 - Verificador de balance AVL
 
@@ -905,21 +765,6 @@ Porque el inorder ordenado solo verifica la propiedad BST (correctitud funcional
 - Invariante Red-Black (raíz negra, sin rojo-rojo, misma altura negra): un Red-Black puede violar estas reglas y aun así producir inorder correcto.                                     
                                                                                             
 #### Bloque 9 - Cierre comparativo
-
-Responde esta pregunta final:
-
-¿Qué cambia cuando pasamos de un BST común a estructuras balanceadas como AVL y Red-Black Tree?
-
-La respuesta debe incluir obligatoriamente:
-
-* Una afirmación sobre degeneración lineal del BST.
-* Una afirmación sobre rotaciones y preservación del inorder.
-* Una afirmación sobre balance por altura en AVL.
-* Una afirmación sobre balance por colores en Red-Black Tree.
-* Una afirmación sobre la diferencia entre balance estricto y balance flexible.
-* Una afirmación sobre el costo esperado o garantizado de búsqueda, inserción y eliminación.
-* Una afirmación sobre cómo esta semana continúa Semana 5 y Semana 6.
-* Una afirmación sobre qué evidencia usarías para defender correctitud: pruebas, demostraciones, invariantes, trazados y complejidad.
 
 Al pasar de BST común a estructuras balanceadas:                                               
                                                                                             
