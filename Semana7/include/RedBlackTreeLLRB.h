@@ -50,10 +50,6 @@ class RedBlackTreeLLRB {
     return size_ == 0;
   }
 
-  Node* root() const {
-    return root_;
-  }
-
   int height() const {
     return height(root_);
   }

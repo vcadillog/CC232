@@ -26,5 +26,7 @@ cc232_add_sem7_target(sem7_demo_validate_avl_balance "demos/demo_validate_avl_ba
 cc232_add_sem7_target(sem7_demo_compare_bst_avl_height "demos/demo_compare_bst_avl_height.cpp")
 cc232_add_sem7_target(sem7_test_public "pruebas_publicas/test_public_week7.cpp")
 cc232_add_sem7_target(sem7_test_internal "pruebas_internas/test_internal_week7.cpp")
+cc232_add_sem7_target(sem7_test_public_extra "pruebas_publicas/test_public_week7_extra.cpp")
 add_test(NAME semana7_public COMMAND sem7_test_public)
+add_test(NAME semana7_public_extra COMMAND sem7_test_public_extra)
 add_test(NAME semana7_internal COMMAND sem7_test_internal)

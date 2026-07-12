@@ -642,83 +642,6 @@ Entrega en este bloque:
 
 En este bloque debes modificar o extender la Semana 7 sin romper la interfaz principal de la librería. El objetivo es comprobar que entiendes los invariantes de AVL y Red-Black Tree no solo de forma teórica, sino también mediante código, pruebas y evidencia de ejecución.
 
-#### Ejercicio 1 - Validador de propiedad BST
-
-Crea un archivo:
-
-```bash
-Semana7/demos/demo_validate_bst_property.cpp
-```
-
-Implementa una función auxiliar que valide si un árbol cumple la propiedad BST usando límites inferiores y superiores.
-
-Firma sugerida:
-
-```cpp
-template <typename Node, typename T>
-bool validateBST(Node* node, const T* minValue, const T* maxValue);
-```
-
-Reglas:
-
-* Si `node == nullptr`, retorna `true`.
-* Si existe `minValue`, entonces `node->data` debe ser mayor que `*minValue`.
-* Si existe `maxValue`, entonces `node->data` debe ser menor que `*maxValue`.
-* Valida recursivamente el subárbol izquierdo y derecho.
-* No uses recorrido inorder como única validación.
-
-Incluye comentarios en español:
-
-```cpp
-// Valida que cada nodo respete los limites heredados desde sus ancestros.
-```
-
-Entrega:
-
-* Código fuente.
-* Salida de la demostración.
-* Explicación de por qué validar solo padre-hijo no es suficiente.
-
-#### Ejercicio 2 - Contador de rotaciones AVL
-
-Extiende una demostración o crea una nueva:
-
-```bash
-Semana7/demos/demo_avl_rotation_counter.cpp
-```
-
-El programa debe insertar varias secuencias y contar cuántas rotaciones aparecen en cada caso.
-
-Secuencias mínimas:
-
-```cpp
-{30, 20, 10} // LL
-{10, 20, 30} // RR
-{30, 10, 20} // LR
-{10, 30, 20} // RL
-{10, 20, 30, 40, 50, 60, 70}
-```
-
-Salida esperada en formato similar:
-
-```text
-Caso LL
-Rotaciones simples: 1
-Rotaciones dobles: 0
-Altura final: 1
-
-Caso LR
-Rotaciones simples: 0
-Rotaciones dobles: 1
-Altura final: 1
-```
-
-Entrega:
-
-* Código fuente.
-* Tabla con cada caso, secuencia, tipo de rotación y altura final.
-* Explicación de por qué LR y RL no se resuelven con una sola rotación directa.
-
 #### Ejercicio 3 - Verificador de balance AVL
 
 Crea un archivo:
@@ -846,56 +769,6 @@ Interpretacion
 4. ¿Por qué la altura es la evidencia central en esta comparación?.
 4. La altura es evidencia central porque determina el costo de busqueda: O(altura).
 
-#### Ejercicio 5 - Validador básico Red-Black Tree
-
-Crea una demostración:
-
-```bash
-Semana7/demos/demo_validate_redblack_basic.cpp
-```
-
-Implementa validaciones básicas para Red-Black Tree:
-
-1. La raíz debe ser negra.
-2. No debe existir un nodo rojo con hijo rojo.
-3. Todos los caminos desde un nodo hasta hojas nulas deben tener la misma altura negra.
-
-Firmas sugeridas:
-
-```cpp
-template <typename Node>
-bool validateNoRedRed(Node* node);
-
-template <typename Node>
-int computeBlackHeight(Node* node);
-
-template <typename Node>
-bool validateBlackHeight(Node* node);
-```
-
-Reglas:
-
-* Considera las hojas nulas como negras.
-* Si detectas violación, imprime un mensaje en español.
-* No basta con imprimir el inorder.
-* La validación debe revisar estructura y colores.
-
-Salida esperada:
-
-```text
-Validacion Red-Black Tree
-Raiz negra: correcto
-Sin rojo-rojo: correcto
-Altura negra uniforme: correcto
-Estado final: valido
-```
-
-Entrega:
-
-* Código fuente.
-* Evidencia de ejecución.
-* Explicación de por qué Red-Black Tree permite mayor flexibilidad que AVL.
-
 #### Ejercicio 6 - Prueba pública adicional
 
 Agrega una prueba pública en:
@@ -924,9 +797,35 @@ Entrega:
 
 * Código de prueba.
 * Comando usado para compilar.
+
+```sh
+cmake --build build-debug
+```
+
 * Comando usado para ejecutar.
+
+```sh
+ctest --test-dir build-debug -R semana7_public_extra --output-on-failure
+```
+
 * Resultado de `ctest`.
+
+```sh
+[victor@victor-archdesktop:~/clases/algoritmos/CC232-pc1/Semana7]$ ctest --test-dir build-debug -R s
+emana7_public_extra --output-on-failure
+Test project /home/victor/clases/algoritmos/CC232-pc1/Semana7/build-debug
+    Start 2: semana7_public_extra
+1/1 Test #2: semana7_public_extra .............   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+```
+
 * Explicación de qué bug detectaría esta prueba.
+
+Si el AVL no rebalancea en inserción ordenada, height() retornaría 9 en vez de ≤ 4 y isAVLValid() fallaría. Si el Red-Black Tree pierde sus invariantes (raíz roja, rojo-rojo, altura negra inconsistente), isRedBlackTree() retornaría false. Si la búsqueda falla tras inserciones válidas, contains() lanzaría el assert.           
+
 
 #### Ejercicio 7 - Mini benchmark de búsqueda
 
